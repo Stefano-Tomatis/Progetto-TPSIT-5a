@@ -1,0 +1,70 @@
+.booking-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0 15px;
+}
+
+.title { color: #2c3e50; margin-bottom: 1.5rem; text-align: center; }
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.card-header { padding: 1rem; color: white; }
+.bg-success { background-color: #27ae60; }
+.bg-info { background-color: #2980b9; }
+
+.card-body { padding: 1.5rem; }
+
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; }
+
+.form-control, .form-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.btn {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.btn-primary { background: #27ae60; color: white; }
+.btn-primary:disabled { background: #bdc3c7; cursor: not-allowed; }
+
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
+
+.btn-outline-danger {
+  background: transparent;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-outline-danger:hover { background: #e74c3c; color: white; }
+
+.hint { color: #7f8c8d; font-size: 0.8rem; }
+
+@media (max-width: 768px) {
+  .grid-layout { grid-template-columns: 1fr; }
+}
