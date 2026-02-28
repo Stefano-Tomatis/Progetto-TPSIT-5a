@@ -1,0 +1,157 @@
+[2026-02-08T20:18:36.793Z] [INFO] Route registered: POST /actions/data
+[2026-02-08T20:18:36.793Z] [INFO] Route registered: POST /session/login
+[2026-02-08T20:18:36.794Z] [INFO] Route registered: GET /session/profile
+[2026-02-08T20:18:36.794Z] [INFO] Route registered: GET /session/test
+[2026-02-08T20:18:36.794Z] [INFO] Route registered: POST /session/logout
+[2026-02-08T20:18:36.794Z] [INFO] Route registered: POST /jwt/login
+[2026-02-08T20:18:36.795Z] [INFO] Route registered: GET /jwt/protected
+[2026-02-08T20:18:36.795Z] [INFO] Route registered: GET /auth/me
+[2026-02-08T20:18:36.795Z] [INFO] Route registered: POST /auth/logout
+[2026-02-08T20:18:36.795Z] [INFO] Route registered: GET /db/users/get
+[2026-02-08T20:18:36.796Z] [INFO] Route registered: POST /db/user/get
+[2026-02-09T15:41:44.506Z] [INFO] Route registered: POST /actions/data
+[2026-02-09T15:41:44.506Z] [INFO] Route registered: POST /session/login
+[2026-02-09T15:41:44.506Z] [INFO] Route registered: GET /session/profile
+[2026-02-09T15:41:44.507Z] [INFO] Route registered: GET /session/test
+[2026-02-09T15:41:44.507Z] [INFO] Route registered: POST /session/logout
+[2026-02-09T15:41:44.507Z] [INFO] Route registered: POST /jwt/login
+[2026-02-09T15:41:44.507Z] [INFO] Route registered: GET /jwt/protected
+[2026-02-09T15:41:44.507Z] [INFO] Route registered: GET /auth/me
+[2026-02-09T15:41:44.508Z] [INFO] Route registered: POST /auth/logout
+[2026-02-09T15:41:44.508Z] [INFO] Route registered: GET /db/users/get
+[2026-02-09T15:41:44.508Z] [INFO] Route registered: POST /db/user/get
+[2026-02-11T11:53:49.581Z] [INFO] Route registered: POST /actions/data
+[2026-02-11T11:53:49.582Z] [INFO] Route registered: POST /session/login
+[2026-02-11T11:53:49.582Z] [INFO] Route registered: GET /session/profile
+[2026-02-11T11:53:49.582Z] [INFO] Route registered: GET /session/test
+[2026-02-11T11:53:49.582Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T11:53:49.583Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T11:53:49.583Z] [INFO] Route registered: GET /jwt/protected
+[2026-02-11T11:53:49.583Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T11:53:49.583Z] [INFO] Route registered: POST /auth/logout
+[2026-02-11T11:53:49.584Z] [INFO] Route registered: GET /db/users/get
+[2026-02-11T11:53:49.584Z] [INFO] Route registered: POST /db/user/get
+[2026-02-11T15:37:25.649Z] [INFO] Route registered: GET /health
+[2026-02-11T15:37:25.651Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T15:37:25.651Z] [INFO] Route registered: POST /session/login
+[2026-02-11T15:37:25.651Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T15:37:25.651Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T15:37:25.651Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T15:37:25.652Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T15:37:25.652Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T15:37:25.652Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T15:37:25.652Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T16:24:17.413Z] [INFO] Route registered: GET /health
+[2026-02-11T16:24:17.415Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T16:24:17.415Z] [INFO] Route registered: POST /session/login
+[2026-02-11T16:24:17.415Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T16:24:17.415Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T16:24:17.416Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T16:24:17.416Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T16:24:17.416Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T16:24:17.416Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T16:24:17.416Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T16:24:39.092Z] [ERROR] Router error: 
+[2026-02-11T16:24:44.943Z] [ERROR] Router error: 
+[2026-02-11T16:26:47.488Z] [INFO] Route registered: GET /health
+[2026-02-11T16:26:47.490Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T16:26:47.491Z] [INFO] Route registered: POST /session/login
+[2026-02-11T16:26:47.491Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T16:26:47.491Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T16:26:47.492Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T16:26:47.492Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T16:26:47.493Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T16:26:47.493Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T16:26:47.493Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T16:27:13.299Z] [INFO] Route registered: GET /health
+[2026-02-11T16:27:13.300Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T16:27:13.301Z] [INFO] Route registered: POST /session/login
+[2026-02-11T16:27:13.301Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T16:27:13.301Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T16:27:13.301Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T16:27:13.302Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T16:27:13.302Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T16:27:13.302Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T16:27:13.302Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T16:46:25.808Z] [INFO] Route registered: GET /health
+[2026-02-11T16:46:25.810Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T16:46:25.810Z] [INFO] Route registered: POST /session/login
+[2026-02-11T16:46:25.810Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T16:46:25.811Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T16:46:25.811Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T16:46:25.811Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T16:46:25.811Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T16:46:25.811Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T16:46:25.812Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T16:59:13.084Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T16:59:46.857Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T18:16:27.163Z] [INFO] Route registered: GET /health
+[2026-02-11T18:16:27.164Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T18:16:27.164Z] [INFO] Route registered: POST /session/login
+[2026-02-11T18:16:27.165Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T18:16:27.165Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T18:16:27.165Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T18:16:27.165Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T18:16:27.166Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T18:16:27.166Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T18:16:27.166Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T18:16:46.211Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T19:21:49.261Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T19:22:31.501Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T20:03:43.655Z] [INFO] Route registered: GET /health
+[2026-02-11T20:03:43.657Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T20:03:43.658Z] [INFO] Route registered: POST /session/login
+[2026-02-11T20:03:43.658Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T20:03:43.658Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T20:03:43.659Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T20:03:43.659Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T20:03:43.659Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T20:03:43.659Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T20:03:43.660Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T20:03:57.690Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T20:04:57.298Z] [INFO] Route registered: GET /health
+[2026-02-11T20:04:57.300Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T20:04:57.300Z] [INFO] Route registered: POST /session/login
+[2026-02-11T20:04:57.300Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T20:04:57.301Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T20:04:57.301Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T20:04:57.301Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T20:04:57.301Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T20:04:57.301Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T20:04:57.302Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T20:07:13.116Z] [INFO] Route registered: GET /health
+[2026-02-11T20:07:13.119Z] [INFO] Route registered: GET /auth/me
+[2026-02-11T20:07:13.119Z] [INFO] Route registered: POST /session/login
+[2026-02-11T20:07:13.120Z] [INFO] Route registered: POST /session/logout
+[2026-02-11T20:07:13.121Z] [INFO] Route registered: POST /jwt/login
+[2026-02-11T20:07:13.121Z] [INFO] Route registered: GET /db/public/users
+[2026-02-11T20:07:13.121Z] [INFO] Route registered: GET /db/public/user
+[2026-02-11T20:07:13.121Z] [INFO] Route registered: GET /db/private/users
+[2026-02-11T20:07:13.122Z] [INFO] Route registered: GET /db/private/user
+[2026-02-11T20:07:13.122Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-11T20:08:33.166Z] [WARN] Route not found: POST /auth/logout
+[2026-02-11T20:13:10.067Z] [WARN] Route not found: POST /auth/logout
+[2026-02-12T07:59:15.089Z] [INFO] Route registered: GET /health
+[2026-02-12T07:59:15.090Z] [INFO] Route registered: GET /auth/me
+[2026-02-12T07:59:15.090Z] [INFO] Route registered: POST /session/login
+[2026-02-12T07:59:15.090Z] [INFO] Route registered: POST /session/logout
+[2026-02-12T07:59:15.091Z] [INFO] Route registered: POST /jwt/login
+[2026-02-12T07:59:15.091Z] [INFO] Route registered: GET /db/public/users
+[2026-02-12T07:59:15.091Z] [INFO] Route registered: GET /db/public/user
+[2026-02-12T07:59:15.091Z] [INFO] Route registered: GET /db/private/users
+[2026-02-12T07:59:15.091Z] [INFO] Route registered: GET /db/private/user
+[2026-02-12T07:59:15.092Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-12T08:00:53.779Z] [WARN] Route not found: POST /auth/logout
+[2026-02-12T08:01:15.681Z] [WARN] Route not found: POST /auth/logout
+[2026-02-12T12:18:51.882Z] [INFO] Route registered: GET /health
+[2026-02-12T12:18:51.883Z] [INFO] Route registered: GET /auth/me
+[2026-02-12T12:18:51.883Z] [INFO] Route registered: POST /session/login
+[2026-02-12T12:18:51.883Z] [INFO] Route registered: POST /session/logout
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: POST /jwt/login
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/public/users
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/public/user
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/private/users
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/private/user
+[2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/private/docs
+[2026-02-12T12:19:25.488Z] [ERROR] Router error: 
+[2026-02-12T12:20:07.927Z] [WARN] Route not found: POST /auth/logout

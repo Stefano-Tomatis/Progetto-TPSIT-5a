@@ -1,0 +1,18 @@
+[2026-02-09T15:42:12.838Z] [INFO] OAuth login started -> redirect to Google
+[2026-02-09T15:42:16.194Z] [PERFORMANCE] OAuth callback OK completed in 443.49 ms
+[2026-02-11T11:55:22.925Z] [INFO] OAuth login started -> redirect to Google
+[2026-02-11T11:55:28.119Z] [PERFORMANCE] OAuth callback OK completed in 457.56 ms
+[2026-02-11T16:58:26.713Z] [INFO] OAuth login initiated
+[2026-02-11T16:58:43.737Z] [PERF] OAuth callback OK (14033.1ms)
+[2026-02-11T19:22:33.544Z] [INFO] OAuth login initiated
+[2026-02-11T19:22:36.978Z] [PERF] OAuth callback OK (357.8ms)
+[2026-02-11T20:04:00.799Z] [INFO] OAuth login initiated
+[2026-02-11T20:04:04.432Z] [PERF] OAuth callback OK (504.6ms)
+[2026-02-11T20:05:38.748Z] [INFO] OAuth login initiated
+[2026-02-11T20:06:31.400Z] [PERF] OAuth callback OK (49821.8ms)
+[2026-02-11T20:07:38.276Z] [INFO] OAuth login initiated
+[2026-02-11T20:07:41.419Z] [PERF] OAuth callback OK (418.3ms)
+[2026-02-11T20:08:58.464Z] [INFO] OAuth login initiated
+[2026-02-11T20:09:32.630Z] [PERF] OAuth callback OK (31657.8ms)
+[2026-02-12T08:01:18.833Z] [INFO] OAuth login initiated
+[2026-02-12T08:01:22.228Z] [PERF] OAuth callback OK (579.0ms)

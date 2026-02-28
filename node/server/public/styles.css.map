@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/styles.css"],
+  "sourcesContent": [":root { --b: #e5e7eb; --bg: #ffffff; --muted: #6b7280; --err: #b91c1c; }\nbody { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 16px; background: var(--bg); }\nheader { display:flex; gap:12px; align-items: baseline; flex-wrap: wrap; }\nheader nav a { margin-right: 10px; text-decoration: underline; }\n.small { font-size: 12px; color: var(--muted); }\nsection { border: 1px solid var(--b); border-radius: 12px; padding: 12px; margin: 12px 0; }\n.row { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }\ninput, button { padding: 8px; }\npre { background: #f6f7f9; padding: 12px; border-radius: 12px; overflow:auto; }\n.err { color: var(--err); }\n"],
+  "mappings": ";AAAA;AAAQ,OAAK;AAAS,QAAM;AAAS,WAAS;AAAS,SAAO;AAAS;AACvE;AAAO;AAAA,IAAa,SAAS;AAAA,IAAE,aAAa;AAAA,IAAE,MAAM,EAAE;AAAA,IAAE,MAAM;AAAA,IAAE,KAAK;AAAA,IAAE;AAAY,UAAQ;AAAM,cAAY,IAAI;AAAO;AACxH;AAAS,WAAQ;AAAM,OAAI;AAAM,eAAa;AAAU,aAAW;AAAM;AACzE,OAAO,IAAI;AAAI,gBAAc;AAAM,mBAAiB;AAAW;AAC/D,CAAC;AAAQ,aAAW;AAAM,SAAO,IAAI;AAAU;AAC/C;AAAU,UAAQ,IAAI,MAAM,IAAI;AAAM,iBAAe;AAAM,WAAS;AAAM,UAAQ,KAAK;AAAG;AAC1F,CAAC;AAAM,WAAQ;AAAM,OAAI;AAAM,eAAY;AAAQ,aAAW;AAAM;AACpE;AAAO;AAAS,WAAS;AAAK;AAC9B;AAAM,cAAY;AAAS,WAAS;AAAM,iBAAe;AAAM,YAAS;AAAM;AAC9E,CAAC;AAAM,SAAO,IAAI;AAAQ;",
+  "names": []
+}
