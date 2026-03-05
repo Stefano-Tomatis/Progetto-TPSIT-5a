@@ -882,3 +882,5 @@
 [2026-02-12T12:21:36.298Z] [INFO] [RES] GET /favicon.ico headersSent=false ended=false (2ms)
 [2026-02-12T12:21:37.812Z] [INFO] [REQ] GET /favicon.ico
 [2026-02-12T12:21:37.813Z] [INFO] [RES] GET /favicon.ico headersSent=false ended=false (1ms)
+[2026-03-05T14:24:12.575Z] [INFO] [REQ] GET /health
+[2026-03-05T14:24:12.581Z] [INFO] [RES] GET /health headersSent=false ended=false (6ms)

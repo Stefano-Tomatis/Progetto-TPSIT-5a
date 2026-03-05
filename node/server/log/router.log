@@ -155,3 +155,13 @@
 [2026-02-12T12:18:51.884Z] [INFO] Route registered: GET /db/private/docs
 [2026-02-12T12:19:25.488Z] [ERROR] Router error: 
 [2026-02-12T12:20:07.927Z] [WARN] Route not found: POST /auth/logout
+[2026-03-05T14:19:12.256Z] [INFO] Route registered: GET /health
+[2026-03-05T14:19:12.257Z] [INFO] Route registered: GET /auth/me
+[2026-03-05T14:19:12.257Z] [INFO] Route registered: POST /session/login
+[2026-03-05T14:19:12.257Z] [INFO] Route registered: POST /session/logout
+[2026-03-05T14:19:12.257Z] [INFO] Route registered: POST /jwt/login
+[2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/public/users
+[2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/public/user
+[2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/users
+[2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/user
+[2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/docs

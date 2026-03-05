@@ -30,14 +30,14 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
       host: opt.host || process.env.DB_HOST || "localhost", // Risolve host: opzione > env > default locale.
       user: opt.user || process.env.DB_USER || "root", // Risolve user: opzione > env > default root.
       password: opt.password || process.env.DB_PASS || "", // Risolve password: opzione > env > default vuota.
-      database: opt.database || process.env.DB_NAME || "auth_lab", // Risolve database: opzione > env > default auth_lab.
+      database: opt.database || process.env.DB_NAME || "db_visite", // Risolve database: opzione > env > default auth_lab.
       waitForConnections: true, // Mette in coda le richieste se il pool è saturo invece di fallire subito.
       connectionLimit: 10, // Imposta il numero massimo di connessioni simultanee nel pool.
       queueLimit: 0 // 0 = nessun limite alla coda (attenzione: può crescere molto in overload).
     }); // Chiude la configurazione e crea effettivamente il pool.
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
     /** @type {Set<string>} */
-    this.allowedTables = new Set(["users", "users_public", "private_docs"]); // Whitelist: impedisce SQL injection su nomi tabella.
+    this.allowedTables = new Set(["utenti", "visite", "medici", "specializzazioni", "admin"]); // Whitelist: impedisce SQL injection su nomi tabella.
   }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
   /**
@@ -109,23 +109,33 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
   }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
   /**
-   * Trova un utente (pubblico+ruolo) per username. Serve per login demo.
-   * @param {string} username
-   * @returns {Promise<{id:number, username:string, display_name:string, role:string, email:string}|null>}
-   */
-  async getUserByUsername(username) { // Metodo async: recupera il primo utente che matcha lo username.
-    const rows = await this.read("users", "username = ?", [username]); // SELECT parametrica: il valore va nei placeholder.
-    return rows[0] || null; // Ritorna il primo record o null se non esiste.
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
    * Trova un utente per email (utile per OAuth).
    * @param {string} email
    * @returns {Promise<{id:number, username:string, display_name:string, role:string, email:string}|null>}
    */
   async getUserByEmail(email) { // Metodo async: recupera il primo utente che matcha l’email.
-    const rows = await this.read("users", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
+    const rows = await this.read("utenti", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getAllUsers(){
+    const rows = await this.read("utenti"); // SELECT parametrica per evitare injection sui valori.
+    return rows || null;
+  }
+
+  async getAllDoctors(){
+    const rows = await this.read("medici"); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getDoctorByEmail(email){
+    const rows = await this.read("medici", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getVisitsByUser(dateStart, dateEnd, uId){
+    const rows = await this.read("visite", "IdUtente = ? and DataOrario >= ? and DataOrario <= ?", [email, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
   }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
   /**
@@ -164,56 +174,6 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
 
     const created = await this.read("users", "id = ?", [id]); // Rilegge dal DB il record appena creato (fonte di verità).
     return created[0]; // Ritorna il record creato (primo e unico match per id).
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-// Helper “business” per l’esercizio
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
-   * Lista pubblica utenti (view users_public).
-   * @returns {Promise<any[]>}
-   */
-  async listPublicUsers() { // Metodo async: restituisce l’elenco utenti “pubblico” tramite view dedicata.
-    return await this.read("users_public"); // Legge tutti i record dalla view users_public.
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
-   * Utente pubblico per id (view users_public).
-   * @param {number} id
-   * @returns {Promise<any|null>}
-   */
-  async getPublicUserById(id) { // Metodo async: recupera un utente pubblico specifico per id.
-    const rows = await this.read("users_public", "id = ?", [id]); // SELECT parametrica su view users_public.
-    return rows[0] || null; // Ritorna il record o null se non esiste.
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
-   * Lista utenti completa (tabella users) - dati riservati inclusi.
-   * @returns {Promise<any[]>}
-   */
-  async listPrivateUsers() { // Metodo async: restituisce lista completa utenti (anche campi riservati).
-    return await this.read("users"); // Legge tutti i record dalla tabella users.
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
-   * Utente completo per id (tabella users).
-   * @param {number} id
-   * @returns {Promise<any|null>}
-   */
-  async getPrivateUserById(id) { // Metodo async: recupera un utente completo specifico per id.
-    const rows = await this.read("users", "id = ?", [id]); // SELECT parametrica su tabella users.
-    return rows[0] || null; // Ritorna il record o null se non presente.
-  }
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-  /**
-   * Documenti riservati.
-   * @param {number|null} ownerUserId Se null -> tutti i documenti; se numero -> solo quelli dell'utente.
-   * @returns {Promise<any[]>}
-   */
-  async listPrivateDocs(ownerUserId = null) { // Metodo async: lista documenti riservati, opzionalmente filtrati per owner.
-    if (ownerUserId == null) { // Controlla se manca il filtro: null/undefined => tutti i documenti.
-      return await this.read("private_docs"); // Legge tutti i documenti dalla tabella private_docs.
-    } // Chiude il ramo “tutti”.
-    return await this.read("private_docs", "owner_userid = ?", [ownerUserId]); // Legge solo i documenti dell’owner indicato.
   }
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
