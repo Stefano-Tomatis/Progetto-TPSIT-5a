@@ -113,7 +113,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     // Password demo (didattica): "password"
-    if (password !== await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }
@@ -138,7 +138,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
         success: true, message: "Login effettuato", data: {
           user: safeUser(req.session.user)
       }
-    }); // Risponde OK con utente sanitizzato.
+    });
   });
 
   router.register("POST", "/session/login/doctor", async (req, res) => { // Registra login via sessione (demo didattica).
@@ -156,7 +156,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     // Password demo (didattica): "password"
-    if (password !== await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }
@@ -182,6 +182,49 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
           user: safeUser(req.session.user)
       }
     }); // Risponde OK con utente sanitizzato.
+  });
+
+  router.register("POST", "/session/login/admin", async (req, res) => { // Registra login via sessione (demo didattica).
+    const { email, password } = req.body || {}; // Estrae username/password dal body (con fallback a {}).
+
+    if (!email || !password) { // Valida input: entrambi i campi devono esserci.
+      sendJson(res, 400, { success: false, message: "Richiesta malformata" }); // Risponde 400: richiesta malformata.
+      return; // Interrompe l’handler per evitare prosecuzione.
+    }
+
+    const u = await db.getAdminByEmail(String(email)); // Recupera utente dal DB usando username come stringa.
+    if (!u) { // Se non esiste in DB, login non può completarsi.
+      sendJson(res, 404, { success: false, message: "Utente non esistente" }); // Risponde 404: risorsa (utente) non trovata.
+      return; // Interrompe l’handler.
+    }
+
+    // Password demo (didattica): "password"
+    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+      sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
+      return; // Interrompe l’handler.
+    }
+
+    if (!req.session) { // Verifica che il middleware session sia attivo e abbia popolato req.session.
+      sendJson(res, 500, { success: false, message: "Errore inizializzazione sessione" }); // Risponde 500: configurazione server mancante.
+      return; // Interrompe l’handler.
+    }
+
+    req.session.user = { // Scrive nella sessione i dati utente necessari (persistono tra richieste).
+      id: u.IdUtente, // Salva id per riferimenti e autorizzazione.
+      nome: u.Nome, // Salva username per UI/identità.
+      cognome: u.Cognome, // Salva displayName (qui dal DB con naming snake_case).
+      email: u.email, // Salva ruolo per controlli autorizzativi.
+      dataNascita: u.DataNascita, // Salva email (profilo).
+      username: u.Username,
+      ruolo: "medico"
+    };
+    req.session.authMode = "session"; // Marca la sessione indicando la modalità di autenticazione.
+
+    sendJson(res, 200, { 
+        success: true, message: "Login effettuato", data: {
+          user: safeUser(req.session.user)
+      }
+    });
   });
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 // POST /session/logout
@@ -216,6 +259,11 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
 
+  router.register("GET", "/db/private/admins", async (req, res) => { // Ottenimento tutti i dottori
+    const rows = await db.getAllAdmins();
+    sendJson(res, 200, { success: true, message: "ok", data: rows });
+  });
+
   router.register("GET", "/db/private/visits/user", async (req, res) => { // Ottenimento visite per utenti
     try{
       const dateStart = Date(req.query.dateStart)
@@ -245,6 +293,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
     }
   });
+  
 
   router.register("GET", "/db/private/visits/externalDoctor", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
     try{

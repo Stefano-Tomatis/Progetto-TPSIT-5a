@@ -128,6 +128,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     return rows || null; // Ritorna il primo record o null se non trovato.
   }
 
+  async getAllAdmins(){
+    const rows = await this.read("admin"); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
+  }
+
   async getAllSpecs(){
     const rows = await this.read("specializzazioni"); // SELECT parametrica per evitare injection sui valori.
     return rows || null; // Ritorna il primo record o null se non trovato.
@@ -135,6 +140,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
 
   async getDoctorByEmail(email){
     const rows = await this.read("medici", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getAdminByEmail(email){
+    const rows = await this.read("admin", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
   }
 
