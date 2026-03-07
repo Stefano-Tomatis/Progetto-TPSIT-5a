@@ -118,6 +118,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
   }
 
+  async getUserById(id) { // Metodo async: recupera il primo utente che matcha l’email.
+    const rows = await this.read("utenti", "IdUtente = ?", [id]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
   async getAllUsers(){
     const rows = await this.read("utenti"); // SELECT parametrica per evitare injection sui valori.
     return rows || null;
@@ -140,6 +145,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
 
   async getDoctorByEmail(email){
     const rows = await this.read("medici", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getDoctorById(id){
+    const rows = await this.read("medici", "IdMedico = ?", [id]); // SELECT parametrica per evitare injection sui valori.
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
   }
 

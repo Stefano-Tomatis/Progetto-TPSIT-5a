@@ -922,3 +922,7 @@
 [2026-03-07T17:06:52.100Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
 [2026-03-07T17:06:52.101Z] [INFO] [REQ] POST /session/login/user
 [2026-03-07T17:06:52.102Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
+[2026-03-07T18:27:14.515Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-07T18:27:14.520Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (5ms)
+[2026-03-07T18:27:14.521Z] [INFO] [REQ] POST /session/login/user
+[2026-03-07T18:27:14.523Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (2ms)

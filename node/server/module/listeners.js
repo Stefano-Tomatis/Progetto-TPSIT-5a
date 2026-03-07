@@ -268,11 +268,18 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     try{
       const dateStart = Date(req.query.dateStart)
       const dateEnd = Date(req.query.dateEnd)
+      let finalRows = []
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
-      const rows = await db.getVisitsByUser(dateStart, dateEnd, req.session.user.id); 
-      sendJson(res, 200, { success: true, message: "ok", data: rows });
+      const rows = await db.getVisitsByUser(dateStart, dateEnd, req.session.user.id);
+      for(let i = 0; i < rows.length; i++){
+        finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
+        finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
+        finalRows[i].IdVisita = rows[i].IdVisita
+        finalRows[i].DataOrario = rows[i].DataOrario
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: finalRows });
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"});
@@ -286,8 +293,14 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       if(req.session.user.ruolo != "medico"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
-      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id); 
-      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
+      for(let i = 0; i < rows.length; i++){
+        finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
+        finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
+        finalRows[i].IdVisita = rows[i].IdVisita
+        finalRows[i].DataOrario = rows[i].DataOrario
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: final }); 
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
