@@ -1,73 +1,36 @@
-<p>doctor works!</p>
-
-
 <div class="container mt-4">
   
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <button class="btn btn-outline-primary">&laquo; Settimana Precedente</button>
-    <h2 class="h4">Settimana dal 24 al 28 Febbraio</h2>
-    <button class="btn btn-outline-primary">Settimana Successiva &raquo;</button>
+    <button (click)="eventoSettimanaScorsa()" class="btn btn-outline-primary">&laquo; Settimana Precedente</button>
+    
+    <h2 class="h4">Agenda Settimanale</h2>
+    
+    <button (click)="eventoSettimanaProssima()" class="btn btn-outline-primary">Settimana Successiva &raquo;</button>
   </div>
 
   <div class="row g-2">
     
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-header bg-primary text-white text-center">
-          <strong>Lunedì</strong>
-        </div>
-        <div class="card-body p-2" id="spazioLunedì">
-          <p class="text-muted small text-center">Nessuna visita</p>
+    @for (giornoVisite of settimanaLavorativa; track $index) {
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header bg-primary text-white text-center">
+            <strong>{{ ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'][$index] }}</strong>
           </div>
-      </div>
-    </div>
+          
+          <div class="card-body p-2">
+            
+            @for (visita of giornoVisite; track visita.id) {
+              <div class="alert alert-info p-2 mb-1 small">
+                {{ visita.DataOrario | date:'HH:mm' }} - {{ visita.paziente }}
+              </div>
+            } @empty {
+              <p class="text-muted small text-center">Nessuna visita</p>
+            }
 
-    <div class="col">
-      <div class="card h-100 border-primary">
-        <div class="card-header bg-primary text-white text-center">
-          <strong>Martedì</strong>
-        </div>
-        <div class="card-body p-2" id="spazioMartedì">
-          <div class="alert alert-info p-2 mb-1 small">
-            10:30 - Mario Rossi
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-header bg-primary text-white text-center">
-          <strong>Mercoledì</strong>
-        </div>
-        <div class="card-body p-2" id="spazioMercoledì">
-            <p class="text-muted small text-center">Nessuna visita</p>
-        </div>            
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-header bg-primary text-white text-center">
-          <strong>Giovedì</strong>
-        </div>
-        <div class="card-body p-2" id="spazioGiovedì">
-            <p class="text-muted small text-center">Nessuna visita</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col">
-      <div class="card h-100">
-        <div class="card-header bg-primary text-white text-center">
-          <strong>Venerdì</strong>
-        </div>
-        <div class="card-body p-2" id="spazioVenerdì">
-            <!--ricorda che in questa parte andrà messo un for che ciclerà solo i Venerdì-->
-            <p class="text-muted small text-center">Nessuna visita</p>
-        </div>
-      </div>
-    </div>
+    }
 
   </div>
 </div>
