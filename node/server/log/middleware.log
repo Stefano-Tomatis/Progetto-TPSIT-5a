@@ -884,3 +884,17 @@
 [2026-02-12T12:21:37.813Z] [INFO] [RES] GET /favicon.ico headersSent=false ended=false (1ms)
 [2026-03-05T14:24:12.575Z] [INFO] [REQ] GET /health
 [2026-03-05T14:24:12.581Z] [INFO] [RES] GET /health headersSent=false ended=false (6ms)
+[2026-03-05T17:18:29.444Z] [INFO] [REQ] POST /db/public/goon
+[2026-03-05T17:18:29.446Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (2ms)
+[2026-03-05T17:20:58.373Z] [INFO] [REQ] POST /db/public/goon
+[2026-03-05T17:20:58.375Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (2ms)
+[2026-03-05T17:21:37.067Z] [INFO] [REQ] GET /health
+[2026-03-05T17:21:37.068Z] [INFO] [RES] GET /health headersSent=false ended=false (1ms)
+[2026-03-05T17:22:12.720Z] [INFO] [REQ] POST /db/public/goon
+[2026-03-05T17:22:12.720Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (0ms)
+[2026-03-05T17:22:26.756Z] [INFO] [REQ] POST /db/public/goon
+[2026-03-05T17:22:26.760Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (4ms)
+[2026-03-05T17:23:23.669Z] [INFO] [REQ] POST /db/public/goon
+[2026-03-05T17:23:23.670Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (1ms)
+[2026-03-05T20:00:06.109Z] [INFO] [REQ] GET /auth/me
+[2026-03-05T20:00:06.110Z] [INFO] [RES] GET /auth/me headersSent=false ended=false (1ms)

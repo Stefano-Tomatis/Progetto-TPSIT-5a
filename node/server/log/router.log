@@ -165,3 +165,33 @@
 [2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/users
 [2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/user
 [2026-03-05T14:19:12.258Z] [INFO] Route registered: GET /db/private/docs
+[2026-03-05T17:17:46.550Z] [INFO] Route registered: GET /health
+[2026-03-05T17:17:46.551Z] [INFO] Route registered: GET /auth/me
+[2026-03-05T17:17:46.551Z] [INFO] Route registered: POST /session/login/user
+[2026-03-05T17:17:46.551Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-05T17:17:46.552Z] [INFO] Route registered: POST /session/logout
+[2026-03-05T17:17:46.552Z] [INFO] Route registered: GET /db/private/users
+[2026-03-05T17:17:46.552Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-05T17:17:46.552Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-05T17:17:46.552Z] [INFO] Route registered: POST db/public/goon
+[2026-03-05T17:18:29.447Z] [WARN] Route not found: POST /db/public/goon
+[2026-03-05T17:20:27.802Z] [INFO] Route registered: GET /health
+[2026-03-05T17:20:27.802Z] [INFO] Route registered: GET /auth/me
+[2026-03-05T17:20:27.802Z] [INFO] Route registered: POST /session/login/user
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: POST /session/logout
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: GET /db/private/users
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-05T17:20:27.803Z] [INFO] Route registered: POST db/public/goon
+[2026-03-05T17:20:58.375Z] [WARN] Route not found: POST /db/public/goon
+[2026-03-05T17:22:12.720Z] [WARN] Route not found: POST /db/public/goon
+[2026-03-05T17:22:24.367Z] [INFO] Route registered: GET /health
+[2026-03-05T17:22:24.368Z] [INFO] Route registered: GET /auth/me
+[2026-03-05T17:22:24.368Z] [INFO] Route registered: POST /session/login/user
+[2026-03-05T17:22:24.368Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-05T17:22:24.368Z] [INFO] Route registered: POST /session/logout
+[2026-03-05T17:22:24.369Z] [INFO] Route registered: GET /db/private/users
+[2026-03-05T17:22:24.369Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-05T17:22:24.369Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-05T17:22:24.369Z] [INFO] Route registered: POST /db/public/goon
