@@ -206,15 +206,65 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
    * @param {any} res
    * @returns {Promise<void>}
    */
-  router.register("GET", "/db/private/users", async (req, res) => { // Registra endpoint privato: lista utenti “pulita”.
-    const rows = await db.getAllUsers(); // Legge dal DB la view/risorsa pubblica degli utenti.
-    sendJson(res, 200, rows); // Invia al client l’elenco utenti pubblici.
+  router.register("GET", "/db/private/users", async (req, res) => { // Ottenimento tutti gli utenti
+    const rows = await db.getAllUsers();
+    sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
 
-  router.register("GET", "/db/private/doctors", async (req, res) => { // Registra endpoint privato: lista utenti “pulita”.
-    const rows = await db.getAllDoctors(); // Legge dal DB la view/risorsa pubblica degli utenti.
-    sendJson(res, 200, rows); // Invia al client l’elenco utenti pubblici.
+  router.register("GET", "/db/private/doctors", async (req, res) => { // Ottenimento tutti i dottori
+    const rows = await db.getAllDoctors();
+    sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
+
+  router.register("GET", "/db/private/visits/user", async (req, res) => { // Ottenimento visite per utenti
+    try{
+      const dateStart = Date(req.query.dateStart)
+      const dateEnd = Date(req.query.dateEnd)
+      if(req.session.user.ruolo != "utente"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+      }
+      const rows = await db.getVisitsByUser(dateStart, dateEnd, req.session.user.id); 
+      sendJson(res, 200, { success: true, message: "ok", data: rows });
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"});
+    }
+  });
+
+  router.register("GET", "/db/private/visits/doctor", async (req, res) => { //Ottenimento visite per dottori
+    try{
+      const dateStart = Date(req.query.dateStart)
+      const dateEnd = Date(req.query.dateEnd)
+      if(req.session.user.ruolo != "medico"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+      }
+      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id); 
+      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
+  router.register("GET", "/db/private/specs", async (req, res) => { // Ottenimento di tutte le specs
+    const rows = await db.getAllSpecs();
+    sendJson(res, 200, { success: true, message: "ok", data: rows });
+  })
+
+  router.register("GET", "/db/private/doctors/spec", async (req, res) => { //Ottenimento dottori per nome specializzazione
+    try{
+      const specName = Date(req.query.specName)
+      if(req.session.user.ruolo != "utente"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+      }
+      const rows = await db.getDoctorsBySpecName(specName); 
+      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
 
   logger.info("Listeners registered"); // Logga che la registrazione delle route è stata completata.
 }

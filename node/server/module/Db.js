@@ -128,13 +128,34 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     return rows || null; // Ritorna il primo record o null se non trovato.
   }
 
+  async getAllSpecs(){
+    const rows = await this.read("specializzazioni"); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
+  }
+
   async getDoctorByEmail(email){
     const rows = await this.read("medici", "email = ?", [email]); // SELECT parametrica per evitare injection sui valori.
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
   }
 
   async getVisitsByUser(dateStart, dateEnd, uId){
-    const rows = await this.read("visite", "IdUtente = ? and DataOrario >= ? and DataOrario <= ?", [email, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+    const rows = await this.read("visite", "IdUtente = ? and DataOrario >= ? and DataOrario <= ?", [uId, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getVisitsByDoctor(dateStart, dateEnd, uId){
+    const rows = await this.read("visite", "IdMedico = ? and DataOrario >= ? and DataOrario <= ?", [uId, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+    return rows || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getSpecIdByName(name){
+    const rows = await this.read("specializzazioni", "Nome = ?", [name]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0].IdSpecializzazione || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getDoctorsBySpecName(specName){
+    const idSpec = await this.getSpecIdByName(specName)
+    const rows = await this.read("medici", "IdSpecializzazione = ?", [idSpec]); // SELECT parametrica per evitare injection sui valori.
     return rows || null; // Ritorna il primo record o null se non trovato.
   }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
