@@ -266,14 +266,15 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/visits/user", async (req, res) => { // Ottenimento visite per utenti
     try{
-      const dateStart = Date(req.query.dateStart)
-      const dateEnd = Date(req.query.dateEnd)
+      const dateStart = req.query.dateStart
+      const dateEnd = req.query.dateEnd
       let finalRows = []
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
       const rows = await db.getVisitsByUser(dateStart, dateEnd, req.session.user.id);
       for(let i = 0; i < rows.length; i++){
+        finalRows[i] = {}
         finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
         finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
         finalRows[i].IdVisita = rows[i].IdVisita
@@ -282,19 +283,20 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       sendJson(res, 200, { success: true, message: "ok", data: finalRows });
     }
     catch(err){
-      sendJson(res, 500, { success: false, message: "Errore interno del server"});
+      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err});
     }
   });
 
   router.register("GET", "/db/private/visits/doctor", async (req, res) => { //Ottenimento visite per dottori
     try{
-      const dateStart = Date(req.query.dateStart)
-      const dateEnd = Date(req.query.dateEnd)
+      const dateStart = req.query.dateStart
+      const dateEnd = req.query.dateEnd
       if(req.session.user.ruolo != "medico"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
       const rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
       for(let i = 0; i < rows.length; i++){
+        finalRows[i] = {}
         finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
         finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
         finalRows[i].IdVisita = rows[i].IdVisita
@@ -310,8 +312,8 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/visits/externalDoctor", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
     try{
-      const dateStart = Date(req.query.dateStart)
-      const dateEnd = Date(req.query.dateEnd)
+      const dateStart = req.query.dateStart
+      const dateEnd = req.query.dateEnd
       const doctor = req.query.docId
       const rows = await db.getVisitsByDoctor(dateStart, dateEnd, doctor); 
       sendJson(res, 200, { success: true, message: "ok", data: rows }); 
