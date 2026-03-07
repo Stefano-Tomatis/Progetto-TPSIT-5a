@@ -4,6 +4,7 @@ import { AdminComponent } from './admin/admin.component';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 import { DoctorComponent } from './doctor/doctor.component';
+import { ServiceDatiService } from './service-dati.service';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,6 @@ import { DoctorComponent } from './doctor/doctor.component';
 })
 export class AppComponent {
   title = 'clientSide';
+
+  constructor(public serviceDati: ServiceDatiService) {}
 }
