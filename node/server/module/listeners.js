@@ -216,7 +216,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       email: u.email, // Salva ruolo per controlli autorizzativi.
       dataNascita: u.DataNascita, // Salva email (profilo).
       username: u.Username,
-      ruolo: "medico"
+      ruolo: "admin"
     };
     req.session.authMode = "session"; // Marca la sessione indicando la modalità di autenticazione.
 
