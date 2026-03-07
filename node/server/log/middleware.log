@@ -898,3 +898,19 @@
 [2026-03-05T17:23:23.670Z] [INFO] [RES] POST /db/public/goon headersSent=false ended=false (1ms)
 [2026-03-05T20:00:06.109Z] [INFO] [REQ] GET /auth/me
 [2026-03-05T20:00:06.110Z] [INFO] [RES] GET /auth/me headersSent=false ended=false (1ms)
+[2026-03-07T17:04:07.224Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-07T17:04:07.227Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (3ms)
+[2026-03-07T17:04:07.228Z] [INFO] [REQ] POST /session/login/user
+[2026-03-07T17:04:07.229Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
+[2026-03-07T17:04:20.684Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-07T17:04:20.685Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (1ms)
+[2026-03-07T17:04:20.685Z] [INFO] [REQ] POST /session/login/user
+[2026-03-07T17:04:20.686Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
+[2026-03-07T17:04:55.943Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-07T17:04:55.944Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (1ms)
+[2026-03-07T17:04:55.944Z] [INFO] [REQ] POST /session/login/user
+[2026-03-07T17:04:55.945Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
+[2026-03-07T17:05:21.915Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-07T17:05:21.916Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (1ms)
+[2026-03-07T17:05:21.916Z] [INFO] [REQ] POST /session/login/user
+[2026-03-07T17:05:21.917Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)

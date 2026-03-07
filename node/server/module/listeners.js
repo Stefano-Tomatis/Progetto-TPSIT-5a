@@ -113,7 +113,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     // Password demo (didattica): "password"
-    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+    if (!await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }
@@ -156,7 +156,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     // Password demo (didattica): "password"
-    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+    if (!await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }
@@ -199,7 +199,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     // Password demo (didattica): "password"
-    if (await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
+    if (!await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }

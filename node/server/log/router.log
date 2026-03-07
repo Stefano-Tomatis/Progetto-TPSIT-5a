@@ -195,3 +195,17 @@
 [2026-03-05T17:22:24.369Z] [INFO] Route registered: GET /db/private/doctors
 [2026-03-05T17:22:24.369Z] [INFO] Route registered: GET /db/private/visits/user
 [2026-03-05T17:22:24.369Z] [INFO] Route registered: POST /db/public/goon
+[2026-03-07T17:04:04.944Z] [INFO] Route registered: GET /health
+[2026-03-07T17:04:04.945Z] [INFO] Route registered: GET /auth/me
+[2026-03-07T17:04:04.945Z] [INFO] Route registered: POST /session/login/user
+[2026-03-07T17:04:04.945Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-07T17:04:04.945Z] [INFO] Route registered: POST /session/login/admin
+[2026-03-07T17:04:04.945Z] [INFO] Route registered: POST /session/logout
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/users
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/admins
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/visits/doctor
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/visits/externalDoctor
+[2026-03-07T17:04:04.946Z] [INFO] Route registered: GET /db/private/specs
+[2026-03-07T17:04:04.947Z] [INFO] Route registered: GET /db/private/doctors/spec
