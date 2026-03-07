@@ -246,6 +246,19 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
   });
 
+  router.register("GET", "/db/private/visits/externalDoctor", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
+    try{
+      const dateStart = Date(req.query.dateStart)
+      const dateEnd = Date(req.query.dateEnd)
+      const doctor = req.query.docId
+      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, doctor); 
+      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
   router.register("GET", "/db/private/specs", async (req, res) => { // Ottenimento di tutte le specs
     const rows = await db.getAllSpecs();
     sendJson(res, 200, { success: true, message: "ok", data: rows });
@@ -253,7 +266,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/doctors/spec", async (req, res) => { //Ottenimento dottori per nome specializzazione
     try{
-      const specName = Date(req.query.specName)
+      const specName = req.query.specName
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
