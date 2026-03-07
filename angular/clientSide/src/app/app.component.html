@@ -1,7 +1,15 @@
-<login> </login>
 
-<doctor></doctor>
+@if(!serviceDati.isAdmin() && !serviceDati.isDoctor() && !serviceDati.isUser())
+{
+    <login> </login>
+}@else if (serviceDati.isDoctor()) {
+    <doctor></doctor>
+}@else if (serviceDati.isUser()) {
+    <user></user>
+}@else if (serviceDati.isAdmin()) {
+    <admin></admin>
+}@else {
+    <h1>Errore nel caricamento della pagina</h1>
+}
 
-<user></user>
 
-<admin></admin>
