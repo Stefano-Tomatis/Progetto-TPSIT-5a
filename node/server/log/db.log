@@ -98,6 +98,3 @@
 [2026-03-07T17:04:20.686Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
 [2026-03-07T17:04:55.945Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
 [2026-03-07T17:05:21.917Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
-[2026-03-07T17:15:12.409Z] [INFO] [SQL] SELECT * FROM medici WHERE email = ? :: ["gustave.legrande@libero.it"]
-[2026-03-07T19:39:27.890Z] [INFO] [SQL] SELECT * FROM medici WHERE email = ? :: ["irma.lavic@gmail.com"]
-[2026-03-07T19:41:50.752Z] [INFO] [SQL] SELECT * FROM medici WHERE email = ? :: ["irma.lavic@gmail.com"]

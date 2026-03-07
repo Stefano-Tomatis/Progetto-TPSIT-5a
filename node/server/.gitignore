@@ -6,3 +6,5 @@ temp/
 
 # ignore ALL files in node_modules
 /node_modules
+
+*.log

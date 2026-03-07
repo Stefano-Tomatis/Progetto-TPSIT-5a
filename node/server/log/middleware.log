@@ -914,15 +914,4 @@
 [2026-03-07T17:05:21.916Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (1ms)
 [2026-03-07T17:05:21.916Z] [INFO] [REQ] POST /session/login/user
 [2026-03-07T17:05:21.917Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
-[2026-03-07T17:15:12.401Z] [INFO] [REQ] OPTIONS /session/login/doctor
-[2026-03-07T17:15:12.405Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (4ms)
-[2026-03-07T17:15:12.406Z] [INFO] [REQ] POST /session/login/doctor
-[2026-03-07T17:15:12.408Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (2ms)
-[2026-03-07T19:39:27.881Z] [INFO] [REQ] OPTIONS /session/login/doctor
-[2026-03-07T19:39:27.883Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (2ms)
-[2026-03-07T19:39:27.889Z] [INFO] [REQ] POST /session/login/doctor
-[2026-03-07T19:39:27.890Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (1ms)
-[2026-03-07T19:41:50.747Z] [INFO] [REQ] OPTIONS /session/login/doctor
-[2026-03-07T19:41:50.748Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (1ms)
-[2026-03-07T19:41:50.751Z] [INFO] [REQ] POST /session/login/doctor
-[2026-03-07T19:41:50.751Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (0ms)
+
