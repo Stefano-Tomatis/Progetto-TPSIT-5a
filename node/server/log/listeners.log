@@ -1,4 +1,4 @@
-[2026-02-09T15:42:06.301Z] [INFO] Session login ok: rossi
+2026-02-09T15:42:06.301Z] [INFO] Session login ok: rossi
 [2026-02-09T15:42:20.084Z] [ERROR] DB users/get error: 
 [2026-02-09T15:42:46.113Z] [INFO] JWT creato per username=rossi
 [2026-02-09T15:43:11.631Z] [INFO] JWT creato per username=rossi
