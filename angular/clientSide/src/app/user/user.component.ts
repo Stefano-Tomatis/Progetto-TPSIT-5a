@@ -1,86 +1,83 @@
-import { Component } from '@angular/core';
-import { NgForm, FormsModule } from '@angular/forms';
-import { NgModel } from '@angular/forms';
-import { OnInit } from '@angular/core';
+import { Component, OnInit, signal, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ModuloHttpService } from '../modulo-http.service';
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'user',
-  imports: [FormsModule,NgModel],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
 export class UserComponent implements OnInit {
-
-  nuovaPrenotazione = { dottoreId: '', data: '', ora: '' };
+  form: FormGroup;
   
-  dottori:any = null;
+  dottori = signal<any[]>([]);
+  orariSlot = signal<any[]>([]);
+  
+  visitePrenotate = signal([
+    { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' }
+  ]);
 
-  constructor(private http:ModuloHttpService)
-  {}
-
-  orariSlot = [
-    { ora: '09:00', occupato: false },
-    { ora: '10:00', occupato: false },
-    { ora: '11:00', occupato: false },
-    { ora: '12:00', occupato: false },
-    { ora: '14:00', occupato: false },
-    { ora: '15:00', occupato: false },
-    { ora: '16:00', occupato: false },
-    { ora: '17:00', occupato: false }
-  ];
+  constructor(
+    private http: ModuloHttpService, 
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef  ) 
+    {
+    this.form = this.fb.group({
+      dottoreId: ['', Validators.required],
+      data: ['', Validators.required],
+      ora: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.http.getDottori().subscribe({
-      next: (data) =>{
-        this.dottori = data
-        console.log('Dottori ricevuto: ', this.dottori)
-      },
-      error: (err) =>{
-        console.log('Errore nella ricezione dei dottori', err)
-      }
-    })
+      next: (data) => this.dottori.set(data),
+      error: (err) => console.error('Errore caricamento dottori', err)
+    });
+
+    
+    this.form.valueChanges.subscribe(() => {
+      this.controllaDisponibilita();
+    });
   }
 
-  /*
-  per vedere quali slot sono occupati prova a:
-  quando viene selezionato un dottore:
-    -invio in get una richiesta al server con id dottore come parametro
-    -il server estrae visite del dottore, osserva tra quelle quali fasce orarie lascia libere, resistuisce un array di fasce orarie marcando occupato = false / true
-    -ricevuto l'array io vado a caricare dinamicamente la combobox
-  */
-
-
-  visitePrenotate = [
-    { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' }
-  ];
-
   controllaDisponibilita() {
-    if (this.nuovaPrenotazione.dottoreId && this.nuovaPrenotazione.data) {
-      console.log("Chiamata al server per disponibilità...");
+    const { dottoreId, data } = this.form.getRawValue();
+
+    if (dottoreId && data) {
+      console.log(`Richiedo orari per dottore ${dottoreId} in data ${data}`);
       
-      this.orariSlot.forEach(slot => {
-        if (this.nuovaPrenotazione.dottoreId === '1' && slot.ora === '10:00') {
-          slot.occupato = true;
-        } else {    // da cambiare
-          slot.occupato = false;
-        }
+      this.http.getOrariDatoDottore(dottoreId, data).subscribe({
+        next: (slots) => {
+          this.orariSlot.set(slots);
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error("Errore nel recupero slot", err)
       });
     }
   }
 
-  onSubmit(form: any) {
-    alert(`Prenotato con successo alle ${this.nuovaPrenotazione.ora}`);
-    form.resetForm();
+onSubmit() {
+  if (this.form.valid) {
+    const { dottoreId, data, ora } = this.form.value;
+
+    
+
+    this.http.prenotaVisita(Number(dottoreId), data, ora).subscribe({
+      next: (res) => {
+        alert('Visita prenotata con successo!');
+        this.form.reset();
+        //aggiungi aggiornamento lista visite
+      },
+      error: (err) => alert('Errore: slot probabilmente già occupato.')
+    });
   }
+}
 
   disdiciVisita(id: number) {
-    this.visitePrenotate = this.visitePrenotate.filter(v => v.id !== id);
+    this.visitePrenotate.update(v => v.filter(vis => vis.id !== id));
   }
-
-  
-
-
-
 }

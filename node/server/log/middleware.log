@@ -915,3 +915,41 @@
 [2026-03-07T17:05:21.916Z] [INFO] [REQ] POST /session/login/user
 [2026-03-07T17:05:21.917Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
 
+[2026-03-09T16:44:21.404Z] [INFO] [REQ] GET /
+[2026-03-09T16:44:21.409Z] [INFO] [RES] GET / headersSent=false ended=false (5ms)
+[2026-03-09T16:44:21.492Z] [INFO] [REQ] GET /styles.css
+[2026-03-09T16:44:21.498Z] [INFO] [RES] GET /styles.css headersSent=false ended=false (5ms)
+[2026-03-09T16:44:21.504Z] [INFO] [REQ] GET /polyfills.js
+[2026-03-09T16:44:21.508Z] [INFO] [RES] GET /polyfills.js headersSent=false ended=false (4ms)
+[2026-03-09T16:44:21.511Z] [INFO] [REQ] GET /main.js
+[2026-03-09T16:44:21.515Z] [INFO] [RES] GET /main.js headersSent=false ended=false (4ms)
+[2026-03-09T16:44:21.671Z] [INFO] [REQ] GET /favicon.ico
+[2026-03-09T16:44:21.676Z] [INFO] [RES] GET /favicon.ico headersSent=false ended=false (5ms)
+[2026-03-09T17:01:03.756Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-09T17:01:03.761Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (6ms)
+[2026-03-09T17:01:03.765Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:01:03.770Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (5ms)
+[2026-03-09T17:01:04.059Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-09T17:01:04.063Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
+[2026-03-09T17:02:09.181Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-09T17:02:09.185Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-09T17:02:09.189Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:02:09.193Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-09T17:02:09.417Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-09T17:02:09.421Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
+[2026-03-09T17:06:30.874Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-09T17:06:30.878Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-09T17:06:30.882Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:06:30.886Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-09T17:07:05.194Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-09T17:07:05.198Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-09T17:07:05.202Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:07:05.206Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-09T17:07:05.439Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-09T17:07:05.444Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (5ms)
+[2026-03-09T17:07:18.149Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-09T17:07:18.153Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-09T17:07:18.156Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:07:18.160Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-09T17:07:18.391Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-09T17:07:18.395Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
