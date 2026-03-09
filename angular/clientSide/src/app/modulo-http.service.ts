@@ -40,7 +40,26 @@ export class ModuloHttpService {
 
   prenotaVisita(idDottore: number, data: string, ora: string): Observable<any> {
   const payload = { idDottore, data, ora }; 
-  return this.http.post('http://localhost:3000/api/prenota', payload);
+  return this.http.post('http://localhost:3000/api/prenota', payload); // chiedi a simo nome rotta giusta
+  }
+
+  getAllVisiteDottore(idDottore:Number):Observable<any>
+  {
+    return this.http.get('') //aggiungi percorso
+  }
+
+  deleteVisita(idVisita:number):Observable<any>
+  {
+    return this.http.delete('') //aggiungi percorso
+  }
+
+  updateVisita(id:number, dati:any):Observable<any>
+  {
+    return this.http.put('', null) //aggiungi percorso
+  }
+
+  getVisitePaziente(): Observable<any[]> {
+  return this.http.get<any[]>('http://localhost:3000/db/private/my-visite'); // chiedi a simo nome rotta giusta
 }
 
   /*toDatabaseDateTime(date: Date): string {

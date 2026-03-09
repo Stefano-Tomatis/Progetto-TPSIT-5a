@@ -38,11 +38,22 @@ export class UserComponent implements OnInit {
       error: (err) => console.error('Errore caricamento dottori', err)
     });
 
+    this.caricaVisiteUtente();
     
     this.form.valueChanges.subscribe(() => {
       this.controllaDisponibilita();
     });
   }
+
+  caricaVisiteUtente() {
+  this.http.getVisitePaziente().subscribe({
+    next: (data) => {
+      this.visitePrenotate.set(data);
+      this.cdr.detectChanges(); // gestione zoneless
+    },
+    error: (err) => console.error('Errore nel caricamento visite:', err)
+  });
+}
 
   controllaDisponibilita() {
     const { dottoreId, data } = this.form.getRawValue();
@@ -62,15 +73,13 @@ export class UserComponent implements OnInit {
 
 onSubmit() {
   if (this.form.valid) {
-    const { dottoreId, data, ora } = this.form.value;
-
-    
+    const { dottoreId, data, ora } = this.form.value;    
 
     this.http.prenotaVisita(Number(dottoreId), data, ora).subscribe({
       next: (res) => {
         alert('Visita prenotata con successo!');
         this.form.reset();
-        //aggiungi aggiornamento lista visite
+        this.caricaVisiteUtente();
       },
       error: (err) => alert('Errore: slot probabilmente già occupato.')
     });

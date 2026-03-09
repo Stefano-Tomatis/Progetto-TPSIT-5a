@@ -1,1 +1,69 @@
-<p>admin works!</p>
+<div class="admin-wrapper">
+  <header class="admin-header">
+    <div class="header-content">
+      <h1>Dashboard Amministratore</h1>
+      <span class="badge-admin">Accesso Root</span>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="filter-card">
+      <form [formGroup]="filtroForm" class="filter-form">
+        <div class="select-wrapper">
+          <label for="doc-select">Seleziona Medico per gestire l'agenda:</label>
+          <select id="doc-select" formControlName="dottoreId">
+            <option value="">-- Scegli un Dottore --</option>
+            @for (doc of dottori(); track doc.id) {
+              <option [value]="doc.id">Dott. {{ doc.display_name }} ({{ doc.username }})</option>
+            }
+          </select>
+        </div>
+      </form>
+    </section>
+
+    <section class="table-card">
+      <div class="table-header">
+        <h2>Agenda Visite</h2>
+        @if (visiteDottore().length > 0) {
+          <span class="count">Totale: {{ visiteDottore().length }} appuntamenti</span>
+        }
+      </div>
+
+      <div class="table-responsive">
+        @if (visiteDottore().length > 0) {
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Data e Ora</th>
+                <th>Paziente</th>
+                <th>Email</th>
+                <th class="text-center">Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (v of visiteDottore(); track v.id) {
+                <tr>
+                  <td class="font-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>{{ v.paziente_nome }}</td>
+                  <td class="text-muted">{{ v.paziente_email }}</td>
+                  <td class="actions-cell">
+                    <button class="btn btn-edit" (click)="modificaVisita(v)">
+                      <span class="icon">✏️</span> Modifica
+                    </button>
+                    <button class="btn btn-delete" (click)="eliminaVisita(v.id)">
+                      <span class="icon">🗑️</span> Elimina
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <div class="empty-placeholder">
+            <p>Seleziona un dottore per visualizzare gli impegni o non ci sono visite prenotate.</p>
+          </div>
+        }
+      </div>
+    </section>
+  </main>
+</div>

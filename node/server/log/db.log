@@ -103,3 +103,6 @@
 [2026-03-09T17:06:30.889Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
 [2026-03-09T17:07:05.209Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
 [2026-03-09T17:07:18.162Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
+[2026-03-09T17:19:49.473Z] [INFO] [SQL] SELECT * FROM utenti WHERE email = ? :: ["kevin.deda@gmail.com"]
+[2026-03-09T17:35:39.031Z] [INFO] [SQL] SELECT * FROM admin WHERE email = ? :: ["david.haytar@gmail.com"]
+[2026-03-09T17:37:40.963Z] [INFO] [SQL] SELECT * FROM admin WHERE email = ? :: ["david.haytar@gmail.com"]
