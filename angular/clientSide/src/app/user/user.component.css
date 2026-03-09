@@ -1,70 +1,91 @@
-.booking-container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding: 0 15px;
+:host {
+  display: block;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f4f7f6;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-.title { color: #2c3e50; margin-bottom: 1.5rem; text-align: center; }
+.user-container { max-width: 1100px; margin: 0 auto; }
 
-.grid-layout {
+.header { margin-bottom: 30px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; }
+.header h1 { color: #2c3e50; margin: 0; }
+
+.main-content {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+@media (max-width: 768px) {
+  .main-content { grid-template-columns: 1fr; }
 }
 
 .card {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  padding: 20px;
 }
 
-.card-header { padding: 1rem; color: white; }
-.bg-success { background-color: #27ae60; }
-.bg-info { background-color: #2980b9; }
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; color: #34495e; border-bottom: 1px solid #eee; padding-bottom: 10px; }
 
-.card-body { padding: 1.5rem; }
-
-.form-group { margin-bottom: 1.2rem; }
-.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #444; }
-
-.form-control, .form-select {
+/* Form Styles */
+.form-field { margin-bottom: 20px; }
+.form-field label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
+select, input[type="date"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 6px;
+  font-size: 16px;
 }
 
-.btn {
-  padding: 0.75rem;
+/* Orari Grid */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.slot-item {
+  position: relative;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.slot-item input { position: absolute; opacity: 0; }
+.slot-item:has(input:checked) { background-color: #3498db; color: white; }
+.slot-item.occupied { border-color: #e74c3c; cursor: not-allowed; opacity: 0.6; }
+.slot-time { font-weight: bold; }
+.badge { display: block; font-size: 10px; color: #e74c3c; }
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background: #27ae60;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
+  font-size: 18px;
   cursor: pointer;
-  font-weight: bold;
-  transition: opacity 0.2s;
+  transition: background 0.3s;
 }
+.btn-submit:disabled { background: #bdc3c7; cursor: not-allowed; }
 
-.btn-primary { background: #27ae60; color: white; }
-.btn-primary:disabled { background: #bdc3c7; cursor: not-allowed; }
-
-.table { width: 100%; border-collapse: collapse; }
-.table th, .table td { padding: 1rem; text-align: left; border-bottom: 1px solid #eee; }
-
-.btn-outline-danger {
-  background: transparent;
-  border: 1px solid #e74c3c;
-  color: #e74c3c;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  cursor: pointer;
+/* List Styles */
+.appointment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
 }
-
-.btn-outline-danger:hover { background: #e74c3c; color: white; }
-
-.hint { color: #7f8c8d; font-size: 0.8rem; }
-
-@media (max-width: 768px) {
-  .grid-layout { grid-template-columns: 1fr; }
-}
+.appointment-info span { margin-right: 15px; font-size: 14px; }
+.date { font-weight: bold; color: #3498db; }
+.doctor { color: #7f8c8d; font-style: italic; }
+.btn-cancel { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }

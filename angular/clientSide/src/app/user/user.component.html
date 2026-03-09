@@ -1,91 +1,80 @@
+<div class="user-container">
+  <div class="header">
+    <h1>Area Paziente</h1>
+    <p>Gestisci le tue prenotazioni e prenota nuove visite.</p>
+  </div>
 
-<p>User works!</p>
+  <div class="main-content">
+    
+    <section class="card booking-section">
+      <div class="card-header">
+        <span class="icon">📅</span>
+        <h2>Nuova Prenotazione</h2>
+      </div>
 
-<div class="booking-container">
-  <h2 class="title">Gestione Visite Paziente</h2>
-
-  <div class="grid-layout">
-    <section class="card-section">
-      <div class="card booking-card">
-        <div class="card-header bg-success">
-          <h3>Nuova Prenotazione</h3>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="booking-form">
+        
+        <div class="form-field">
+          <label for="dottore">Seleziona Medico</label>
+          <select id="dottore" formControlName="dottoreId" [class.error]="form.get('dottoreId')?.invalid && form.get('dottoreId')?.touched">
+            <option value="">-- Scegli un dottore --</option>
+            @for (doc of dottori(); track doc.id) {
+              <option [value]="doc.id">Dott. {{ doc.display_name }}</option>
+            }
+          </select>
         </div>
-        <div class="card-body">
-          <form #prenotaForm="ngForm" (ngSubmit)="onSubmit(prenotaForm)">
-            
-            <div class="form-group">
-              <label>Specialista</label>
-              <select class="form-select" name="dottore" 
-                      [(ngModel)]="nuovaPrenotazione.dottoreId" 
-                      (change)="controllaDisponibilita()" required #doc="ngModel">
-                <option value="" disabled selected>Scegli un dottore...</option>
-                @for(d of dottori; track d.id) {
-                  <option [value]="d.id">{{ d.nome }} - {{ d.specializzazione }}</option>
-                }
-              </select>
-            </div>
 
-            <div class="form-group">
-              <label>Data Visita</label>
-              <input type="date" class="form-control" name="data" 
-                     [(ngModel)]="nuovaPrenotazione.data" 
-                     (change)="controllaDisponibilita()" required #data="ngModel">
-            </div>
-
-            <div class="form-group">
-              <label>Orario Disponibile (09:00 - 17:00)</label>
-              <select class="form-select" name="ora" 
-                      [(ngModel)]="nuovaPrenotazione.ora" 
-                      [disabled]="!nuovaPrenotazione.dottoreId || !nuovaPrenotazione.data"
-                      required #ora="ngModel">
-                <option value="" disabled selected>Seleziona orario...</option>
-                @for(slot of orariSlot; track slot.ora) {
-                  <option [value]="slot.ora" [disabled]="slot.occupato">
-                    {{ slot.ora }} {{ slot.occupato ? '(Occupato)' : '' }}
-                  </option>
-                }
-              </select>
-              @if(!nuovaPrenotazione.data && !ora.disabled) {
-                <small class="hint">Seleziona prima dottore e data</small>
-              }
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100" [disabled]="prenotaForm.invalid">
-              Conferma Appuntamento
-            </button>
-          </form>
+        <div class="form-field">
+          <label for="data">Data della Visita</label>
+          <input type="date" id="data" formControlName="data" [class.error]="form.get('data')?.invalid && form.get('data')?.touched">
         </div>
+
+        <div class="form-field">
+          <label for="ora">Orari Disponibili</label>
+          <div class="slots-grid">
+            @for (slot of orariSlot(); track slot.ora) {
+              <label class="slot-item" [class.occupied]="slot.occupato">
+                <input type="radio" [value]="slot.ora" formControlName="ora" [disabled]="slot.occupato">
+                <span class="slot-time">{{ slot.ora }}</span>
+                @if (slot.occupato) {
+                  <span class="badge">Occupato</span>
+                }
+              </label>
+            } @empty {
+              <p class="info-text">Seleziona dottore e data per vedere gli orari.</p>
+            }
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="form.invalid">
+          Conferma Prenotazione
+        </button>
+      </form>
+    </section>
+
+    <section class="card list-section">
+      <div class="card-header">
+        <span class="icon">📋</span>
+        <h2>Le tue Visite</h2>
+      </div>
+
+      <div class="appointments-list">
+        @for (v of visitePrenotate(); track v.id) {
+          <div class="appointment-item">
+            <div class="appointment-info">
+              <span class="date">{{ v.data }}</span>
+              <span class="time">{{ v.ora }}</span>
+              <span class="doctor">{{ v.dottore }}</span>
+            </div>
+            <button class="btn-cancel" (click)="disdiciVisita(v.id)">Annulla</button>
+          </div>
+        } @empty {
+          <div class="empty-state">
+            <p>Non hai ancora prenotato nessuna visita.</p>
+          </div>
+        }
       </div>
     </section>
 
-    <section class="list-section">
-      <div class="card list-card">
-        <div class="card-header bg-info">
-          <h3>Le Tue Prenotazioni</h3>
-        </div>
-        <div class="card-body p-0">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Data/Ora</th>
-                <th>Dottore</th>
-                <th class="text-end">Azione</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for(v of visitePrenotate; track v.id) {
-                <tr>
-                  <td><strong>{{ v.data }}</strong> alle {{ v.ora }}</td>
-                  <td>{{ v.dottore }}</td>
-                  <td class="text-end">
-                    <button class="btn-outline-danger" (click)="disdiciVisita(v.id)">Disdici</button>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
