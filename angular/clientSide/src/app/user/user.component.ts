@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
+import { NgModel } from '@angular/forms';
+import { OnInit } from '@angular/core';
+import { ModuloHttpService } from '../modulo-http.service';
+
 
 @Component({
   selector: 'user',
-  imports: [FormsModule],
+  imports: [FormsModule,NgModel],
   templateUrl: './user.component.html',
   styleUrl: './user.component.css'
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
 
   nuovaPrenotazione = { dottoreId: '', data: '', ora: '' };
   
-  dottori = [
-    { id: 1, nome: 'Dr. Rossi', specializzazione: 'Cardiologia' },
-    { id: 2, nome: 'Dr.ssa Bianchi', specializzazione: 'Dermatologia' }
-  ];
+  dottori:any = null;
 
-  // Generiamo gli slot dalle 09:00 alle 17:00
+  constructor(private http:ModuloHttpService)
+  {}
+
   orariSlot = [
     { ora: '09:00', occupato: false },
     { ora: '10:00', occupato: false },
@@ -28,6 +31,27 @@ export class UserComponent {
     { ora: '17:00', occupato: false }
   ];
 
+  ngOnInit(): void {
+    this.http.getDottori().subscribe({
+      next: (data) =>{
+        this.dottori = data
+        console.log('Dottori ricevuto: ', this.dottori)
+      },
+      error: (err) =>{
+        console.log('Errore nella ricezione dei dottori', err)
+      }
+    })
+  }
+
+  /*
+  per vedere quali slot sono occupati prova a:
+  quando viene selezionato un dottore:
+    -invio in get una richiesta al server con id dottore come parametro
+    -il server estrae visite del dottore, osserva tra quelle quali fasce orarie lascia libere, resistuisce un array di fasce orarie marcando occupato = false / true
+    -ricevuto l'array io vado a caricare dinamicamente la combobox
+  */
+
+
   visitePrenotate = [
     { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' }
   ];
@@ -36,11 +60,10 @@ export class UserComponent {
     if (this.nuovaPrenotazione.dottoreId && this.nuovaPrenotazione.data) {
       console.log("Chiamata al server per disponibilità...");
       
-      // SIMULAZIONE: Se scegli il Dr. Rossi il 2026-03-05, le 10:00 sono occupate
       this.orariSlot.forEach(slot => {
         if (this.nuovaPrenotazione.dottoreId === '1' && slot.ora === '10:00') {
           slot.occupato = true;
-        } else {
+        } else {    // da cambiare
           slot.occupato = false;
         }
       });

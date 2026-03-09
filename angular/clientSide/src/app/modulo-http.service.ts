@@ -27,6 +27,16 @@ export class ModuloHttpService {
     return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?dateStart=${dataInizio}&dateEnd=${dataFine}`);
   }
 
+  getDottori() // id / nome / reparto
+  {
+    return this.http.get('http://localhost:3000/db/private/getDottori') // chiedi a simo nome rotta giusta
+  }
+
+  getOrariDatoDottore(idDoctor:number)
+  {
+    return this.http.get(`http://localhost:3000/db/private/orari?id=${idDoctor}`); // chiedi a simo nome rotta giusta
+  }
+
   toDatabaseDateTime(date: Date): string {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
