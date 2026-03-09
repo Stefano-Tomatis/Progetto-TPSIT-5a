@@ -88,6 +88,17 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     const [rows] = await this.query(sql, params); // Esegue query e destruttura solo rows (fields non usato qui).
     return rows; // Ritorna l’array di righe risultanti (oggetti JS).
   }
+
+  async delete(table, where = "", params = []) { // Metodo async: cancella record con DELETE opzionalmente filtrata.
+    this.#assertAllowedTable(table); // Valida la tabella per evitare injection via interpolazione del nome.
+
+    const sql = where // Costruisce la query scegliendo tra SELECT semplice o SELECT con WHERE.
+      ? `DELETE FROM ${table} WHERE ${where}` // Caso filtrato: concatena nome tabella (whitelist) + where (parametrico per valori).
+      : `DELETE FROM ${table}`; // Caso non filtrato: restituisce tutti i record della tabella/view.
+
+    const [rows] = await this.query(sql, params); // Esegue query e destruttura solo rows (fields non usato qui).
+    return rows; // Ritorna l’array di righe risultanti (oggetti JS).
+  }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
   /**
    * INSERT su tabella consentita.
@@ -151,6 +162,30 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
   async getDoctorById(id){
     const rows = await this.read("medici", "IdMedico = ?", [id]); // SELECT parametrica per evitare injection sui valori.
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
+  }
+
+  async getFreeHours(idDoc, day){
+    const rows = await this.read("visite", "IdMedico = ? and DataOrario >= ? and DataOrario <= ?", [idDoc, day + " 00:00:01", day + " 23:59:59"]); // SELECT parametrica per evitare injection sui valori.
+    let oreDisp = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
+    let oreFin = oreDisp.filter(v => {
+      for(let j = 0; j < rows.length; j++){
+        if(rows[j].DataOrario.toString().includes(v)){
+          return false
+        }
+      }
+      return true
+    })
+    return oreFin
+  }
+
+  async newVisit(date, time, docId, userId){
+    const res = await this.create("visite", { "IdVisita": null, "IdUtente": userId, "IdMedico": docId, "DataOrario": date + " " + time})
+    return res
+  }
+
+  async deleteVisit(id){
+    const ret = await this.delete("visite", "IdVisita = ?", [id])
+    return ret
   }
 
   async getAdminByEmail(email){

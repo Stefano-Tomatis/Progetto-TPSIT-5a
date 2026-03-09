@@ -915,3 +915,47 @@
 [2026-03-07T17:05:21.916Z] [INFO] [REQ] POST /session/login/user
 [2026-03-07T17:05:21.917Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
 
+[2026-03-09T17:08:53.513Z] [INFO] [REQ] OPTIONS /session/login/doctor
+[2026-03-09T17:08:53.517Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (4ms)
+[2026-03-09T17:08:53.518Z] [INFO] [REQ] POST /session/login/doctor
+[2026-03-09T17:08:53.520Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (2ms)
+[2026-03-09T17:13:50.880Z] [INFO] [REQ] POST /db/private/users
+[2026-03-09T17:13:50.889Z] [INFO] [RES] POST /db/private/users headersSent=true ended=true (9ms)
+[2026-03-09T17:14:36.471Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:14:36.472Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (1ms)
+[2026-03-09T17:14:44.061Z] [INFO] [REQ] POST /session/login/user
+[2026-03-09T17:14:44.061Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (0ms)
+[2026-03-09T17:16:23.498Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:16:23.500Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (2ms)
+[2026-03-09T17:17:14.249Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:17:14.251Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (2ms)
+[2026-03-09T17:17:21.921Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:17:21.922Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (1ms)
+[2026-03-09T17:17:46.674Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:17:46.677Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (3ms)
+[2026-03-09T17:19:01.391Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:19:01.393Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (3ms)
+[2026-03-09T17:23:30.518Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:23:30.520Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (2ms)
+[2026-03-09T17:25:00.555Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:25:00.559Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (4ms)
+[2026-03-09T17:25:37.061Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:25:37.063Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (2ms)
+[2026-03-09T17:26:28.255Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:26:28.255Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (0ms)
+[2026-03-09T17:26:29.328Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:26:29.329Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (1ms)
+[2026-03-09T17:26:29.895Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:26:29.896Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (1ms)
+[2026-03-09T17:26:30.320Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:26:30.321Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (1ms)
+[2026-03-09T17:26:30.731Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:26:30.732Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (1ms)
+[2026-03-09T17:28:12.063Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:28:12.067Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (4ms)
+[2026-03-09T17:28:26.453Z] [INFO] [REQ] GET /db/private/freeHours
+[2026-03-09T17:28:26.456Z] [INFO] [RES] GET /db/private/freeHours headersSent=false ended=false (3ms)
+[2026-03-09T17:37:56.917Z] [INFO] [REQ] POST /db/private/newVisit
+[2026-03-09T17:37:56.920Z] [INFO] [RES] POST /db/private/newVisit headersSent=false ended=false (3ms)
+[2026-03-09T17:49:50.367Z] [INFO] [REQ] DELETE /db/private/delVisit
+[2026-03-09T17:49:50.370Z] [INFO] [RES] DELETE /db/private/delVisit headersSent=false ended=false (3ms)

@@ -342,6 +342,38 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
   });
 
+  router.register("POST", "/db/private/newVisit", async (req, res) => {
+    try{
+      const { date, time, docId } = req.body
+      const resp = await db.newVisit(date, time, docId, req.session.user.id)
+      sendJson(res, 200, { success: true, message: "ok", data: resp }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
+  router.register("GET", "/db/private/freeHours", async (req, res) => { //Ottenimento dottori per nome specializzazione
+    try{
+      const { docId, day } = req.query
+      const hours = await db.getFreeHours(docId, day); 
+      sendJson(res, 200, { success: true, message: "ok", data: hours }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
+  router.register("DELETE", "/db/private/delVisit", async (req, res) => {
+    try{
+      const { id } = req.query
+      const ret = await db.deleteVisit(id);
+      sendJson(res, 200, { success: true, message: "ok" }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  })
 
   logger.info("Listeners registered"); // Logga che la registrazione delle route è stata completata.
 }
