@@ -54,6 +54,7 @@ function safeUser(u) { // Helper: riduce l’oggetto utente ai soli campi utili/
 
 async function safeDoctor(u) { // Helper: riduce l’oggetto utente ai soli campi utili/consentiti.
   if (!u) return null; // Se l’utente è null/undefined, ritorna null (nessun dato).
+  console.log(u)
   return { // Costruisce un oggetto “pulito” senza campi sensibili o superflui.
     id: u.IdMedico, // Mantiene l’identificativo (utile per riferimenti e autorizzazioni).
     username: u.Username, // Mantiene lo username (identità applicativa).
@@ -62,7 +63,7 @@ async function safeDoctor(u) { // Helper: riduce l’oggetto utente ai soli camp
     dataNascita: u.DataNascita, // Mantiene l’email (utile in profilo/contatti; valutare privacy in contesti reali).
     email: u.email, // Mantiene eventuale avatar/immagine profilo (tipico in OAuth).
     ruolo: u.ruolo,
-    specializzazione: await db.getSpecNameById(u.IdSpecializzazione)
+    specializzazione: await db.getSpecNameById(u.Specializzazione)
   };
 }
 
@@ -273,11 +274,16 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
   });
 
   router.register("GET", "/db/private/doctors", async (req, res) => { // Ottenimento tutti i dottori
-    const rows = await db.getAllDoctors();
-    for(let i = 0; i < rows.length; i++){
-      rows[i] = await safeDoctor(rows[i])
+    try{
+      let rows = await db.getAllDoctors();
+      for(let i = 0; i < rows.length; i++){
+        rows[i] = await safeDoctor(rows[i])
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: rows });
     }
-    sendJson(res, 200, { success: true, message: "ok", data: rows });
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err});
+    }
   });
 
   router.register("GET", "/db/private/admins", async (req, res) => { // Ottenimento tutti i dottori
