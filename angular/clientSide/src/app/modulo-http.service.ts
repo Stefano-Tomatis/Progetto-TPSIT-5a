@@ -40,7 +40,7 @@ export class ModuloHttpService {
 
   prenotaVisita(idDottore: number, data: string, ora: string): Observable<any> {
   const payload = { idDottore, data, ora }; 
-  return this.http.post('http://localhost:3000/api/prenota', payload, {withCredentials:true}); // chiedi a simo nome rotta giusta
+  return this.http.post('http://localhost:3000/db/private/newVisit', payload, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
   getAllVisiteDottore(idDottore:Number):Observable<any>
