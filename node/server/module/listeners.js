@@ -167,7 +167,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     req.session.user = { // Scrive nella sessione i dati utente necessari (persistono tra richieste).
-      id: u.IdUtente, // Salva id per riferimenti e autorizzazione.
+      id: u.IdMedico, // Salva id per riferimenti e autorizzazione.
       nome: u.Nome, // Salva username per UI/identità.
       cognome: u.Cognome, // Salva displayName (qui dal DB con naming snake_case).
       email: u.email, // Salva ruolo per controlli autorizzativi.
@@ -176,6 +176,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       ruolo: "medico"
     };
     req.session.authMode = "session"; // Marca la sessione indicando la modalità di autenticazione.
+    console.log(req.session.authMode)
 
     sendJson(res, 200, { 
         success: true, message: "Login effettuato", data: {
@@ -210,7 +211,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     req.session.user = { // Scrive nella sessione i dati utente necessari (persistono tra richieste).
-      id: u.IdUtente, // Salva id per riferimenti e autorizzazione.
+      id: u.IdAdmin, // Salva id per riferimenti e autorizzazione.
       nome: u.Nome, // Salva username per UI/identità.
       cognome: u.Cognome, // Salva displayName (qui dal DB con naming snake_case).
       email: u.email, // Salva ruolo per controlli autorizzativi.
@@ -266,13 +267,11 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/visits/user", async (req, res) => { // Ottenimento visite per utenti
     try{
-      const dateStart = req.query.dateStart
-      const dateEnd = req.query.dateEnd
       let finalRows = []
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
-      const rows = await db.getVisitsByUser(dateStart, dateEnd, req.session.user.id);
+      const rows = await db.getVisitsByUser(req.session.user.id);
       for(let i = 0; i < rows.length; i++){
         finalRows[i] = {}
         finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
@@ -294,18 +293,25 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       if(req.session.user.ruolo != "medico"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
-      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
-      for(let i = 0; i < rows.length; i++){
-        finalRows[i] = {}
-        finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
-        finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
-        finalRows[i].IdVisita = rows[i].IdVisita
-        finalRows[i].DataOrario = rows[i].DataOrario
+      let rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
+      let finalRows = []
+      try{
+        for(let i = 0; i < rows.length; i++){
+          finalRows[i] = {}
+          finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
+          finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
+          finalRows[i].IdVisita = rows[i].IdVisita
+          finalRows[i].DataOrario = rows[i].DataOrario
+        }
       }
-      sendJson(res, 200, { success: true, message: "ok", data: final }); 
+      catch(err){
+        sendJson(res, 500, { success: false, message: "Errore interno del server: secondo rows"}); 
+        return
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: finalRows }); 
     }
     catch(err){
-      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err}); 
     }
   });
   
@@ -369,6 +375,16 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       const { id } = req.query
       const ret = await db.deleteVisit(id);
       sendJson(res, 200, { success: true, message: "ok" }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  })
+
+  router.register("PATCH", "/db/private/modVisit", async (req, res) => {
+    try{
+      const { id, date, time, docId } = req.body
+      const resp = await db.modVisit(date, time, docId, req.session.user.id)
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 

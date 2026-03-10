@@ -193,8 +193,8 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     return rows[0] || null; // Ritorna il primo record o null se non trovato.
   }
 
-  async getVisitsByUser(dateStart, dateEnd, uId){
-    const rows = await this.read("visite", "IdUtente = ? and DataOrario >= ? and DataOrario <= ?", [uId, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+  async getVisitsByUser(uId){
+    const rows = await this.read("visite", "IdUtente = ?", [uId]); // SELECT parametrica per evitare injection sui valori.
     return rows || null; // Ritorna il primo record o null se non trovato.
   }
 
