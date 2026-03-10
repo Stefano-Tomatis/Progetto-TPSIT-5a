@@ -35,19 +35,21 @@
 
         <div class="form-field">
           <label for="ora">Orari Disponibili</label>
-          <div class="slots-grid">
+          <select id="ora" formControlName="ora" [class.error]="form.get('ora')?.invalid && form.get('ora')?.touched">
+            <option value="">-- Seleziona un orario --</option>
+            
             @for (slot of orariSlot(); track slot.ora) {
-              <label class="slot-item" [class.occupied]="slot.occupato">
-                <input type="radio" [value]="slot.ora" formControlName="ora" [disabled]="slot.occupato">
-                <span class="slot-time">{{ slot.ora }}</span>
-                @if (slot.occupato) {
-                  <span class="badge">Occupato</span>
-                }
-              </label>
+              <option [value]="slot.ora" [disabled]="slot.occupato">
+                {{ slot.ora }} @if (slot.occupato) { (Occupato) }
+              </option>
             } @empty {
-              <p class="info-text">Seleziona dottore e data per vedere gli orari.</p>
+              <option value="" disabled>Seleziona prima dottore e data</option>
             }
-          </div>
+          </select>
+          
+          @if (form.get('ora')?.invalid && form.get('ora')?.touched) {
+            <small class="error-text">La scelta dell'orario è obbligatoria</small>
+          }
         </div>
 
         <button type="submit" class="btn-submit" [disabled]="form.invalid">

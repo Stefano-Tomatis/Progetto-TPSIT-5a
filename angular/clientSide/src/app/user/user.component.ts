@@ -38,8 +38,8 @@ export class UserComponent implements OnInit {
     this.http.getDottori().subscribe({
     next: (res: any) => {
       const listaMappata = res.data.map((d: any) => ({
-        id: d.IdMedico,
-        display_name: `${d.Nome} ${d.Cognome}`
+        id: d.id,
+        display_name: `${d.nome} ${d.cognome}`
       }));
       this.dottori.set(listaMappata);
     },
@@ -64,7 +64,7 @@ export class UserComponent implements OnInit {
           id: v.IdVisita,
           data: d.toLocaleDateString(),
           ora: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          dottore: `Dott. ${v.Medico.Nome} ${v.Medico.Cognome}`
+          dottore: `Dott. ${v.Medico.nome} ${v.Medico.cognome}`
         };
       });
       this.visitePrenotate.set(visiteMappate);
@@ -74,21 +74,29 @@ export class UserComponent implements OnInit {
   });
 }
 
-  controllaDisponibilita() {
-    const { dottoreId, data } = this.form.getRawValue();
+ controllaDisponibilita() {
+  const { dottoreId, data } = this.form.getRawValue();
 
-    if (dottoreId && data) {
-      console.log(`Richiedo orari per dottore ${dottoreId} in data ${data}`);
-      
-      this.http.getOrariDatoDottore(dottoreId, data).subscribe({
-        next: (slots) => {
-          this.orariSlot.set(slots);
-          this.cdr.detectChanges();
-        },
-        error: (err) => console.error("Errore nel recupero slot", err)
-      });
-    }
+  if (dottoreId && data) {
+    this.http.getOrariDatoDottore(dottoreId, data).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          const slotsMappati = res.data.map((s: string) => ({
+            ora: s, 
+            occupato: false
+          }));
+          
+          this.orariSlot.set(slotsMappati);
+          console.log("Slot mappati correttamente:", slotsMappati);
+        } else {
+          this.orariSlot.set([]);
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error("Errore nel recupero slot", err)
+    });
   }
+}
 
 onSubmit() {
   if (this.form.valid) {
@@ -100,7 +108,7 @@ onSubmit() {
         this.form.reset();
         this.caricaVisiteUtente();
       },
-      error: (err) => alert('Errore: slot probabilmente già occupato.')
+      error: (err) => alert('Inserimento della prenotazione fallito')
     });
   }
 }

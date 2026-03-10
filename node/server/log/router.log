@@ -3640,3 +3640,22 @@
 [2026-03-10T17:34:24.854Z] [INFO] Route registered: GET /db/private/freeHours
 [2026-03-10T17:34:24.854Z] [INFO] Route registered: DELETE /db/private/delVisit
 [2026-03-10T17:34:24.854Z] [INFO] Route registered: PATCH /db/private/modVisit
+[2026-03-10T17:37:04.122Z] [INFO] Route registered: GET /health
+[2026-03-10T17:37:04.126Z] [INFO] Route registered: GET /auth/me
+[2026-03-10T17:37:04.130Z] [INFO] Route registered: POST /session/login/user
+[2026-03-10T17:37:04.133Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-10T17:37:04.136Z] [INFO] Route registered: POST /session/login/admin
+[2026-03-10T17:37:04.140Z] [INFO] Route registered: POST /session/logout
+[2026-03-10T17:37:04.144Z] [INFO] Route registered: GET /db/private/users
+[2026-03-10T17:37:04.147Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-10T17:37:04.150Z] [INFO] Route registered: GET /db/private/admins
+[2026-03-10T17:37:04.154Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-10T17:37:04.158Z] [INFO] Route registered: GET /db/private/visits/doctor
+[2026-03-10T17:37:04.161Z] [INFO] Route registered: GET /db/private/visits/externalDoctor
+[2026-03-10T17:37:04.164Z] [INFO] Route registered: GET /db/private/specs
+[2026-03-10T17:37:04.169Z] [INFO] Route registered: GET /db/private/doctors/spec
+[2026-03-10T17:37:04.173Z] [INFO] Route registered: POST /db/private/newVisit
+[2026-03-10T17:37:04.176Z] [INFO] Route registered: GET /db/private/freeHours
+[2026-03-10T17:37:04.181Z] [INFO] Route registered: DELETE /db/private/delVisit
+[2026-03-10T17:37:04.184Z] [INFO] Route registered: PATCH /db/private/modVisit
+[2026-03-10T19:02:19.875Z] [WARN] Route not found: POST /api/prenota

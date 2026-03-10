@@ -42,20 +42,103 @@ select, input[type="date"] {
 }
 
 /* Orari Grid */
+/* Contenitore della griglia */
 .slots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 10px;
+  margin-top: 10px;
 }
 
-.slot-item {
-  position: relative;
-  border: 2px solid #3498db;
-  border-radius: 8px;
+.form-field select {
+  width: 100%;
   padding: 10px;
-  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-field select:focus {
+  border-color: #007bff;
+}
+
+.form-field select.error {
+  border-color: #dc3545;
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Stile per le opzioni disabilitate (non tutti i browser lo supportano appieno) */
+option:disabled {
+  color: #adb5bd;
+  background-color: #f8f9fa;
+}
+
+/* Nascondi il pallino del radio button originale */
+.slot-item input[type="radio"] {
+  display: none;
+}
+
+/* Stile del quadratino/slot */
+.slot-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+  text-align: center;
+  position: relative;
+}
+
+/* Hover sullo slot disponibile */
+.slot-item:not(.occupied):hover {
+  border-color: #007bff;
+  background-color: #f0f7ff;
+}
+
+/* Effetto quando il radio button è SELEZIONATO */
+.slot-item:has(input:checked) {
+  border-color: #007bff;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Stile se lo slot è OCCUPATO */
+.slot-item.occupied {
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* Badge "Occupato" */
+.badge {
+  font-size: 0.7rem;
+  background-color: #ff4d4d;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+/* Orario in grassetto */
+.slot-time {
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 .header {
