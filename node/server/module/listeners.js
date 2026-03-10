@@ -382,8 +382,9 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("POST", "/db/private/newVisit", async (req, res) => {
     try{
-      const { date, time, docId } = req.body
-      const resp = await db.newVisit(date, time, docId, req.session.user.id)
+      const { data, ora, idDottore } = req.body
+      ora = ora + ":00"
+      const resp = await db.newVisit(data, ora, idDottore, req.session.user.id)
       sendJson(res, 200, { success: true, message: "ok", data: resp }); 
     }
     catch(err){
