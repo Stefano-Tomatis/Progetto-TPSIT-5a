@@ -10,15 +10,15 @@ export class ModuloHttpService {
   constructor(private http: HttpClient) { }
 
    loginAsUser(user:any):Observable<any>{
-    return this.http.post('http://localhost:3000/session/login/user', user);
+    return this.http.post('http://localhost:3000/session/login/user', user, {withCredentials:true});
   }
 
    loginAsDoctor(user:any):Observable<any>{
-    return this.http.post('http://localhost:3000/session/login/doctor', user);
+    return this.http.post('http://localhost:3000/session/login/doctor', user, {withCredentials:true});
   }
 
    loginAsAdmin(user:any):Observable<any>{
-    return this.http.post('http://localhost:3000/session/login/admin', user); // da verificare endpoint
+    return this.http.post('http://localhost:3000/session/login/admin', user, {withCredentials:true}); // da verificare endpoint
   }
 
   getVisite(dateStart:string, dateEnd:string):Observable<any>{
@@ -29,12 +29,12 @@ export class ModuloHttpService {
 
   getDottori():Observable<any> // id / nome / reparto
   {
-    return this.http.get('http://localhost:3000/db/private/getDottori', {withCredentials:true}) // chiedi a simo nome rotta giusta
+    return this.http.get('http://localhost:3000/db/private/doctors', {withCredentials:true}) // chiedi a simo nome rotta giusta
   }
 
   getOrariDatoDottore(idDoctor:number, data:string):Observable<any>
   {
-    return this.http.get(`http://localhost:3000/db/private/freeHours?id=${idDoctor}`, {withCredentials:true}); // chiedi a simo nome rotta giusta
+    return this.http.get(`http://localhost:3000/db/private/freeHours?docId=${idDoctor}&day=${data}`, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
 

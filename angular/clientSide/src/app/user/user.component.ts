@@ -36,9 +36,17 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.getDottori().subscribe({
-      next: (data) => this.dottori.set(data),
-      error: (err) => console.error('Errore caricamento dottori', err)
-    });
+    next: (res: any) => {
+      const listaMappata = res.data.map((d: any) => ({
+        id: d.IdMedico,
+        display_name: `${d.Nome} ${d.Cognome}`
+      }));
+      this.dottori.set(listaMappata);
+    },
+    error: (err) => console.error('Errore caricamento dottori', err)
+  });
+
+  this.caricaVisiteUtente();
 
     this.caricaVisiteUtente();
     
@@ -49,10 +57,18 @@ export class UserComponent implements OnInit {
 
   caricaVisiteUtente() {
   this.http.getVisitePaziente().subscribe({
-    next: (data) => {
-      this.visitePrenotate.set(data);
-      console.log(data)
-      this.cdr.detectChanges(); // gestione zoneless
+    next: (res: any) => {
+      const visiteMappate = res.data.map((v: any) => {
+        const d = new Date(v.DataOrario);
+        return {
+          id: v.IdVisita,
+          data: d.toLocaleDateString(),
+          ora: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          dottore: `Dott. ${v.Medico.Nome} ${v.Medico.Cognome}`
+        };
+      });
+      this.visitePrenotate.set(visiteMappate);
+      this.cdr.detectChanges();
     },
     error: (err) => console.error('Errore nel caricamento visite:', err)
   });

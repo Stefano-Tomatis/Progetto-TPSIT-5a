@@ -56,23 +56,34 @@ export class DoctorComponent implements OnInit {
 }
 
   aggiornaDatiSettimana(offset: number) {
-    this.currentOffset = offset;
-    const { lunedi, venerdi } = this.getWeekTimestamps(this.currentOffset);
-    console.log("Orari che mando: " +lunedi +" e " +venerdi )
-    this.http.getVisite(lunedi, venerdi).subscribe({
-      next: (data) => {
-        this.visite = data;
-        console.log(this.visite)//togli
-        this.smistaVisite();
-      },
-      error: (err) => {
-        console.error('Errore nel recupero delle visite:', err)
+  this.currentOffset = offset;
+  const { lunedi, venerdi } = this.getWeekTimestamps(this.currentOffset);
+  
+  this.http.getVisite(lunedi, venerdi).subscribe({
+    next: (response: any) => { // 'response' è l'intero oggetto JSON
+      // MODIFICA QUI: prendiamo l'array dentro la proprietà 'data'
+      if (response && response.data) {
+        this.visite = response.data; 
+      } else {
+        this.visite = []; // Fallback se non ci sono dati
       }
-    });
-  }
+
+      console.log("Visite ricevute:", this.visite);
+      this.smistaVisite(); // Ora .forEach() funzionerà perché this.visite è un array
+    },
+    error: (err) => {
+      console.error('Errore nel recupero delle visite:', err)
+    }
+  });
+}
 
   smistaVisite() {
     // Reset
+
+    if (!Array.isArray(this.visite)) {
+    console.error("Attenzione: this.visite non è un array!", this.visite);
+    return;
+  }
     this.settimanaLavorativa = [[], [], [], [], []];
 
     this.visite.forEach(visita => {
