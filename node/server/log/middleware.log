@@ -959,3 +959,9 @@
 [2026-03-09T17:37:56.920Z] [INFO] [RES] POST /db/private/newVisit headersSent=false ended=false (3ms)
 [2026-03-09T17:49:50.367Z] [INFO] [REQ] DELETE /db/private/delVisit
 [2026-03-09T17:49:50.370Z] [INFO] [RES] DELETE /db/private/delVisit headersSent=false ended=false (3ms)
+[2026-03-10T15:51:12.346Z] [INFO] [REQ] OPTIONS /session/login/doctor
+[2026-03-10T15:51:12.351Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (5ms)
+[2026-03-10T15:51:12.355Z] [INFO] [REQ] POST /session/login/doctor
+[2026-03-10T15:51:12.360Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (5ms)
+[2026-03-10T15:51:12.633Z] [INFO] [REQ] GET /db/private/visits/externalDoctor
+[2026-03-10T15:51:12.638Z] [INFO] [RES] GET /db/private/visits/externalDoctor headersSent=true ended=true (5ms)

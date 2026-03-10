@@ -21,10 +21,10 @@ export class ModuloHttpService {
     return this.http.post('http://localhost:3000/session/login/admin', user); // da verificare endpoint
   }
 
-  getVisite(dataInizio:any, dataFine:any):Observable<any>{
+  getVisite(dateStart:string, dateEnd:string):Observable<any>{
     //dataInizio = this.toDatabaseDateTime(dataInizio);
     //dataFine = this.toDatabaseDateTime(dataFine);
-    return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?dateStart=${dataInizio}&dateEnd=${dataFine}`);
+    return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?dateStart=${dateStart}&dateEnd=${dateEnd}`);
   }
 
   getDottori():Observable<any> // id / nome / reparto

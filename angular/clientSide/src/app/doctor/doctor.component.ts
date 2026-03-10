@@ -21,7 +21,7 @@ export class DoctorComponent implements OnInit {
   ngOnInit(): void {
     this.aggiornaDatiSettimana(0);
   }
-
+  /*
   getWeekTimestamps(offsetSettimane: number = 0) {
     const oggi = new Date();
     const giornoSettimana = oggi.getDay();
@@ -38,15 +38,46 @@ export class DoctorComponent implements OnInit {
       lunedi: dataLunedi.getTime(),
       venerdi: dataVenerdi.getTime()
     };
-  }
+  }*/
+
+ getWeekTimestamps(offsetSettimane: number = 0) {
+  const oggi = new Date();
+  const giornoSettimana = oggi.getDay(); // 0 è Domenica, 1 è Lunedì...
+  
+  // 1. Calcoliamo la distanza dal Lunedì della settimana corrente
+  // Se oggi è Domenica (0), dobbiamo tornare indietro di 6 giorni.
+  const diffLunedì = giornoSettimana === 0 ? -6 : 1 - giornoSettimana;
+  
+  // 2. Creiamo il Lunedì target aggiungendo l'offset delle settimane
+  const lunedi = new Date(oggi);
+  lunedi.setDate(oggi.getDate() + diffLunedì + (offsetSettimane * 7));
+
+  // 3. Creiamo il Venerdì basandoci sul Lunedì appena calcolato
+  const venerdi = new Date(lunedi);
+  venerdi.setDate(lunedi.getDate() + 4);
+
+  // Helper locale per evitare bug del fuso orario di toISOString()
+  const formattaData = (d: Date): string => {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  return {
+    lunedi: formattaData(lunedi),
+    venerdi: formattaData(venerdi)
+  };
+}
 
   aggiornaDatiSettimana(offset: number) {
     this.currentOffset = offset;
     const { lunedi, venerdi } = this.getWeekTimestamps(this.currentOffset);
-    
+    console.log("Orari che mando: " +lunedi +" e " +venerdi )
     this.http.getVisite(lunedi, venerdi).subscribe({
       next: (data) => {
         this.visite = data;
+        console.log(this.visite)//togli
         this.smistaVisite();
       },
       error: (err) => {

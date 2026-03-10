@@ -2,7 +2,7 @@
 /**
  * listeners.js
  * 
- * Registra le rotte "API" sul Router.
+ * Registra le rotte "API" sul Router./db/private/visits/doctor
  *
  * Obiettivo laboratorio:
  * - 3 modalità di autenticazione (session, jwt, oauth)

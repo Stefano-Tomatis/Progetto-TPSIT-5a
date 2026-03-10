@@ -118,3 +118,4 @@
 [2026-03-09T17:28:26.457Z] [INFO] [SQL] SELECT * FROM visite WHERE IdMedico = ? and DataOrario >= ? and DataOrario <= ? :: ["2","2026-03-06 00:00:01","2026-03-06 23:59:59"]
 [2026-03-09T17:37:56.921Z] [INFO] [SQL] INSERT INTO visite (`IdVisita`, `IdUtente`, `IdMedico`, `DataOrario`) VALUES (?, ?, ?, ?) :: [null,1,2,"2026-03-20 16:00:00"]
 [2026-03-09T17:49:50.370Z] [INFO] [SQL] DELETE FROM visite WHERE IdVisita = ? :: ["7"]
+[2026-03-10T15:51:12.363Z] [INFO] [SQL] SELECT * FROM medici WHERE email = ? :: ["antonio.geremia@gmail.com"]
