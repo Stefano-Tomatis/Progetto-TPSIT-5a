@@ -3,6 +3,8 @@ import { OnInit } from '@angular/core';
 import { ModuloHttpService } from '../modulo-http.service';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { ServiceDatiService } from '../service-dati.service';
 
 @Component({
   selector: 'doctor',
@@ -16,29 +18,12 @@ export class DoctorComponent implements OnInit {
   
   settimanaLavorativa: any[][] = [[], [], [], [], []];// lunedì, martedì, mercoledì, giovedì, venerdì
 
-  constructor(private http: ModuloHttpService) { }
+  constructor(private http: ModuloHttpService, private servizio: ServiceDatiService) { }
 
   ngOnInit(): void {
     this.aggiornaDatiSettimana(0);
   }
-  /*
-  getWeekTimestamps(offsetSettimane: number = 0) {
-    const oggi = new Date();
-    const giornoSettimana = oggi.getDay();
-    const diffLunedì = oggi.getDate() - giornoSettimana + (giornoSettimana === 0 ? -6 : 1);
-    
-    const dataLunedi = new Date(oggi.setDate(diffLunedì + (offsetSettimane * 7)));
-    dataLunedi.setHours(9, 0, 0, 0);
-
-    const dataVenerdi = new Date(dataLunedi);
-    dataVenerdi.setDate(dataLunedi.getDate() + 4);
-    dataVenerdi.setHours(17, 0, 0, 0);
-
-    return {
-      lunedi: dataLunedi.getTime(),
-      venerdi: dataVenerdi.getTime()
-    };
-  }*/
+  
 
  getWeekTimestamps(offsetSettimane: number = 0) {
   const oggi = new Date();
@@ -111,4 +96,18 @@ export class DoctorComponent implements OnInit {
     this.aggiornaDatiSettimana(this.currentOffset + 1);
   }
 
+
+  logout()
+  {   
+    this.http.log_out().subscribe({
+      next: (data)=>{
+         console.log("Data ritornata dal logut: ",data)
+         this.servizio.logOutDoctor()
+      },
+      error: (err) =>{
+        console.log("Errore nel loguout: ", err)
+      }
+    })
+    
+  }
 }

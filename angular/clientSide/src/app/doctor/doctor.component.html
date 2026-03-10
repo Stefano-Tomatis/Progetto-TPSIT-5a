@@ -1,15 +1,23 @@
 <div class="container mt-4">
   
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h4 mb-0">Agenda Settimanale</h2>
+    <button (click)="logout()" class="btn btn-danger btn-sm">
+      Logout <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+
+  <hr>
+
   <div class="d-flex justify-content-between align-items-center mb-4">
     <button (click)="eventoSettimanaScorsa()" class="btn btn-outline-primary">&laquo; Settimana Precedente</button>
     
-    <h2 class="h4">Agenda Settimanale</h2>
+    <span class="badge bg-light text-dark p-2 border">Settimana corrente: {{ currentOffset }}</span>
     
     <button (click)="eventoSettimanaProssima()" class="btn btn-outline-primary">Settimana Successiva &raquo;</button>
   </div>
 
   <div class="row g-2">
-    
     @for (giornoVisite of settimanaLavorativa; track $index) {
       <div class="col">
         <div class="card h-100">
@@ -18,20 +26,17 @@
           </div>
           
           <div class="card-body p-2">
-            
             @for (visita of giornoVisite; track visita.id) {
               <div class="alert alert-info p-2 mb-1 small">
-                {{ visita.DataOrario | date:'HH:mm' }} - {{ visita.paziente }}
+                <strong>{{ visita.DataOrario | date:'HH:mm' }}</strong><br>
+                {{ visita.paziente }}
               </div>
             } @empty {
               <p class="text-muted small text-center">Nessuna visita</p>
             }
-            
-
           </div>
         </div>
       </div>
     }
-
   </div>
 </div>

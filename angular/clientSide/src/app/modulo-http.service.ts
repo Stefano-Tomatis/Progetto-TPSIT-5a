@@ -24,23 +24,23 @@ export class ModuloHttpService {
   getVisite(dateStart:string, dateEnd:string):Observable<any>{
     //dataInizio = this.toDatabaseDateTime(dataInizio);
     //dataFine = this.toDatabaseDateTime(dataFine);
-    return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?dateStart=${dateStart}&dateEnd=${dateEnd}`);
+    return this.http.get(`http://localhost:3000/db/private/visits/doctor?dateStart=${dateStart}&dateEnd=${dateEnd}`, {withCredentials:true});
   }
 
   getDottori():Observable<any> // id / nome / reparto
   {
-    return this.http.get('http://localhost:3000/db/private/getDottori') // chiedi a simo nome rotta giusta
+    return this.http.get('http://localhost:3000/db/private/getDottori', {withCredentials:true}) // chiedi a simo nome rotta giusta
   }
 
   getOrariDatoDottore(idDoctor:number, data:string):Observable<any>
   {
-    return this.http.get(`http://localhost:3000/db/private/orari?id=${idDoctor}`); // chiedi a simo nome rotta giusta
+    return this.http.get(`http://localhost:3000/db/private/freeHours?id=${idDoctor}`, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
 
   prenotaVisita(idDottore: number, data: string, ora: string): Observable<any> {
   const payload = { idDottore, data, ora }; 
-  return this.http.post('http://localhost:3000/api/prenota', payload); // chiedi a simo nome rotta giusta
+  return this.http.post('http://localhost:3000/api/prenota', payload, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
   getAllVisiteDottore(idDottore:Number):Observable<any>
@@ -53,13 +53,18 @@ export class ModuloHttpService {
     return this.http.delete('') //aggiungi percorso
   }
 
+  log_out():Observable<any>
+  {
+    return this.http.post('http://localhost:3000/session/logout', null, {withCredentials:true})
+  }
+
   updateVisita(id:number, dati:any):Observable<any>
   {
     return this.http.put('', null) //aggiungi percorso
   }
 
   getVisitePaziente(): Observable<any[]> {
-  return this.http.get<any[]>('http://localhost:3000/db/private/my-visite'); // chiedi a simo nome rotta giusta
+  return this.http.get<any[]>('http://localhost:3000/db/private/visits/user', {withCredentials:true}); 
 }
 
   /*toDatabaseDateTime(date: Date): string {
