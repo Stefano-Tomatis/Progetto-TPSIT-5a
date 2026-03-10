@@ -28,8 +28,9 @@
           <div class="card-body p-2">
             @for (visita of giornoVisite; track visita.id) {
               <div class="alert alert-info p-2 mb-1 small">
-                <strong>{{ visita.DataOrario | date:'HH:mm' }}</strong><br>
-                {{ visita.paziente }}
+                <strong>{{ visita.DataOrario | date:'HH:mm' }}</strong>
+                {{ visita.Utente.Cognome }} {{ visita.Utente.Nome }}
+
               </div>
             } @empty {
               <p class="text-muted small text-center">Nessuna visita</p>
