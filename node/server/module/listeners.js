@@ -382,13 +382,13 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("POST", "/db/private/newVisit", async (req, res) => {
     try{
-      const { data, ora, idDottore } = req.body
+      let { data, ora, idDottore } = req.body
       ora = ora + ":00"
       const resp = await db.newVisit(data, ora, idDottore, req.session.user.id)
       sendJson(res, 200, { success: true, message: "ok", data: resp }); 
     }
     catch(err){
-      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err}); 
     }
   });
 
