@@ -52,6 +52,20 @@ function safeUser(u) { // Helper: riduce l’oggetto utente ai soli campi utili/
   };
 }
 
+async function safeDoctor(u) { // Helper: riduce l’oggetto utente ai soli campi utili/consentiti.
+  if (!u) return null; // Se l’utente è null/undefined, ritorna null (nessun dato).
+  return { // Costruisce un oggetto “pulito” senza campi sensibili o superflui.
+    id: u.IdMedico, // Mantiene l’identificativo (utile per riferimenti e autorizzazioni).
+    username: u.Username, // Mantiene lo username (identità applicativa).
+    nome: u.Nome, // Normalizza displayName gestendo entrambe le convenzioni di naming.
+    cognome: u.Cognome, // Mantiene il ruolo (serve per autorizzazione lato server/client).
+    dataNascita: u.DataNascita, // Mantiene l’email (utile in profilo/contatti; valutare privacy in contesti reali).
+    email: u.email, // Mantiene eventuale avatar/immagine profilo (tipico in OAuth).
+    ruolo: u.ruolo,
+    specializzazione: await db.getSpecNameById(u.IdSpecializzazione)
+  };
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
 /**
  * Registra le rotte sul Router.
@@ -180,7 +194,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
     sendJson(res, 200, { 
         success: true, message: "Login effettuato", data: {
-          user: safeUser(req.session.user)
+          user: await safeDoctor(req.session.user)
       }
     }); // Risponde OK con utente sanitizzato.
   });
@@ -252,16 +266,25 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
    */
   router.register("GET", "/db/private/users", async (req, res) => { // Ottenimento tutti gli utenti
     const rows = await db.getAllUsers();
+    for(let i = 0; i < rows.length; i++){
+      rows[i] = safeUser(rows[i])
+    }
     sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
 
   router.register("GET", "/db/private/doctors", async (req, res) => { // Ottenimento tutti i dottori
     const rows = await db.getAllDoctors();
+    for(let i = 0; i < rows.length; i++){
+      rows[i] = await safeDoctor(rows[i])
+    }
     sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
 
   router.register("GET", "/db/private/admins", async (req, res) => { // Ottenimento tutti i dottori
     const rows = await db.getAllAdmins();
+    for(let i = 0; i < rows.length; i++){
+      rows[i] = safeUser(rows[i])
+    }
     sendJson(res, 200, { success: true, message: "ok", data: rows });
   });
 
@@ -274,8 +297,8 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       const rows = await db.getVisitsByUser(req.session.user.id);
       for(let i = 0; i < rows.length; i++){
         finalRows[i] = {}
-        finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
-        finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
+        finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
+        finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
         finalRows[i].IdVisita = rows[i].IdVisita
         finalRows[i].DataOrario = rows[i].DataOrario
       }
@@ -298,8 +321,8 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       try{
         for(let i = 0; i < rows.length; i++){
           finalRows[i] = {}
-          finalRows[i].Utente = await db.getUserById(rows[i].IdUtente)
-          finalRows[i].Medico = await db.getDoctorById(rows[i].IdUtente)
+          finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
+          finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
           finalRows[i].IdVisita = rows[i].IdVisita
           finalRows[i].DataOrario = rows[i].DataOrario
         }
@@ -340,7 +363,10 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
       }
-      const rows = await db.getDoctorsBySpecName(specName); 
+      const rows = await db.getDoctorsBySpecName(specName);
+      for(let i = 0; i < rows.length; i++){
+        rows[i] = safeUser(rows[i])
+      }
       sendJson(res, 200, { success: true, message: "ok", data: rows }); 
     }
     catch(err){

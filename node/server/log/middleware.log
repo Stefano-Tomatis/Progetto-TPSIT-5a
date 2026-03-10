@@ -1101,3 +1101,17 @@
 [2026-03-10T16:52:36.322Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (3ms)
 [2026-03-10T16:52:36.641Z] [INFO] [REQ] GET /db/private/visits/doctor
 [2026-03-10T16:52:36.643Z] [INFO] [RES] GET /db/private/visits/doctor headersSent=false ended=false (2ms)
+[2026-03-10T16:56:12.026Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:56:12.031Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (5ms)
+[2026-03-10T16:56:12.032Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:56:12.034Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (2ms)
+[2026-03-10T16:56:12.367Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:56:12.370Z] [INFO] [RES] GET /db/private/getDottori headersSent=false ended=false (3ms)
+[2026-03-10T16:56:12.372Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:56:12.375Z] [INFO] [RES] GET /db/private/visits/user headersSent=false ended=false (2ms)
+[2026-03-10T17:05:01.411Z] [INFO] [REQ] OPTIONS /session/login/doctor
+[2026-03-10T17:05:01.417Z] [INFO] [RES] OPTIONS /session/login/doctor headersSent=true ended=true (6ms)
+[2026-03-10T17:05:01.418Z] [INFO] [REQ] POST /session/login/doctor
+[2026-03-10T17:05:01.420Z] [INFO] [RES] POST /session/login/doctor headersSent=false ended=false (2ms)
+[2026-03-10T17:05:01.775Z] [INFO] [REQ] GET /db/private/visits/doctor
+[2026-03-10T17:05:01.778Z] [INFO] [RES] GET /db/private/visits/doctor headersSent=false ended=false (3ms)

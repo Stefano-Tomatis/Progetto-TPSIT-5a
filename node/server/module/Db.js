@@ -208,6 +208,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     return rows[0].IdSpecializzazione || null; // Ritorna il primo record o null se non trovato.
   }
 
+  async getSpecNameById(id){
+    const rows = await this.read("specializzazioni", "IdSpecializzazione = ?", [id]); // SELECT parametrica per evitare injection sui valori.
+    return rows[0].Nome || null; // Ritorna il primo record o null se non trovato.
+  }
+
   async getDoctorsBySpecName(specName){
     const idSpec = await this.getSpecIdByName(specName)
     const rows = await this.read("medici", "IdSpecializzazione = ?", [idSpec]); // SELECT parametrica per evitare injection sui valori.
