@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   orariSlot = signal<any[]>([]);
   
   visitePrenotate = signal([
-    { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' }
+    { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' } //da rimuovere
   ]);
 
   constructor(
