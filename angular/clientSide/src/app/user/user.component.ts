@@ -2,6 +2,7 @@ import { Component, OnInit, signal, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ModuloHttpService } from '../modulo-http.service';
 import { CommonModule } from '@angular/common';
+import { ServiceDatiService } from '../service-dati.service';
 
 @Component({
   selector: 'user',
@@ -21,6 +22,7 @@ export class UserComponent implements OnInit {
   ]);
 
   constructor(
+    private servizio: ServiceDatiService,
     private http: ModuloHttpService, 
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef  ) 
@@ -49,6 +51,7 @@ export class UserComponent implements OnInit {
   this.http.getVisitePaziente().subscribe({
     next: (data) => {
       this.visitePrenotate.set(data);
+      console.log(data)
       this.cdr.detectChanges(); // gestione zoneless
     },
     error: (err) => console.error('Errore nel caricamento visite:', err)
@@ -88,5 +91,20 @@ onSubmit() {
 
   disdiciVisita(id: number) {
     this.visitePrenotate.update(v => v.filter(vis => vis.id !== id));
+    //implementa la chiamata al server per eliminare la visita
   }
+
+  onLogout()
+  {
+    this.http.log_out().subscribe({
+      next: (data)=>{
+         console.log("Data ritornata dal logut: ",data)
+         this.servizio.logOutUser()
+      },
+      error: (err) =>{
+        console.log("Errore nel loguout: ", err)
+      }
+    })
+  }
+
 }

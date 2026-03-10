@@ -1,9 +1,13 @@
 <div class="user-container">
-  <div class="header">
-    <h1>Area Paziente</h1>
-    <p>Gestisci le tue prenotazioni e prenota nuove visite.</p>
+  <div class="header d-flex justify-content-between align-items-start">
+    <div>
+      <h1>Area Paziente</h1>
+      <p>Gestisci le tue prenotazioni e prenota nuove visite.</p>
+    </div>
+    <button (click)="onLogout()" class="btn-logout">
+      Esci <span class="icon">Logout</span>
+    </button>
   </div>
-
   <div class="main-content">
     
     <section class="card booking-section">

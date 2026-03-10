@@ -1005,3 +1005,49 @@
 [2026-03-10T16:22:15.412Z] [INFO] [RES] GET /db/private/visits/doctor headersSent=true ended=true (3ms)
 [2026-03-10T16:22:18.493Z] [INFO] [REQ] POST /session/logout
 [2026-03-10T16:22:18.496Z] [INFO] [RES] POST /session/logout headersSent=false ended=false (3ms)
+[2026-03-10T16:28:10.766Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:28:10.770Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-10T16:28:10.773Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:28:10.777Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-10T16:28:11.025Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:28:11.029Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
+[2026-03-10T16:28:11.034Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:28:11.038Z] [INFO] [RES] GET /db/private/visits/user headersSent=true ended=true (4ms)
+[2026-03-10T16:32:56.651Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:32:56.655Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-10T16:32:56.658Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:32:56.662Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-10T16:32:56.892Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:32:56.896Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
+[2026-03-10T16:32:56.900Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:32:56.904Z] [INFO] [RES] GET /db/private/visits/user headersSent=true ended=true (4ms)
+[2026-03-10T16:33:20.485Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:33:20.489Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (4ms)
+[2026-03-10T16:33:20.492Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:33:20.497Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (5ms)
+[2026-03-10T16:33:20.734Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:33:20.738Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (4ms)
+[2026-03-10T16:33:20.742Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:33:20.747Z] [INFO] [RES] GET /db/private/visits/user headersSent=true ended=true (5ms)
+[2026-03-10T16:34:08.795Z] [INFO] [REQ] POST /session/logout
+[2026-03-10T16:34:08.798Z] [INFO] [RES] POST /session/logout headersSent=false ended=false (3ms)
+[2026-03-10T16:34:37.701Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:34:37.706Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (5ms)
+[2026-03-10T16:34:37.710Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:34:37.714Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (4ms)
+[2026-03-10T16:34:37.942Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:34:37.947Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (5ms)
+[2026-03-10T16:34:37.950Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:34:37.955Z] [INFO] [RES] GET /db/private/visits/user headersSent=true ended=true (5ms)
+[2026-03-10T16:47:54.489Z] [INFO] [REQ] POST /session/logout
+[2026-03-10T16:47:54.493Z] [INFO] [RES] POST /session/logout headersSent=false ended=false (4ms)
+[2026-03-10T16:50:09.116Z] [INFO] [REQ] OPTIONS /session/login/user
+[2026-03-10T16:50:09.121Z] [INFO] [RES] OPTIONS /session/login/user headersSent=true ended=true (5ms)
+[2026-03-10T16:50:09.128Z] [INFO] [REQ] POST /session/login/user
+[2026-03-10T16:50:09.133Z] [INFO] [RES] POST /session/login/user headersSent=false ended=false (5ms)
+[2026-03-10T16:50:09.382Z] [INFO] [REQ] GET /db/private/getDottori
+[2026-03-10T16:50:09.389Z] [INFO] [RES] GET /db/private/getDottori headersSent=true ended=true (7ms)
+[2026-03-10T16:50:09.396Z] [INFO] [REQ] GET /db/private/visits/user
+[2026-03-10T16:50:09.402Z] [INFO] [RES] GET /db/private/visits/user headersSent=true ended=true (6ms)
+[2026-03-10T16:50:29.495Z] [INFO] [REQ] POST /session/logout
+[2026-03-10T16:50:29.499Z] [INFO] [RES] POST /session/logout headersSent=false ended=false (4ms)
