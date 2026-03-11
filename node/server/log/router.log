@@ -3713,3 +3713,34 @@
 [2026-03-11T15:55:19.165Z] [INFO] Route registered: GET /db/private/freeHours
 [2026-03-11T15:55:19.167Z] [INFO] Route registered: DELETE /db/private/delVisit
 [2026-03-11T15:55:19.169Z] [INFO] Route registered: PATCH /db/private/modVisit
+[2026-03-11T16:36:22.739Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:25.755Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:26.806Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:35.347Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:35.520Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:35.710Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:35.880Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:38.662Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:36:53.852Z] [INFO] Route registered: GET /health
+[2026-03-11T16:36:53.856Z] [INFO] Route registered: GET /auth/me
+[2026-03-11T16:36:53.858Z] [INFO] Route registered: POST /session/login/user
+[2026-03-11T16:36:53.860Z] [INFO] Route registered: POST /session/login/doctor
+[2026-03-11T16:36:53.863Z] [INFO] Route registered: POST /session/login/admin
+[2026-03-11T16:36:53.865Z] [INFO] Route registered: POST /session/logout
+[2026-03-11T16:36:53.868Z] [INFO] Route registered: GET /db/private/users
+[2026-03-11T16:36:53.870Z] [INFO] Route registered: GET /db/private/doctors
+[2026-03-11T16:36:53.872Z] [INFO] Route registered: GET /db/private/admins
+[2026-03-11T16:36:53.875Z] [INFO] Route registered: GET /db/private/visits/user
+[2026-03-11T16:36:53.878Z] [INFO] Route registered: GET /db/private/visits/doctor
+[2026-03-11T16:36:53.881Z] [INFO] Route registered: GET /db/private/visits/externalDoctor
+[2026-03-11T16:36:53.883Z] [INFO] Route registered: GET /db/private/specs
+[2026-03-11T16:36:53.886Z] [INFO] Route registered: GET /db/private/doctors/spec
+[2026-03-11T16:36:53.889Z] [INFO] Route registered: POST /db/private/newVisit
+[2026-03-11T16:36:53.891Z] [INFO] Route registered: GET /db/private/freeHours
+[2026-03-11T16:36:53.894Z] [INFO] Route registered: DELETE /db/private/delVisit
+[2026-03-11T16:36:53.897Z] [INFO] Route registered: PATCH /db/private/modVisit
+[2026-03-11T16:37:00.336Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:37:01.338Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:37:02.170Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:37:02.878Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
+[2026-03-11T16:38:43.132Z] [ERROR] Router error: Bind parameters must not contain undefined. To pass SQL NULL specify JS null
