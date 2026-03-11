@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { Component } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
@@ -43,14 +43,15 @@ export class ModuloHttpService {
   return this.http.post('http://localhost:3000/db/private/newVisit', payload, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
-  getAllVisiteDottore(idDottore:Number):Observable<any>
-  {
-    return this.http.get('') //aggiungi percorso
-  }
+  getAllVisiteDottore(idDottore: number, dateStart: string = "1980-10-10", dateEnd: string = "2100-10-10"): Observable<any> {
+  const url = `http://localhost:3000/db/private/visits/externalDoctor?docId=${idDottore}&dateStart=${dateStart}&dateEnd=${dateEnd}`;
+  
+  return this.http.get(url);
+}
 
   deleteVisita(idVisita:number):Observable<any>
   {
-    return this.http.delete('') //aggiungi percorso
+    return this.http.delete(`http://localhost:3000/db/private/delVisit?id=${idVisita}`, {withCredentials:true}) //aggiungi percorso
   }
 
   log_out():Observable<any>

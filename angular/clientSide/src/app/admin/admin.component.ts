@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ModuloHttpService } from '../modulo-http.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
+import { ServiceDatiService } from '../service-dati.service';
 
 @Component({
   selector: 'admin',
@@ -16,6 +17,7 @@ export class AdminComponent implements OnInit {
   visiteDottore = signal<any[]>([]);
   
   constructor(
+    private servizio:ServiceDatiService,
     private http: ModuloHttpService, 
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef
@@ -26,25 +28,47 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Carica la lista dei dottori per la combo
-    this.http.getDottori().subscribe(data => this.dottori.set(data));
-
-    // Quando l'admin cambia dottore, carica le sue visite
-    this.filtroForm.get('dottoreId')?.valueChanges.subscribe(id => {
-      if (id) {
-        this.caricaVisite(id);
-      } else {
-        this.visiteDottore.set([]);
-      }
+    this.http.getDottori().subscribe({
+        next: (res: any) => {
+        const listaMappata = res.data.map((d: any) => ({
+          id: d.id,
+          display_name: `${d.nome} ${d.cognome}`
+        }));
+        this.dottori.set(listaMappata);
+    },
+    error: (err) => console.error('Errore caricamento dottori', err)
     });
+
+    this.filtroForm.get('dottoreId')?.valueChanges.subscribe(idSelezionato => {
+    if (idSelezionato) {
+      this.caricaVisite(Number(idSelezionato));
+    } else {
+      this.visiteDottore.set([]); 
+    }
+  });
   }
 
   caricaVisite(idDottore: number) {
-    this.http.getAllVisiteDottore(idDottore).subscribe(res => {
-      this.visiteDottore.set(res);
+  this.http.getAllVisiteDottore(idDottore).subscribe({
+    next: (res: any) => {
+      const dati = res.data ? res.data : res;
+
+      const visiteMappate = dati.map((v: any) => ({
+        id: v.id,
+        data_visita: v.data_visita,
+        paziente_nome: v.paziente_nome || `${v.p_nome} ${v.p_cognome}`,
+        paziente_email: v.paziente_email || v.email
+      }));
+
+      this.visiteDottore.set(visiteMappate);
       this.cdr.detectChanges();
-    });
-  }
+    },
+    error: (err) => {
+      console.error('Errore nel recupero visite:', err);
+      this.visiteDottore.set([]);
+    }
+  });
+}
 
   eliminaVisita(idVisita: number) {
     if (confirm("Sei sicuro di voler eliminare questa visita?")) {
@@ -57,7 +81,7 @@ export class AdminComponent implements OnInit {
   }
 
   modificaVisita(visita: any) {
-    // Qui potresti aprire una modale o inviare a un form di modifica
+    // Da implementare
     console.log("Modifica visita:", visita);
     const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
     if (nuovaData) {
@@ -66,4 +90,31 @@ export class AdminComponent implements OnInit {
       });
     }
   }
+
+  logout()
+  {
+    this.http.log_out().subscribe({
+      next: (data)=>{
+         console.log("Data ritornata dal logut: ",data)
+         this.servizio.logOutAdmin()
+      },
+      error: (err) =>{
+        console.log("Errore nel loguout: ", err)
+      }
+    })
+  }
+  
+
+
+  /*
+    -Caricamento combo dottori X
+    -Caricamento visite una volta selezionato il dottore
+    -implementazione eliminazione visite
+    -Caricamento combo utenti
+    -Caricamento visite una volta selezionato l'utente
+    -implementazione eliminazione visite
+  */
+
+
+
 }
