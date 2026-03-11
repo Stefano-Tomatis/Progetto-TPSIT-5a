@@ -9,7 +9,7 @@
   <main class="admin-main">
     
     <section class="card filter-section">
-      <h2>Agenda per Dottore</h2>
+      <h2>Agenda per dottore</h2>
       <form [formGroup]="filtroForm" class="filter-form">
         <div class="form-field">
           <label for="dottore">Seleziona Medico</label>
@@ -40,8 +40,8 @@
                   <td>{{ v.paziente_nome }}</td>
                   <td class="text-muted">{{ v.paziente_email }}</td>
                   <td class="actions-cell">
-                    <button class="btn btn-edit" (click)="modificaVisita(v)">✏️ Modifica</button>
-                    <button class="btn btn-delete" (click)="eliminaVisita(v.id, 'doc')">🗑️ Elimina</button>
+                    <button class="btn btn-edit m-1" (click)="modificaVisita(v)">✏️ Modifica orario</button>
+                    <button class="btn btn-delete m-1" (click)="eliminaVisita(v.id, 'doc')">🗑️ Elimina</button>
                   </td>
                 </tr>
               }
@@ -56,7 +56,7 @@
     <hr class="separator">
 
     <section class="card filter-section">
-      <h2>Agenda per Paziente</h2>
+      <h2>Agenda per paziente</h2>
       <form [formGroup]="filtroUtenteForm" class="filter-form">
         <div class="form-field">
           <label for="utente">Seleziona Paziente</label>
@@ -85,8 +85,8 @@
                   <td class="font-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
                   <td>Dott. {{ v.dottore_nome }}</td>
                   <td class="actions-cell">
-                    <button class="btn btn-edit" (click)="modificaVisita(v)">✏️ Modifica</button>
-                    <button class="btn btn-delete" (click)="eliminaVisita(v.id, 'paz')">🗑️ Elimina</button>
+                    <button class="btn btn-edit m-1" (click)="modificaVisita(v)">✏️ Modifica orario</button>
+                    <button class="btn btn-delete m-1" (click)="eliminaVisita(v.id, 'paz')">🗑️ Elimina</button>
                   </td>
                 </tr>
               }

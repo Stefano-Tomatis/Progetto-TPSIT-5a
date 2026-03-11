@@ -44,7 +44,7 @@ export class ModuloHttpService {
   }
 
   getAllVisiteDottore(idDottore: number): Observable<any> {  
-  return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?docId=${idDottore}`);
+  return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?docId=${idDottore}`, {withCredentials:true});
 }
 
   deleteVisita(idVisita:number):Observable<any>

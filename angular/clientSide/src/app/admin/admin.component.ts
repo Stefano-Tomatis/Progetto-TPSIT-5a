@@ -13,13 +13,13 @@ import { ServiceDatiService } from '../service-dati.service';
 })
 export class AdminComponent implements OnInit {
   filtroForm: FormGroup;
-  filtroUtenteForm: FormGroup; // Nuovo form
+  filtroUtenteForm: FormGroup
   
   dottori = signal<any[]>([]);
-  utenti = signal<any[]>([]); // Nuovo signal utenti
+  utenti = signal<any[]>([]); 
   
   visiteDottore = signal<any[]>([]);
-  visitePaziente = signal<any[]>([]); // Nuovo signal visite paziente
+  visitePaziente = signal<any[]>([]); 
 
   constructor(
     private servizio:ServiceDatiService,
@@ -34,7 +34,6 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Caricamento Dottori (tua logica attuale)
     this.http.getDottori().subscribe({
       next: (res: any) => {
         const listaMappata = res.data.map((d: any) => ({
@@ -45,7 +44,6 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    // NUOVO: Caricamento Utenti
     this.http.getTuttiUtenti().subscribe({
       next: (res: any) => {
         const listaMappata = res.data.map((u: any) => ({
@@ -56,37 +54,47 @@ export class AdminComponent implements OnInit {
       }
     });
 
-    // Ascolto combo dottori
     this.filtroForm.get('dottoreId')?.valueChanges.subscribe(id => {
       if (id) this.caricaVisite(Number(id), 'doc');
     });
 
-    // NUOVO: Ascolto combo utenti
     this.filtroUtenteForm.get('pazienteId')?.valueChanges.subscribe(id => {
       if (id) this.caricaVisite(Number(id), 'paz');
     });
   }
 
   caricaVisite(id: number, tipo: 'doc' | 'paz') {
-    if (tipo === 'doc') {
-      this.http.getAllVisiteDottore(id).subscribe(res => {
-        this.visiteDottore.set(res.data || res);
-        this.cdr.detectChanges();
-      });
-    } else {
-      // Nota: usa il metodo del servizio per le visite del paziente
-      this.http.getVisitePazienteId(id).subscribe(
-        res => {
-        const datiRicevuti = Array.isArray(res) ? res : (res as any).data;
-  
-        this.visitePaziente.set(datiRicevuti || []);
-        this.cdr.detectChanges();
-      }    
-    );
-    }
-  }
+  const chiamata = tipo === 'doc' 
+    ? this.http.getAllVisiteDottore(id) 
+    : this.http.getVisitePazienteId(id);
 
-  // Modificato per sapere quale lista ricaricare dopo l'eliminazione
+  chiamata.subscribe({
+    next: (res: any) => {
+      const listaGrezza = res.data || [];
+
+      const visiteMappate = listaGrezza.map((v: any) => ({
+        id: v.IdVisita,
+        data_visita: v.DataOrario,
+        paziente_nome: v.Utente ? `${v.Utente.nome} ${v.Utente.cognome}` : 'N/A',
+        paziente_email: v.Utente ? v.Utente.email : 'N/A',
+        dottore_nome: v.Medico ? `${v.Medico.nome} ${v.Medico.cognome}` : 'N/A'
+      }));
+
+      if (tipo === 'doc') {
+        this.visiteDottore.set(visiteMappate);
+      } else {
+        this.visitePaziente.set(visiteMappate);
+      }
+      
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error("Errore recupero dati:", err);
+      tipo === 'doc' ? this.visiteDottore.set([]) : this.visitePaziente.set([]);
+    }
+  });
+}
+
   eliminaVisita(idVisita: number, tipo: 'doc' | 'paz') {
     if (confirm("Eliminare definitivamente?")) {
       this.http.deleteVisita(idVisita).subscribe(() => {
@@ -100,24 +108,22 @@ export class AdminComponent implements OnInit {
   }
   
   modificaVisita(visita: any) {
-    // Da implementare
     console.log("Modifica visita:", visita);
-  const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
+    const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
+    //da cambiare, sostituire il prompt con un modal che implementi una combo
+    //la il modal dovra usare il servizio getFreeTime una volta selezionata la data da un calendario
+    //e avere i controlli che non sia un weekend
   
   if (nuovaData) {
-    // 1. Inviamo la modifica al server
     this.http.updateVisita(visita.id, { data: nuovaData }).subscribe({
       next: () => {
-        // 2. Dobbiamo capire quale tabella ricaricare
         const idDottore = this.filtroForm.get('dottoreId')?.value;
         const idPaziente = this.filtroUtenteForm.get('pazienteId')?.value;
 
-        // Ricarichiamo la tabella dottore se c'è un id selezionato
         if (idDottore) {
           this.caricaVisite(Number(idDottore), 'doc');
         }
         
-        // Ricarichiamo la tabella paziente se c'è un id selezionato
         if (idPaziente) {
           this.caricaVisite(Number(idPaziente), 'paz');
         }
@@ -148,11 +154,13 @@ export class AdminComponent implements OnInit {
   
   /*
   -Caricamento combo dottori X
-  -Caricamento visite una volta selezionato il dottore
-  -implementazione eliminazione visite
+  -Caricamento visite una volta selezionato il dottore X
+  -implementazione eliminazione visite X
+  -implementazione mdofica visite
   -Caricamento combo utenti X
-  -Caricamento visite una volta selezionato l'utente
-  -implementazione eliminazione visite
+  -Caricamento visite una volta selezionato l'utente X
+  -implementazione eliminazione visite X
+  -implementazione modifica visite
   */
  
  
