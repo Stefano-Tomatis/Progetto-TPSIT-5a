@@ -188,16 +188,21 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       email: u.email, // Salva ruolo per controlli autorizzativi.
       dataNascita: u.DataNascita, // Salva email (profilo).
       username: u.Username,
-      ruolo: "medico"
+      ruolo: "medico",
+      specializzazione: u.IdSpecializzazione
     };
     req.session.authMode = "session"; // Marca la sessione indicando la modalità di autenticazione.
-    console.log(req.session.authMode)
 
-    sendJson(res, 200, { 
-        success: true, message: "Login effettuato", data: {
-          user: await safeDoctor(req.session.user)
-      }
-    }); // Risponde OK con utente sanitizzato.
+    try{
+      sendJson(res, 200, { 
+          success: true, message: "Login effettuato", data: {
+            user: await safeDoctor(u)
+        }
+      });
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err});
+    }
   });
 
   router.register("POST", "/session/login/admin", async (req, res) => { // Registra login via sessione (demo didattica).
@@ -347,10 +352,8 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/visits/externalDoctor", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
     try{
-      const dateStart = req.query.dateStart
-      const dateEnd = req.query.dateEnd
       const doctor = req.query.docId
-      const rows = await db.getVisitsByDoctor(dateStart, dateEnd, doctor); 
+      const rows = await db.getVisitsByDoctor(doctor); 
       sendJson(res, 200, { success: true, message: "ok", data: rows }); 
     }
     catch(err){

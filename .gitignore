@@ -3,3 +3,4 @@ node/server/log/listeners.log
 node/server/log/serverHTTP.log
 node/server/log/serverHTTPS.log
 *.json
+/node/server/log
