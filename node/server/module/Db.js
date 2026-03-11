@@ -99,6 +99,15 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
     const [rows] = await this.query(sql, params); // Esegue query e destruttura solo rows (fields non usato qui).
     return rows; // Ritorna l’array di righe risultanti (oggetti JS).
   }
+
+  async update(table, set = "", where = "", params = []) { // Metodo async: cancella record con DELETE opzionalmente filtrata.
+    this.#assertAllowedTable(table); // Valida la tabella per evitare injection via interpolazione del nome.
+
+    const sql = `UPDATE ${table} SET ${set} WHERE ${where}`
+
+    const [rows] = await this.query(sql, params); // Esegue query e destruttura solo rows (fields non usato qui).
+    return rows; // Ritorna l’array di righe risultanti (oggetti JS).
+  }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
   /**
    * INSERT su tabella consentita.
@@ -185,6 +194,11 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
 
   async deleteVisit(id){
     const ret = await this.delete("visite", "IdVisita = ?", [id])
+    return ret
+  }
+
+  async modVisit(date, time, id){
+    const ret = await this.update("visite", "DataOrario = ?", "IdVisita = ?", [date + " " + time, id])
     return ret
   }
 
