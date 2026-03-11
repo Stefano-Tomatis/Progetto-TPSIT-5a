@@ -1,20 +1,33 @@
-<div class="admin-wrapper">
-  <header class="admin-header">
-    <div class="header-content">
-      <h1>Dashboard Amministratore</h1>
-      <button (click)="logout()" class="btn btn-danger">Logout</button>
+<header class="hospital-header shadow-sm mb-4">
+  <div class="container d-flex justify-content-between align-items-center py-3">
+    <div class="d-flex align-items-center">
+      <div class="logo-icon me-3">
+        <span class="fs-1 text-danger"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Umbrella_Corporation_logo.svg/960px-Umbrella_Corporation_logo.svg.png"  height="50px" width="50px" alt="logo"></span>
+      </div>
+      <div>
+        <h1 class="h3 mb-0 fw-bold text-white">Umbrella <span class="text-danger">Corporation</span></h1>
+        <p class="mb-0 text-secondary small text-uppercase tracking-wider">Pannello Amministrativo</p>
+      </div>
     </div>
-  </header>
+    <button (click)="logout()" class="btn btn-outline-danger btn-sm px-4 fw-bold">
+      LOGOUT 🚪
+    </button>
+  </div>
+</header>
 
-  <main class="admin-main">
-    
-    <section class="card filter-section">
-      <h2>Agenda per dottore</h2>
-      <form [formGroup]="filtroForm" class="filter-form">
-        <div class="form-field">
-          <label for="dottore">Seleziona Medico</label>
-          <select id="dottore" class="m-1" formControlName="dottoreId">
-            <option value="">-- Scegli un dottore --</option>
+<main class="container pb-5">
+  
+  <section class="card bg-dark-card border-secondary shadow-lg mb-5">
+    <div class="card-header bg-dark-header border-bottom border-danger border-2 py-3">
+      <h2 class="h5 mb-0 text-danger fw-bold text-uppercase">🩺 Gestione Agenda Medici</h2>
+    </div>
+
+    <div class="card-body">
+      <form [formGroup]="filtroForm" class="mb-4">
+        <div class="form-field max-w-300">
+          <label class="text-secondary small fw-bold">FILTRA PER DOTTORE</label>
+          <select class="form-select bg-dark-input text-white border-secondary" formControlName="dottoreId">
+            <option value="">-- Seleziona Medico --</option>
             @for (doc of dottori(); track doc.id) {
               <option [value]="doc.id">Dott. {{ doc.display_name }}</option>
             }
@@ -24,44 +37,49 @@
 
       <div class="table-responsive">
         @if (visiteDottore().length > 0) {
-          <table class="styled-table">
-            <thead>
+          <table class="table table-dark table-hover align-middle">
+            <thead class="table-danger-dark">
               <tr>
-                <th>Data e Ora</th>
-                <th>Paziente</th>
-                <th>Email</th>
-                <th class="text-center">Azioni</th>
+                <th>DATA E ORA</th>
+                <th>PAZIENTE</th>
+                <th>CONTATTO EMAIL</th>
+                <th class="text-center">AZIONI OPERATIVE</th>
               </tr>
             </thead>
             <tbody>
               @for (v of visiteDottore(); track v.id) {
                 <tr>
-                  <td class="font-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
-                  <td>{{ v.paziente_nome }}</td>
-                  <td class="text-muted">{{ v.paziente_email }}</td>
-                  <td class="actions-cell">
-                    <button class="btn btn-edit m-1" (click)="modificaVisita(v)">✏️ Modifica orario</button>
-                    <button class="btn btn-delete m-1" (click)="eliminaVisita(v.id, 'doc')">🗑️ Elimina</button>
+                  <td class="text-danger fw-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="text-white">{{ v.paziente_nome }}</td>
+                  <td class="text-secondary small">{{ v.paziente_email }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-outline-warning me-2" (click)="modificaVisita(v)">✏️ Modifica</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="eliminaVisita(v.id, 'doc')">🗑️ Elimina</button>
                   </td>
                 </tr>
               }
             </tbody>
           </table>
         } @else {
-          <p class="empty-placeholder">Seleziona un dottore per visualizzare gli impegni.</p>
+          <div class="text-center py-4 bg-dark-input rounded">
+            <p class="text-secondary mb-0 italic">Nessun dato visualizzato. Seleziona un medico dal menu sopra.</p>
+          </div>
         }
       </div>
-    </section>
+    </div>
+  </section>
 
-    <hr class="separator">
+  <section class="card bg-dark-card border-secondary shadow-lg">
+    <div class="card-header bg-dark-header border-bottom border-danger border-2 py-3">
+      <h2 class="h5 mb-0 text-danger fw-bold text-uppercase">👤 Ricerca per Paziente</h2>
+    </div>
 
-    <section class="card filter-section">
-      <h2>Agenda per paziente</h2>
-      <form [formGroup]="filtroUtenteForm" class="filter-form">
-        <div class="form-field">
-          <label for="utente">Seleziona Paziente</label>
-          <select id="utente" class="m-1" formControlName="pazienteId">
-            <option value="">-- Scegli un paziente --</option>
+    <div class="card-body">
+      <form [formGroup]="filtroUtenteForm" class="mb-4">
+        <div class="form-field max-w-300">
+          <label class="text-secondary small fw-bold">FILTRA PER UTENTE</label>
+          <select class="form-select bg-dark-input text-white border-secondary" formControlName="pazienteId">
+            <option value="">-- Seleziona Paziente --</option>
             @for (u of utenti(); track u.id) {
               <option [value]="u.id">{{ u.display_name }}</option>
             }
@@ -71,75 +89,76 @@
 
       <div class="table-responsive">
         @if (visitePaziente().length > 0) {
-          <table class="styled-table">
-            <thead>
+          <table class="table table-dark table-hover align-middle">
+            <thead class="table-danger-dark">
               <tr>
-                <th>Data e Ora</th>
-                <th>Medico</th>
-                <th class="text-center">Azioni</th>
+                <th>DATA E ORA</th>
+                <th>MEDICO ASSEGNATO</th>
+                <th class="text-center">AZIONI OPERATIVE</th>
               </tr>
             </thead>
             <tbody>
               @for (v of visitePaziente(); track v.id) {
                 <tr>
-                  <td class="font-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
-                  <td>Dott. {{ v.dottore_nome }}</td>
-                  <td class="actions-cell">
-                    <button class="btn btn-edit m-1" (click)="modificaVisita(v)">✏️ Modifica orario</button>
-                    <button class="btn btn-delete m-1" (click)="eliminaVisita(v.id, 'paz')">🗑️ Elimina</button>
+                  <td class="text-danger fw-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td class="text-white">Dott. {{ v.dottore_nome }}</td>
+                  <td class="text-center">
+                    <button class="btn btn-sm btn-outline-warning me-2" (click)="modificaVisita(v)">✏️ Modifica</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="eliminaVisita(v.id, 'paz')">🗑️ Elimina</button>
                   </td>
                 </tr>
               }
             </tbody>
           </table>
         } @else {
-          <p class="empty-placeholder">Seleziona un paziente per visualizzare il suo storico.</p>
+          <div class="text-center py-4 bg-dark-input rounded">
+            <p class="text-secondary mb-0 italic">Seleziona un paziente per caricare il suo storico visite.</p>
+          </div>
         }
       </div>
-    </section>
-  </main>
-</div>
+    </div>
+  </section>
+</main>
 
 @if (showModal() && visitaInModifica()) {
   <div class="modal-overlay">
-    <div class="modal-content card">
-      <div class="card-header">
-        <h3>Modifica Appuntamento</h3>
-        <button class="btn-close" (click)="showModal.set(false)">×</button>
+    <div class="modal-content bg-dark-card border border-danger shadow-2xl">
+      <div class="card-header bg-dark-header border-bottom border-danger py-3 d-flex justify-content-between align-items-center">
+        <h3 class="h5 mb-0 text-danger fw-bold text-uppercase">🛠️ Modifica Slot Visita</h3>
+        <button class="btn-close btn-close-white" (click)="showModal.set(false)"></button>
       </div>
 
-      <div class="modal-body">
-        <p>Paziente: <strong>{{ visitaInModifica()?.paziente_nome }}</strong></p>
-        <p>Medico: <strong>{{ visitaInModifica()?.dottore_nome }}</strong></p>
+      <div class="modal-body p-4 text-white">
+        <div class="p-3 bg-dark-input rounded mb-4 border-start border-danger border-4">
+          <p class="mb-1 small text-secondary">PAZIENTE: <strong class="text-white">{{ visitaInModifica()?.paziente_nome }}</strong></p>
+          <p class="mb-0 small text-secondary">MEDICO: <strong class="text-white">{{ visitaInModifica()?.dottore_nome }}</strong></p>
+        </div>
         
         <form [formGroup]="modificaForm">
-          <div class="form-field">
-            <label>Seleziona Nuovo Giorno</label>
-            <input type="date" formControlName="nuovaData" (change)="onDataChange()">
+          <div class="mb-3">
+            <label class="form-label text-danger small fw-bold">NUOVA DATA</label>
+            <input type="date" class="form-control bg-dark-input text-white border-secondary" formControlName="nuovaData" (change)="onDataChange()">
           </div>
 
-          <div class="form-field">
-            <label for="nuovoOra">Orari Disponibili</label>
-            
-            <select id="nuovoOra" formControlName="nuovoOra" class="m-1">
-              <option value="">-- Seleziona un orario --</option>
-              
+          <div class="mb-3">
+            <label class="form-label text-danger small fw-bold">NUOVO ORARIO</label>
+            <select class="form-select bg-dark-input text-white border-secondary" formControlName="nuovoOra">
+              <option value="">-- Seleziona Orario --</option>
               @for (ora of orariDisponibili(); track ora) {
                 <option [value]="ora">{{ ora }}</option>
               }
             </select>
-
             @if (orariDisponibili().length === 0 && modificaForm.get('nuovaData')?.value) {
-              <p class="error-text">Nessun orario disponibile per questa data.</p>
+              <p class="text-danger x-small mt-2 fw-bold">⚠️ Nessuno slot disponibile per la data selezionata.</p>
             }
           </div>
         </form>
       </div>
 
-      <div class="modal-actions">
-        <button class="btn btn-secondary" (click)="showModal.set(false)">Annulla</button>
-        <button class="btn btn-submit" (click)="salvaModifica()" [disabled]="modificaForm.invalid">
-          Conferma Modifica
+      <div class="modal-footer p-3 border-top border-secondary d-flex justify-content-between">
+        <button class="btn btn-secondary" (click)="showModal.set(false)">ANNULLA</button>
+        <button class="btn btn-danger px-4 fw-bold" (click)="salvaModifica()" [disabled]="modificaForm.invalid">
+          SALVA MODIFICHE
         </button>
       </div>
     </div>

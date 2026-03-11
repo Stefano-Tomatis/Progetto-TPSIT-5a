@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #121212; 
+}
+
+.hospital-header {
+  background: #1e1e1e;
+  border-bottom: 2px solid #dc3545; 
+}
+
+.login-container {
+  max-width: 450px;
+  border: 1px solid #333;
+}
+
+.bg-dark-card {
+  background-color: #1e1e1e;
+}
+
+.bg-dark-input {
+  background-color: #2d2d2d;
+}
+
+.login-accent {
+  height: 4px;
+  background: #dc3545;
+}
+
+.form-control {
+  border-left: none;
+}
+
+.form-control:focus {
+  background-color: #333;
+  color: white;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.input-group-text {
+  border-right: none;
+}
+
+.form-check-input {
+  background-color: #2d2d2d;
+  border-color: #dc3545;
+}
+
+.form-check-input:checked {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-danger {
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.tracking-wider {
+  letter-spacing: 2px;
+}
+
+.error-banner {
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+.border-danger {
+  border-color: #dc3545 !important;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.2);
+}

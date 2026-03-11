@@ -1,39 +1,69 @@
-<div class="container mt-4">
-  
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="h4 mb-0">Agenda Settimanale</h2>
-    <button (click)="logout()" class="btn btn-danger btn-sm">
-      Logout <i class="bi bi-box-arrow-right"></i>
+<header class="hospital-header shadow-sm mb-4">
+  <div class="container d-flex justify-content-between align-items-center py-3">
+    <div class="d-flex align-items-center">
+      <div class="logo-icon me-3">
+        <span class="fs-1 text-danger"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Umbrella_Corporation_logo.svg/960px-Umbrella_Corporation_logo.svg.png"  height="50px" width="50px" alt="logo"></span>
+      </div>
+      <div>
+        <h1 class="h3 mb-0 fw-bold text-white">Umbrella <span class="text-danger">Corporation</span></h1>
+        <p class="mb-0 text-secondary small text-uppercase tracking-wider">Dashboard Operativa Medico</p>
+      </div>
+    </div>
+    <button (click)="logout()" class="btn btn-outline-danger btn-sm px-4 fw-bold">
+      DISCONNESSIONE <span class="ms-2">🚪</span>
+    </button>
+  </div>
+</header>
+
+<div class="container pb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4 bg-dark-card p-3 rounded-4 border border-secondary shadow">
+    <button (click)="eventoSettimanaScorsa()" class="btn btn-danger-soft btn-sm">
+      &laquo; Precedente
+    </button>
+    
+    <div class="text-center">
+      <span class="text-secondary small d-block">OFFSET SETTIMANA</span>
+      <span class="badge bg-danger text-white px-3 py-2 fs-6">
+        {{ currentOffset === 0 ? 'Settimana Corrente' : 'Settimana: ' + currentOffset }}
+      </span>
+    </div>
+    
+    <button (click)="eventoSettimanaProssima()" class="btn btn-danger-soft btn-sm">
+      Successiva &raquo;
     </button>
   </div>
 
-  <hr>
-
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <button (click)="eventoSettimanaScorsa()" class="btn btn-outline-primary">&laquo; Settimana Precedente</button>
-    
-    <span class="badge bg-light text-dark p-2 border">Settimana corrente: {{ currentOffset }}</span>
-    
-    <button (click)="eventoSettimanaProssima()" class="btn btn-outline-primary">Settimana Successiva &raquo;</button>
-  </div>
-
-  <div class="row g-2">
+  <div class="row g-3">
     @for (giornoVisite of settimanaLavorativa; track $index) {
-      <div class="col">
-        <div class="card h-100">
-          <div class="card-header bg-primary text-white text-center">
-            <strong>{{ ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'][$index] }}</strong>
+      <div class="col-md col-sm-12">
+        <div class="card h-100 bg-dark-card border-secondary shadow-sm">
+          <div class="card-header bg-dark-header py-3 border-bottom border-danger border-2">
+            <h5 class="mb-0 text-center text-danger fw-bold small text-uppercase">
+              {{ ['Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì'][$index] }}
+            </h5>
           </div>
           
-          <div class="card-body p-2">
+          <div class="card-body p-2 bg-dark-body">
             @for (visita of giornoVisite; track visita.id) {
-              <div class="alert alert-info p-2 mb-1 small">
-                <strong>{{ visita.DataOrario | date:'HH:mm' }}</strong>
-                {{ visita.Utente.cognome }} {{ visita.Utente.nome }}
-
+              <div class="visita-item mb-2 p-2 rounded-3 border-start border-danger border-4 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="badge bg-dark text-danger border border-danger mb-1">
+                    {{ visita.DataOrario | date:'HH:mm' }}
+                  </span>
+                </div>
+                <div class="paziente-info">
+                  <p class="mb-0 text-white fw-bold small">
+                    {{ visita.Utente.cognome | uppercase }}
+                  </p>
+                  <p class="mb-0 text-secondary x-small">
+                    {{ visita.Utente.nome }}
+                  </p>
+                </div>
               </div>
             } @empty {
-              <p class="text-muted small text-center">Nessuna visita</p>
+              <div class="text-center py-4">
+                <p class="text-white opacity-50 small italic mb-0">Libero</p>
+              </div>
             }
           </div>
         </div>

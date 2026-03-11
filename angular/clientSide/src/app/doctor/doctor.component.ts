@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ModuloHttpService } from '../modulo-http.service';
 import { Observable } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { ServiceDatiService } from '../service-dati.service';
 
 @Component({
   selector: 'doctor',
-  imports: [DatePipe],
+  imports: [DatePipe, UpperCasePipe],
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.css'
 })

@@ -15,6 +15,7 @@ import { ServiceDatiService } from '../service-dati.service';
 export class LoginComponent {
   tipologie = ["Admin", "Medico", "User"];
   form: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(public DS: ServiceDatiService, private fb: FormBuilder, private http: ModuloHttpService) {
     this.form = this.fb.group({
@@ -29,59 +30,30 @@ export class LoginComponent {
   }
 
 
-  /*
-    ricordati di fare il service di mezzo per poter segnalare i vari login
-  */ 
-
   onSubmit() {
+    this.errorMessage = null; 
+
     if (this.form.valid) {
       const tipologiaSelezionata = this.form.get('tipologia')?.value;
-      switch (tipologiaSelezionata) {
-      case 'Admin':
-        this.http.loginAsAdmin(this.form.value).subscribe({
-          next: (data) =>{
-            console.log("Login effettuato con successo")
-            console.log(data)
-            this.DS.loginAdmin()
-          },
-          error: (err) =>
-          {
-            console.log("Errore durante il login")
-            console.log(err)            
-          }
-        })
+      
+      const observer = {
+        next: (data: any) => {
+          console.log("Login effettuato con successo", data);
+          if (tipologiaSelezionata === 'Admin') this.DS.loginAdmin();
+          if (tipologiaSelezionata === 'Medico') this.DS.loginDoctor();
+          if (tipologiaSelezionata === 'User') this.DS.loginUser();
+        },
+        error: (err: any) => {
+          console.error("Errore durante il login", err);
+          this.errorMessage = err.error?.message || "Credenziali non valide o errore di connessione.";
+        }
+      };
 
-        break;
-      case 'Medico':
-          this.http.loginAsDoctor(this.form.value).subscribe({
-          next: (data) =>{
-            console.log("Login effettuato con successo")
-            console.log(data)
-            this.DS.loginDoctor()
-          },
-          error: (err) =>
-          {
-            console.log("Errore durante il login")
-            console.log(err)
-          }
-        })
-        break;
-      case 'User':
-          this.http.loginAsUser(this.form.value).subscribe({
-          next: (data) =>{
-            console.log("Login effettuato con successo")
-            console.log(data)
-            this.DS.loginUser()
-          },
-          error: (err) =>
-          {
-            console.log("Errore durante il login")
-            console.log(err)
-          }
-        })
-        break;
-      default:
-        console.warn("Tipologia non riconosciuta");
+      switch (tipologiaSelezionata) {
+        case 'Admin': this.http.loginAsAdmin(this.form.value).subscribe(observer); break;
+        case 'Medico': this.http.loginAsDoctor(this.form.value).subscribe(observer); break;
+        case 'User': this.http.loginAsUser(this.form.value).subscribe(observer); break;
+        default: console.warn("Tipologia non riconosciuta");
       }
       
     } else {
