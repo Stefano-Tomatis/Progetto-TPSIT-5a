@@ -316,7 +316,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       sendJson(res, 200, { success: true, message: "ok", data: finalRows });
     }
     catch(err){
-      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err});
+      sendJson(res, 500, { success: false, message: "Errore interno del server:"});
     }
   });
 
@@ -329,23 +329,17 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       }
       let rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
       let finalRows = []
-      try{
-        for(let i = 0; i < rows.length; i++){
-          finalRows[i] = {}
-          finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
-          finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
-          finalRows[i].IdVisita = rows[i].IdVisita
-          finalRows[i].DataOrario = rows[i].DataOrario
-        }
-      }
-      catch(err){
-        sendJson(res, 500, { success: false, message: "Errore interno del server: secondo rows"}); 
-        return
+      for(let i = 0; i < rows.length; i++){
+        finalRows[i] = {}
+        finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
+        finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
+        finalRows[i].IdVisita = rows[i].IdVisita
+        finalRows[i].DataOrario = rows[i].DataOrario
       }
       sendJson(res, 200, { success: true, message: "ok", data: finalRows }); 
     }
     catch(err){
-      sendJson(res, 500, { success: false, message: "Errore interno del server: " + err}); 
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
     }
   });
   
@@ -354,7 +348,15 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     try{
       const doctor = req.query.docId
       const rows = await db.getVisitsByDoctor(doctor); 
-      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+      let finalRows = []
+      for(let i = 0; i < rows.length; i++){
+        finalRows[i] = {}
+        finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
+        finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
+        finalRows[i].IdVisita = rows[i].IdVisita
+        finalRows[i].DataOrario = rows[i].DataOrario
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: finalRows }); 
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
@@ -363,9 +365,17 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("GET", "/db/private/visits/externalUser", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
     try{
-      const doctor = req.query.usrId
-      const rows = await db.getVisitsByUser(doctor); 
-      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+      const user = req.query.usrId
+      const rows = await db.getVisitsByUser(user); 
+      let finalRows = []
+      for(let i = 0; i < rows.length; i++){
+        finalRows[i] = {}
+        finalRows[i].Utente = safeUser(await db.getUserById(rows[i].IdUtente))
+        finalRows[i].Medico = await safeDoctor(await db.getDoctorById(rows[i].IdMedico))
+        finalRows[i].IdVisita = rows[i].IdVisita
+        finalRows[i].DataOrario = rows[i].DataOrario
+      }
+      sendJson(res, 200, { success: true, message: "ok", data: finalRows }); 
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
