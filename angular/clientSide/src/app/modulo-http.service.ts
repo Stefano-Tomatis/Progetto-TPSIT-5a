@@ -58,7 +58,7 @@ export class ModuloHttpService {
   }
 
   updateVisita(body: { data: string, ora: string, idVisita: number }): Observable<any> {
-  return this.http.patch('http://localhost:3000/db/private/modVisit', body);
+  return this.http.patch('http://localhost:3000/db/private/modVisit', body,{withCredentials:true} );
 }
 
     getTuttiUtenti():Observable<any>
