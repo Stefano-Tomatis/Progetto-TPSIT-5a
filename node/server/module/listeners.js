@@ -304,6 +304,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       let finalRows = []
       if(req.session.user.ruolo != "utente"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+        return
       }
       const rows = await db.getVisitsByUser(req.session.user.id);
       for(let i = 0; i < rows.length; i++){
@@ -326,6 +327,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       const dateEnd = req.query.dateEnd
       if(req.session.user.ruolo != "medico"){
         sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+        return
       }
       let rows = await db.getVisitsByDoctor(dateStart, dateEnd, req.session.user.id);
       let finalRows = []
@@ -406,6 +408,10 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("POST", "/db/private/newVisit", async (req, res) => {
     try{
+      if(req.session.user.ruolo == "medico"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+        return
+      }
       let { data, ora, idDottore } = req.body
       ora = ora + ":00"
       const resp = await db.newVisit(data, ora, idDottore, req.session.user.id)
@@ -429,6 +435,10 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("DELETE", "/db/private/delVisit", async (req, res) => {
     try{
+      if(req.session.user.ruolo == "medico"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+        return
+      }
       const { id } = req.query
       const ret = await db.deleteVisit(id);
       sendJson(res, 200, { success: true, message: "ok" }); 
@@ -440,8 +450,14 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
 
   router.register("PATCH", "/db/private/modVisit", async (req, res) => {
     try{
-      const { id, date, time, docId } = req.body
-      const resp = await db.modVisit(date, time, docId, req.session.user.id)
+      if(req.session.user.ruolo == "medico"){
+        sendJson(res, 403, { success: false, message: "Richiesta non consentita"});
+        return
+      }
+      let { data, ora, idVisita } = req.body
+      ora = ora + ":00"
+      const resp = await db.modVisit(data, ora, idVisita)
+      sendJson(res, 200, { success: true, message: "ok", data: resp }); 
     }
     catch(err){
       sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
