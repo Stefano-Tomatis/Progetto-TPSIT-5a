@@ -50,7 +50,7 @@ export class ModuloHttpService {
 
   deleteVisita(idVisita:number):Observable<any>
   {
-    return this.http.delete('') //aggiungi percorso
+    return this.http.delete(`http://localhost:3000/db/private/delVisit?id=${idVisita}`, {withCredentials:true}) //aggiungi percorso
   }
 
   log_out():Observable<any>

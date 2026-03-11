@@ -34,6 +34,8 @@ export class UserComponent implements OnInit {
     });
   }
 
+  isGiornoOk:boolean=true
+
   ngOnInit(): void {
     this.http.getDottori().subscribe({
     next: (res: any) => {
@@ -101,6 +103,16 @@ export class UserComponent implements OnInit {
 onSubmit() {
   if (this.form.valid) {
     const { dottoreId, data, ora } = this.form.value;    
+    
+    const dataSelezionata = new Date(data);
+    const giornoSettimana = dataSelezionata.getDay(); 
+
+    const isWeekend = (giornoSettimana === 0 || giornoSettimana === 6);
+
+    if (isWeekend) {
+      alert('Errore: Non è possibile prenotare visite durante il weekend');
+      return; 
+    }
 
     this.http.prenotaVisita(Number(dottoreId), data, ora).subscribe({
       next: (res) => {
@@ -116,6 +128,16 @@ onSubmit() {
   disdiciVisita(id: number) {
     this.visitePrenotate.update(v => v.filter(vis => vis.id !== id));
     //implementa la chiamata al server per eliminare la visita
+
+    this.http.deleteVisita(id).subscribe({
+      next: (res) => {
+        console.log("Visita eliminata con successo")
+        this.form.reset();
+        this.caricaVisiteUtente();
+      },
+      error: (err) => console.log('Errore a eliminare la visita')
+    });
+
   }
 
   onLogout()
