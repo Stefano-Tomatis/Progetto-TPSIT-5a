@@ -43,10 +43,8 @@ export class ModuloHttpService {
   return this.http.post('http://localhost:3000/db/private/newVisit', payload, {withCredentials:true}); // chiedi a simo nome rotta giusta
   }
 
-  getAllVisiteDottore(idDottore: number, dateStart: string = "1980-10-10", dateEnd: string = "2100-10-10"): Observable<any> {
-  const url = `http://localhost:3000/db/private/visits/externalDoctor?docId=${idDottore}&dateStart=${dateStart}&dateEnd=${dateEnd}`;
-  
-  return this.http.get(url);
+  getAllVisiteDottore(idDottore: number): Observable<any> {  
+  return this.http.get(`http://localhost:3000/db/private/visits/externalDoctor?docId=${idDottore}`);
 }
 
   deleteVisita(idVisita:number):Observable<any>
@@ -64,8 +62,17 @@ export class ModuloHttpService {
     return this.http.put('', null) //aggiungi percorso
   }
 
+    getTuttiUtenti():Observable<any>
+    {
+      return this.http.get<any[]>('http://localhost:3000/db/private/users', {withCredentials:true});
+    }
+
   getVisitePaziente(): Observable<any[]> {
   return this.http.get<any[]>('http://localhost:3000/db/private/visits/user', {withCredentials:true}); 
+}
+
+getVisitePazienteId(id:number): Observable<any[]> {
+  return this.http.get<any[]>(`http://localhost:3000/db/private/visits/externalUser?usrId=${id}`, {withCredentials:true}); 
 }
 
   /*toDatabaseDateTime(date: Date): string {
