@@ -7,7 +7,9 @@
   </header>
 
   <main class="admin-main">
-    <section class="filter-card">
+    
+    <section class="card filter-section">
+      <h2>Agenda per Dottore</h2>
       <form [formGroup]="filtroForm" class="filter-form">
         <div class="form-field">
           <label for="dottore">Seleziona Medico</label>
@@ -19,15 +21,6 @@
           </select>
         </div>
       </form>
-    </section>
-
-    <section class="table-card">
-      <div class="table-header">
-        <h2>Agenda Visite</h2>
-        @if (visiteDottore().length > 0) {
-          <span class="count">Totale: {{ visiteDottore().length }} appuntamenti</span>
-        }
-      </div>
 
       <div class="table-responsive">
         @if (visiteDottore().length > 0) {
@@ -47,21 +40,60 @@
                   <td>{{ v.paziente_nome }}</td>
                   <td class="text-muted">{{ v.paziente_email }}</td>
                   <td class="actions-cell">
-                    <button class="btn btn-edit" (click)="modificaVisita(v)">
-                      <span class="icon">✏️</span> Modifica
-                    </button>
-                    <button class="btn btn-delete" (click)="eliminaVisita(v.id)">
-                      <span class="icon">🗑️</span> Elimina
-                    </button>
+                    <button class="btn btn-edit" (click)="modificaVisita(v)">✏️ Modifica</button>
+                    <button class="btn btn-delete" (click)="eliminaVisita(v.id, 'doc')">🗑️ Elimina</button>
                   </td>
                 </tr>
               }
             </tbody>
           </table>
         } @else {
-          <div class="empty-placeholder">
-            <p>Seleziona un dottore per visualizzare gli impegni o non ci sono visite prenotate.</p>
-          </div>
+          <p class="empty-placeholder">Seleziona un dottore per visualizzare gli impegni.</p>
+        }
+      </div>
+    </section>
+
+    <hr class="separator">
+
+    <section class="card filter-section">
+      <h2>Agenda per Paziente</h2>
+      <form [formGroup]="filtroUtenteForm" class="filter-form">
+        <div class="form-field">
+          <label for="utente">Seleziona Paziente</label>
+          <select id="utente" class="m-1" formControlName="pazienteId">
+            <option value="">-- Scegli un paziente --</option>
+            @for (u of utenti(); track u.id) {
+              <option [value]="u.id">{{ u.display_name }}</option>
+            }
+          </select>
+        </div>
+      </form>
+
+      <div class="table-responsive">
+        @if (visitePaziente().length > 0) {
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Data e Ora</th>
+                <th>Medico</th>
+                <th class="text-center">Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (v of visitePaziente(); track v.id) {
+                <tr>
+                  <td class="font-bold">{{ v.data_visita | date:'dd/MM/yyyy HH:mm' }}</td>
+                  <td>Dott. {{ v.dottore_nome }}</td>
+                  <td class="actions-cell">
+                    <button class="btn btn-edit" (click)="modificaVisita(v)">✏️ Modifica</button>
+                    <button class="btn btn-delete" (click)="eliminaVisita(v.id, 'paz')">🗑️ Elimina</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        } @else {
+          <p class="empty-placeholder">Seleziona un paziente per visualizzare il suo storico.</p>
         }
       </div>
     </section>

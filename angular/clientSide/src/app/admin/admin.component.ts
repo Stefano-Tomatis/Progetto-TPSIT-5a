@@ -13,9 +13,14 @@ import { ServiceDatiService } from '../service-dati.service';
 })
 export class AdminComponent implements OnInit {
   filtroForm: FormGroup;
-  dottori = signal<any[]>([]);
-  visiteDottore = signal<any[]>([]);
+  filtroUtenteForm: FormGroup; // Nuovo form
   
+  dottori = signal<any[]>([]);
+  utenti = signal<any[]>([]); // Nuovo signal utenti
+  
+  visiteDottore = signal<any[]>([]);
+  visitePaziente = signal<any[]>([]); // Nuovo signal visite paziente
+
   constructor(
     private servizio:ServiceDatiService,
     private http: ModuloHttpService, 
@@ -25,96 +30,131 @@ export class AdminComponent implements OnInit {
     this.filtroForm = this.fb.group({
       dottoreId: ['']
     });
+    this.filtroUtenteForm = this.fb.group({ pazienteId: [''] });
   }
 
   ngOnInit(): void {
+    // Caricamento Dottori (tua logica attuale)
     this.http.getDottori().subscribe({
-        next: (res: any) => {
+      next: (res: any) => {
         const listaMappata = res.data.map((d: any) => ({
           id: d.id,
           display_name: `${d.nome} ${d.cognome}`
         }));
         this.dottori.set(listaMappata);
-    },
-    error: (err) => console.error('Errore caricamento dottori', err)
+      }
     });
 
-    this.filtroForm.get('dottoreId')?.valueChanges.subscribe(idSelezionato => {
-    if (idSelezionato) {
-      this.caricaVisite(Number(idSelezionato));
-    } else {
-      this.visiteDottore.set([]); 
-    }
-  });
+    // NUOVO: Caricamento Utenti
+    this.http.getTuttiUtenti().subscribe({
+      next: (res: any) => {
+        const listaMappata = res.data.map((u: any) => ({
+          id: u.id,
+          display_name: `${u.nome} ${u.cognome}`
+        }));
+        this.utenti.set(listaMappata);
+      }
+    });
+
+    // Ascolto combo dottori
+    this.filtroForm.get('dottoreId')?.valueChanges.subscribe(id => {
+      if (id) this.caricaVisite(Number(id), 'doc');
+    });
+
+    // NUOVO: Ascolto combo utenti
+    this.filtroUtenteForm.get('pazienteId')?.valueChanges.subscribe(id => {
+      if (id) this.caricaVisite(Number(id), 'paz');
+    });
   }
 
-  caricaVisite(idDottore: number) {
-  this.http.getAllVisiteDottore(idDottore).subscribe({
-    next: (res: any) => {
-      const dati = res.data ? res.data : res;
-
-      const visiteMappate = dati.map((v: any) => ({
-        id: v.id,
-        data_visita: v.data_visita,
-        paziente_nome: v.paziente_nome || `${v.p_nome} ${v.p_cognome}`,
-        paziente_email: v.paziente_email || v.email
-      }));
-
-      this.visiteDottore.set(visiteMappate);
-      this.cdr.detectChanges();
-    },
-    error: (err) => {
-      console.error('Errore nel recupero visite:', err);
-      this.visiteDottore.set([]);
+  caricaVisite(id: number, tipo: 'doc' | 'paz') {
+    if (tipo === 'doc') {
+      this.http.getAllVisiteDottore(id).subscribe(res => {
+        this.visiteDottore.set(res.data || res);
+        this.cdr.detectChanges();
+      });
+    } else {
+      // Nota: usa il metodo del servizio per le visite del paziente
+      this.http.getVisitePazienteId(id).subscribe(
+        res => {
+        const datiRicevuti = Array.isArray(res) ? res : (res as any).data;
+  
+        this.visitePaziente.set(datiRicevuti || []);
+        this.cdr.detectChanges();
+      }    
+    );
     }
-  });
-}
+  }
 
-  eliminaVisita(idVisita: number) {
-    if (confirm("Sei sicuro di voler eliminare questa visita?")) {
+  // Modificato per sapere quale lista ricaricare dopo l'eliminazione
+  eliminaVisita(idVisita: number, tipo: 'doc' | 'paz') {
+    if (confirm("Eliminare definitivamente?")) {
       this.http.deleteVisita(idVisita).subscribe(() => {
-        // Ricarica la lista dopo l'eliminazione
-        const idAttuale = this.filtroForm.get('dottoreId')?.value;
-        this.caricaVisite(idAttuale);
+        if (tipo === 'doc') {
+          this.caricaVisite(this.filtroForm.get('dottoreId')?.value, 'doc');
+        } else {
+          this.caricaVisite(this.filtroUtenteForm.get('pazienteId')?.value, 'paz');
+        }
       });
     }
   }
-
+  
   modificaVisita(visita: any) {
     // Da implementare
     console.log("Modifica visita:", visita);
-    const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
-    if (nuovaData) {
-      this.http.updateVisita(visita.id, { data: nuovaData }).subscribe(() => {
-        this.caricaVisite(this.filtroForm.get('dottoreId')?.value);
-      });
-    }
-  }
+  const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
+  
+  if (nuovaData) {
+    // 1. Inviamo la modifica al server
+    this.http.updateVisita(visita.id, { data: nuovaData }).subscribe({
+      next: () => {
+        // 2. Dobbiamo capire quale tabella ricaricare
+        const idDottore = this.filtroForm.get('dottoreId')?.value;
+        const idPaziente = this.filtroUtenteForm.get('pazienteId')?.value;
 
+        // Ricarichiamo la tabella dottore se c'è un id selezionato
+        if (idDottore) {
+          this.caricaVisite(Number(idDottore), 'doc');
+        }
+        
+        // Ricarichiamo la tabella paziente se c'è un id selezionato
+        if (idPaziente) {
+          this.caricaVisite(Number(idPaziente), 'paz');
+        }
+        
+        alert("Modifica salvata con successo!");
+      },
+      error: (err) => console.error("Errore durante l'update:", err)
+    });
+  }
+  }
+  
   logout()
   {
     this.http.log_out().subscribe({
       next: (data)=>{
-         console.log("Data ritornata dal logut: ",data)
-         this.servizio.logOutAdmin()
+        console.log("Data ritornata dal logut: ",data)
+        this.servizio.logOutAdmin()
       },
       error: (err) =>{
         console.log("Errore nel loguout: ", err)
       }
     })
   }
+
   
-
-
+  
+  
+  
   /*
-    -Caricamento combo dottori X
-    -Caricamento visite una volta selezionato il dottore
-    -implementazione eliminazione visite
-    -Caricamento combo utenti
-    -Caricamento visite una volta selezionato l'utente
-    -implementazione eliminazione visite
+  -Caricamento combo dottori X
+  -Caricamento visite una volta selezionato il dottore
+  -implementazione eliminazione visite
+  -Caricamento combo utenti X
+  -Caricamento visite una volta selezionato l'utente
+  -implementazione eliminazione visite
   */
-
-
-
+ 
+ 
+ 
 }
