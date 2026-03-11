@@ -347,7 +347,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
   router.register("GET", "/db/private/visits/externalDoctor", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
     try{
       const doctor = req.query.docId
-      const rows = await db.getVisitsByDoctor(doctor); 
+      const rows = await db.getVisitsByDoctorNoDate(doctor); 
       let finalRows = []
       for(let i = 0; i < rows.length; i++){
         finalRows[i] = {}
