@@ -57,10 +57,9 @@ export class ModuloHttpService {
     return this.http.post('http://localhost:3000/session/logout', null, {withCredentials:true})
   }
 
-  updateVisita(id:number, dati:any):Observable<any>
-  {
-    return this.http.put('', null) //aggiungi percorso
-  }
+  updateVisita(body: { data: string, ora: string, idVisita: number }): Observable<any> {
+  return this.http.patch('http://localhost:3000/db/private/modVisit', body);
+}
 
     getTuttiUtenti():Observable<any>
     {

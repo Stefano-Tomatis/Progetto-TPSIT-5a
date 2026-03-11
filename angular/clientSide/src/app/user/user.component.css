@@ -50,6 +50,28 @@ select, input[type="date"] {
   margin-top: 10px;
 }
 
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0,123,255,0.25);
+}
+
+.error-text {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
 .form-field select {
   width: 100%;
   padding: 10px;

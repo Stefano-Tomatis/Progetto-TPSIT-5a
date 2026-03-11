@@ -4,6 +4,7 @@ import { ModuloHttpService } from '../modulo-http.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ServiceDatiService } from '../service-dati.service';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'admin',
@@ -21,6 +22,11 @@ export class AdminComponent implements OnInit {
   visiteDottore = signal<any[]>([]);
   visitePaziente = signal<any[]>([]); 
 
+  showModal = signal<boolean>(false);
+  visitaInModifica = signal<any>(null);
+  orariDisponibili = signal<any[]>([]);
+  modificaForm: FormGroup;
+
   constructor(
     private servizio:ServiceDatiService,
     private http: ModuloHttpService, 
@@ -31,6 +37,10 @@ export class AdminComponent implements OnInit {
       dottoreId: ['']
     });
     this.filtroUtenteForm = this.fb.group({ pazienteId: [''] });
+    this.modificaForm = this.fb.group({
+    nuovaData: ['', Validators.required],
+    nuovoOra: ['', Validators.required]
+  });
   }
 
   ngOnInit(): void {
@@ -64,36 +74,38 @@ export class AdminComponent implements OnInit {
   }
 
   caricaVisite(id: number, tipo: 'doc' | 'paz') {
-  const chiamata = tipo === 'doc' 
-    ? this.http.getAllVisiteDottore(id) 
-    : this.http.getVisitePazienteId(id);
+    const chiamata = tipo === 'doc' 
+      ? this.http.getAllVisiteDottore(id) 
+      : this.http.getVisitePazienteId(id);
 
-  chiamata.subscribe({
-    next: (res: any) => {
-      const listaGrezza = res.data || [];
+    chiamata.subscribe({
+      next: (res: any) => {
+        const listaGrezza = res.data || [];
 
-      const visiteMappate = listaGrezza.map((v: any) => ({
-        id: v.IdVisita,
-        data_visita: v.DataOrario,
-        paziente_nome: v.Utente ? `${v.Utente.nome} ${v.Utente.cognome}` : 'N/A',
-        paziente_email: v.Utente ? v.Utente.email : 'N/A',
-        dottore_nome: v.Medico ? `${v.Medico.nome} ${v.Medico.cognome}` : 'N/A'
-      }));
+        const visiteMappate = listaGrezza.map((v: any) => ({
+          id: v.IdVisita,
+          data_visita: v.DataOrario,
+          paziente_nome: v.Utente ? `${v.Utente.nome} ${v.Utente.cognome}` : 'N/A',
+          paziente_email: v.Utente ? v.Utente.email : 'N/A',
+          dottore_nome: v.Medico ? `${v.Medico.nome} ${v.Medico.cognome}` : 'N/A',
+          idMedico: v.Medico?.id, 
+          utenteDati: v.Utente    
+        }));
 
-      if (tipo === 'doc') {
-        this.visiteDottore.set(visiteMappate);
-      } else {
-        this.visitePaziente.set(visiteMappate);
+        if (tipo === 'doc') {
+          this.visiteDottore.set(visiteMappate);
+        } else {
+          this.visitePaziente.set(visiteMappate);
+        }
+        
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error("Errore recupero dati:", err);
+        tipo === 'doc' ? this.visiteDottore.set([]) : this.visitePaziente.set([]);
       }
-      
-      this.cdr.detectChanges();
-    },
-    error: (err) => {
-      console.error("Errore recupero dati:", err);
-      tipo === 'doc' ? this.visiteDottore.set([]) : this.visitePaziente.set([]);
-    }
-  });
-}
+    });
+  }
 
   eliminaVisita(idVisita: number, tipo: 'doc' | 'paz') {
     if (confirm("Eliminare definitivamente?")) {
@@ -106,34 +118,78 @@ export class AdminComponent implements OnInit {
       });
     }
   }
-  
-  modificaVisita(visita: any) {
-    console.log("Modifica visita:", visita);
-    const nuovaData = prompt("Inserisci nuova data (YYYY-MM-DD HH:mm):", visita.data_visita);
-    //da cambiare, sostituire il prompt con un modal che implementi una combo
-    //la il modal dovra usare il servizio getFreeTime una volta selezionata la data da un calendario
-    //e avere i controlli che non sia un weekend
-  
-  if (nuovaData) {
-    this.http.updateVisita(visita.id, { data: nuovaData }).subscribe({
-      next: () => {
-        const idDottore = this.filtroForm.get('dottoreId')?.value;
-        const idPaziente = this.filtroUtenteForm.get('pazienteId')?.value;
 
-        if (idDottore) {
-          this.caricaVisite(Number(idDottore), 'doc');
-        }
-        
-        if (idPaziente) {
-          this.caricaVisite(Number(idPaziente), 'paz');
-        }
-        
-        alert("Modifica salvata con successo!");
+  modificaVisita(visita: any) {
+  console.log("Dati visita selezionata:", visita);
+  this.visitaInModifica.set(visita);
+  this.showModal.set(true);
+  
+  this.modificaForm.reset();
+  this.orariDisponibili.set([]);
+  this.cdr.detectChanges();
+}
+
+onDataChange() {
+  const data = this.modificaForm.get('nuovaData')?.value;
+  const visita = this.visitaInModifica();
+  const idMedico = visita?.idMedico;
+
+  if (data && idMedico) {
+    const d = new Date(data);
+    if (d.getDay() === 0 || d.getDay() === 6) {
+      alert("I weekend non sono giorni lavorativi!");
+      this.modificaForm.get('nuovaData')?.setValue('');
+      return;
+    }
+
+    this.http.getOrariDatoDottore(idMedico, data).subscribe({
+      next: (res: any) => {
+        const orari = res.data || res; 
+        this.orariDisponibili.set(orari);        
+        this.modificaForm.get('nuovoOra')?.setValue('');        
+        this.cdr.detectChanges();
       },
-      error: (err) => console.error("Errore durante l'update:", err)
+      error: (err) => {
+        console.error("Errore caricamento orari:", err);
+        this.orariDisponibili.set([]);
+      }
     });
   }
+}
+
+salvaModifica() {
+  if (this.modificaForm.valid && this.visitaInModifica()) {
+    const { nuovaData, nuovoOra } = this.modificaForm.value;
+    const visita = this.visitaInModifica();
+
+    const payload = {
+      data: nuovaData,
+      ora: nuovoOra,
+      idVisita: visita.id 
+    };
+
+    console.log("Inviando modifica:", payload);
+
+    this.http.updateVisita(payload).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          alert("Appuntamento modificato con successo!");
+          this.showModal.set(false);
+          
+          const idDoc = this.filtroForm.get('dottoreId')?.value;
+          const idPaziente = this.filtroUtenteForm.get('pazienteId')?.value;
+          
+          if (idDoc) this.caricaVisite(Number(idDoc), 'doc');
+          if (idPaziente) this.caricaVisite(Number(idPaziente), 'paz');
+        }
+      },
+      error: (err) => {
+        console.error("Errore durante il salvataggio:", err);
+        alert("Errore nel salvataggio della modifica.");
+      }
+    });
   }
+}
   
   logout()
   {

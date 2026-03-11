@@ -99,3 +99,49 @@
     </section>
   </main>
 </div>
+
+@if (showModal() && visitaInModifica()) {
+  <div class="modal-overlay">
+    <div class="modal-content card">
+      <div class="card-header">
+        <h3>Modifica Appuntamento</h3>
+        <button class="btn-close" (click)="showModal.set(false)">×</button>
+      </div>
+
+      <div class="modal-body">
+        <p>Paziente: <strong>{{ visitaInModifica()?.paziente_nome }}</strong></p>
+        <p>Medico: <strong>{{ visitaInModifica()?.dottore_nome }}</strong></p>
+        
+        <form [formGroup]="modificaForm">
+          <div class="form-field">
+            <label>Seleziona Nuovo Giorno</label>
+            <input type="date" formControlName="nuovaData" (change)="onDataChange()">
+          </div>
+
+          <div class="form-field">
+            <label for="nuovoOra">Orari Disponibili</label>
+            
+            <select id="nuovoOra" formControlName="nuovoOra" class="m-1">
+              <option value="">-- Seleziona un orario --</option>
+              
+              @for (ora of orariDisponibili(); track ora) {
+                <option [value]="ora">{{ ora }}</option>
+              }
+            </select>
+
+            @if (orariDisponibili().length === 0 && modificaForm.get('nuovaData')?.value) {
+              <p class="error-text">Nessun orario disponibile per questa data.</p>
+            }
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" (click)="showModal.set(false)">Annulla</button>
+        <button class="btn btn-submit" (click)="salvaModifica()" [disabled]="modificaForm.invalid">
+          Conferma Modifica
+        </button>
+      </div>
+    </div>
+  </div>
+}
