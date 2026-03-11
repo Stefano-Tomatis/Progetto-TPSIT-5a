@@ -29,7 +29,7 @@
             @for (visita of giornoVisite; track visita.id) {
               <div class="alert alert-info p-2 mb-1 small">
                 <strong>{{ visita.DataOrario | date:'HH:mm' }}</strong>
-                {{ visita.Utente.Cognome }} {{ visita.Utente.Nome }}
+                {{ visita.Utente.cognome }} {{ visita.Utente.nome }}
 
               </div>
             } @empty {
