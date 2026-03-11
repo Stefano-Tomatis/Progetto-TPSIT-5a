@@ -361,6 +361,17 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
   });
 
+  router.register("GET", "/db/private/visits/externalUser", async (req, res) => { //Ottenimento visite per dottori quando il dottore non è loggato
+    try{
+      const doctor = req.query.usrId
+      const rows = await db.getVisitsByUser(doctor); 
+      sendJson(res, 200, { success: true, message: "ok", data: rows }); 
+    }
+    catch(err){
+      sendJson(res, 500, { success: false, message: "Errore interno del server"}); 
+    }
+  });
+
   router.register("GET", "/db/private/specs", async (req, res) => { // Ottenimento di tutte le specs
     const rows = await db.getAllSpecs();
     sendJson(res, 200, { success: true, message: "ok", data: rows });
