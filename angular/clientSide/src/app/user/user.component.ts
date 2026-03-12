@@ -183,7 +183,6 @@ onSubmit() {
 
   disdiciVisita(id: number) {
     this.visitePrenotate.update(v => v.filter(vis => vis.id !== id));
-    //implementa la chiamata al server per eliminare la visita
 
     this.http.deleteVisita(id).subscribe({
       next: (res) => {
@@ -238,7 +237,6 @@ salvaModifica() {
           alert("Appuntamento modificato con successo!");
           this.showModal.set(false);
           
-          //AGGIORNAMENTO VISITE
           this.caricaVisiteUtente();
         }
       },
