@@ -139,8 +139,7 @@
 
       <div class="modal-body p-4 text-white">
         <div class="p-3 bg-dark-input rounded mb-4 border-start border-danger border-4">
-          <p class="mb-1 small text-secondary">PAZIENTE: <strong class="text-white">{{ visitaInModifica()?.paziente_nome }}</strong></p>
-          <p class="mb-0 small text-secondary">MEDICO: <strong class="text-white">{{ visitaInModifica()?.dottore_nome }}</strong></p>
+          <p class="mb-0 small text-secondary">MEDICO: <strong class="text-white">{{ visitaInModifica()?.dottore }}</strong></p>
         </div>
         
         <form [formGroup]="modificaForm">
