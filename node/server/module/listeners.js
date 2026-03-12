@@ -397,7 +397,7 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
       }
       const rows = await db.getDoctorsBySpecName(specName);
       for(let i = 0; i < rows.length; i++){
-        rows[i] = safeUser(rows[i])
+        rows[i] = await safeDoctor(rows[i])
       }
       sendJson(res, 200, { success: true, message: "ok", data: rows }); 
     }
