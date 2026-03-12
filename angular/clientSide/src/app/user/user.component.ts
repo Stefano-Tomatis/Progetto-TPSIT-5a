@@ -50,16 +50,6 @@ export class UserComponent implements OnInit {
   isGiornoOk:boolean=true
 
   ngOnInit(): void {
-    /*this.http.getDottori().subscribe({
-    next: (res: any) => {
-      const listaMappata = res.data.map((d: any) => ({
-        id: d.id,
-        display_name: `${d.nome} ${d.cognome}`
-      }));
-      this.dottori.set(listaMappata);
-    },
-    error: (err) => console.error('Errore caricamento dottori', err)
-  });*/
 
   this.http.getSpecializzazioni().subscribe({
     next: (res: any) => {
@@ -183,7 +173,6 @@ onSubmit() {
 
   disdiciVisita(id: number) {
     this.visitePrenotate.update(v => v.filter(vis => vis.id !== id));
-    //implementa la chiamata al server per eliminare la visita
 
     this.http.deleteVisita(id).subscribe({
       next: (res) => {
@@ -238,7 +227,6 @@ salvaModifica() {
           alert("Appuntamento modificato con successo!");
           this.showModal.set(false);
           
-          //AGGIORNAMENTO VISITE
           this.caricaVisiteUtente();
         }
       },
