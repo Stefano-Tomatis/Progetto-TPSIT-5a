@@ -165,20 +165,21 @@ function registerListeners(router) { // Entry-point: collega gli endpoint API al
     }
 
     const u = await db.getDoctorByEmail(String(email)); // Recupera utente dal DB usando username come stringa.
+
     if (!u) { // Se non esiste in DB, login non può completarsi.
       sendJson(res, 404, { success: false, message: "Utente non esistente" }); // Risponde 404: risorsa (utente) non trovata.
       return; // Interrompe l’handler.
     }
-
-    // Password demo (didattica): "password"
+    
+      // Password demo (didattica): "password"
     if (!await bcrypt.compare(password, u.Pwd)) { // Controlla credenziali: password fissa per esercizio.
       sendJson(res, 401, { success: false, message: "Password errata" }); // Risponde 401: non autorizzato.
       return; // Interrompe l’handler.
     }
 
     if (!req.session) { // Verifica che il middleware session sia attivo e abbia popolato req.session.
-      sendJson(res, 500, { success: false, message: "Errore inizializzazione sessione" }); // Risponde 500: configurazione server mancante.
-      return; // Interrompe l’handler.
+        sendJson(res, 500, { success: false, message: "Errore inizializzazione sessione" }); // Risponde 500: configurazione server mancante.
+        return; // Interrompe l’handler.
     }
 
     req.session.user = { // Scrive nella sessione i dati utente necessari (persistono tra richieste).

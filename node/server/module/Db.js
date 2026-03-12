@@ -213,7 +213,7 @@ class Db { // Definisce la classe che incapsula l’accesso al DB tramite pool d
   }
 
   async getVisitsByDoctor(dateStart, dateEnd, uId){
-    const rows = await this.read("visite", "IdMedico = ? and DataOrario >= ? and DataOrario <= ?", [uId, dateStart, dateEnd]); // SELECT parametrica per evitare injection sui valori.
+    const rows = await this.read("visite", "IdMedico = ? and DataOrario >= ? and DataOrario <= ?", [uId, dateStart + " 00:00:01", dateEnd + " 23:59:59"]); // SELECT parametrica per evitare injection sui valori.
     return rows || null; // Ritorna il primo record o null se non trovato.
   }
 
