@@ -13,9 +13,17 @@ import { ServiceDatiService } from '../service-dati.service';
 })
 export class UserComponent implements OnInit {
   form: FormGroup;
+
+  showModal = signal<boolean>(false);
+  visitaInModifica = signal<any>(null);
+  orariDisponibili = signal<any[]>([]);
+  modificaForm: FormGroup;
   
   dottori = signal<any[]>([]);
+  specializzazioni = signal<any[]>([]);
   orariSlot = signal<any[]>([]);
+
+  visitePaziente = signal<any[]>([]); 
   
   visitePrenotate = signal([
     { id: 101, data: '2026-03-05', ora: '10:00', dottore: 'Dr. Rossi' } //da rimuovere
@@ -28,16 +36,21 @@ export class UserComponent implements OnInit {
     private cdr: ChangeDetectorRef  ) 
     {
     this.form = this.fb.group({
+      specializzazione: ['', Validators.required],
       dottoreId: ['', Validators.required],
       data: ['', Validators.required],
       ora: ['', Validators.required]
     });
+    this.modificaForm = this.fb.group({
+    nuovaData: ['', Validators.required],
+    nuovoOra: ['', Validators.required]
+  });
   }
 
   isGiornoOk:boolean=true
 
   ngOnInit(): void {
-    this.http.getDottori().subscribe({
+    /*this.http.getDottori().subscribe({
     next: (res: any) => {
       const listaMappata = res.data.map((d: any) => ({
         id: d.id,
@@ -46,11 +59,24 @@ export class UserComponent implements OnInit {
       this.dottori.set(listaMappata);
     },
     error: (err) => console.error('Errore caricamento dottori', err)
-  });
+  });*/
+
+  this.http.getSpecializzazioni().subscribe({
+    next: (res: any) => {
+      const listaMappata = res.data.map((d: any) => ({
+        id: d.IdSpecializzazione,
+        nome: `${d.Nome}`
+      }));
+      this.dottori.set(listaMappata);
+    },
+    error: (err) => console.error('Errore caricamento specializzazioni', err)
+  })
 
   this.caricaVisiteUtente();
 
     this.caricaVisiteUtente();
+
+
     
     this.form.valueChanges.subscribe(() => {
       this.controllaDisponibilita();
@@ -66,7 +92,8 @@ export class UserComponent implements OnInit {
           id: v.IdVisita,
           data: d.toLocaleDateString(),
           ora: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          dottore: `Dott. ${v.Medico.nome} ${v.Medico.cognome}`
+          dottore: `Dott. ${v.Medico.nome} ${v.Medico.cognome}`,
+          idDottore: v.Medico.id
         };
       });
       this.visitePrenotate.set(visiteMappate);
@@ -153,4 +180,75 @@ onSubmit() {
     })
   }
 
+  modificaVisita(visita: any) {
+  console.log("Dati visita selezionata:", visita);
+  this.visitaInModifica.set(visita);
+  this.showModal.set(true);
+  
+  this.modificaForm.reset();
+  this.orariDisponibili.set([]);
+  this.cdr.detectChanges();
+}
+
+salvaModifica() {
+  if (this.modificaForm.valid && this.visitaInModifica()) {
+    const { nuovaData, nuovoOra } = this.modificaForm.value;
+    const visita = this.visitaInModifica();
+
+    const payload = {
+      data: nuovaData,
+      ora: nuovoOra,
+      idVisita: visita.id 
+    };
+
+    console.log("Inviando modifica:", payload);
+
+    this.http.updateVisita(payload).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          alert("Appuntamento modificato con successo!");
+          this.showModal.set(false);
+          
+          //AGGIORNAMENTO VISITE
+          this.caricaVisiteUtente();
+        }
+      },
+      error: (err) => {
+        console.error("Errore durante il salvataggio:", err);
+        alert("Errore nel salvataggio della modifica.");
+      }
+    });
+  }
+}
+
+onDataChange() {
+  const data = this.modificaForm.get('nuovaData')?.value;
+  const visita = this.visitaInModifica();
+  const idMedico = visita?.idDottore;
+
+  if (data && idMedico) {
+    const d = new Date(data);
+    if (d.getDay() === 0 || d.getDay() === 6) {
+      alert("I weekend non sono giorni lavorativi!");
+      this.modificaForm.get('nuovaData')?.setValue('');
+      return;
+    }
+
+    this.http.getOrariDatoDottore(idMedico, data).subscribe({
+      next: (res: any) => {
+        const orari = res.data || res; 
+        this.orariDisponibili.set(orari);        
+        this.modificaForm.get('nuovoOra')?.setValue('');        
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error("Errore caricamento orari:", err);
+        this.orariDisponibili.set([]);
+      }
+    });
+  }
+  else{
+    console.log("Controlla id", data, visita, idMedico)
+  }
+}
 }

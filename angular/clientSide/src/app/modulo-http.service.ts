@@ -32,6 +32,16 @@ export class ModuloHttpService {
     return this.http.get('http://localhost:3000/db/private/doctors', {withCredentials:true}) // chiedi a simo nome rotta giusta
   }
 
+  getSpecializzazioni():Observable<any>
+  {
+    return this.http.get('http://localhost:3000/db/private/specs', {withCredentials:true})
+  }
+
+  getDottoriSpecializzazione(specName: string):Observable<any> // id / nome / reparto
+  {
+    return this.http.get(`http://localhost:3000/db/private/doctors/specs?specName=${specName}`, {withCredentials:true}) // chiedi a simo nome rotta giusta
+  }
+
   getOrariDatoDottore(idDoctor:number, data:string):Observable<any>
   {
     return this.http.get(`http://localhost:3000/db/private/freeHours?docId=${idDoctor}&day=${data}`, {withCredentials:true}); // chiedi a simo nome rotta giusta

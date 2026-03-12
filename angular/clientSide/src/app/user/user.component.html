@@ -30,6 +30,18 @@
           <form [formGroup]="form" (ngSubmit)="onSubmit()" class="booking-form">
             
             <div class="mb-3">
+              <label class="form-label text-danger small fw-bold">SPECIALIZZAZIONE</label>
+              <select class="form-select bg-dark-input text-white border-secondary" 
+                      formControlName="specializzazione"
+                      [class.is-invalid]="form.get('specializzazione')?.invalid && form.get('specializzazione')?.touched">
+                <option value="">-- Scegli una specializzazione --</option>
+                @for (spec of specializzazioni(); track spec.id) {
+                  <option [value]="spec.nome">{{ spec.nome }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="mb-3">
               <label class="form-label text-danger small fw-bold">MEDICO SPECIALISTA</label>
               <select class="form-select bg-dark-input text-white border-secondary" 
                       formControlName="dottoreId"
@@ -96,6 +108,9 @@
                 <button class="btn btn-outline-danger btn-sm m-2" (click)="disdiciVisita(v.id)">
                   Annulla
                 </button>
+                <button class="btn btn-sm btn-outline-warning me-2" (click)="modificaVisita(v)">
+                  Modifica
+                </button>
               </div>
             </div>
           } @empty {
@@ -110,3 +125,48 @@
 
   </div>
 </main>
+
+@if (showModal() && visitaInModifica()) {
+  <div class="modal-overlay">
+    <div class="modal-content bg-dark-card border border-danger shadow-2xl">
+      <div class="card-header bg-dark-header border-bottom border-danger py-3 d-flex justify-content-between align-items-center">
+        <h3 class="h5 mb-0 text-danger fw-bold text-uppercase">🛠️ Modifica Slot Visita</h3>
+        <button class="btn-close btn-close-white" (click)="showModal.set(false)"></button>
+      </div>
+
+      <div class="modal-body p-4 text-white">
+        <div class="p-3 bg-dark-input rounded mb-4 border-start border-danger border-4">
+          <p class="mb-1 small text-secondary">PAZIENTE: <strong class="text-white">{{ visitaInModifica()?.paziente_nome }}</strong></p>
+          <p class="mb-0 small text-secondary">MEDICO: <strong class="text-white">{{ visitaInModifica()?.dottore_nome }}</strong></p>
+        </div>
+        
+        <form [formGroup]="modificaForm">
+          <div class="mb-3">
+            <label class="form-label text-danger small fw-bold">NUOVA DATA</label>
+            <input type="date" class="form-control bg-dark-input text-white border-secondary" formControlName="nuovaData" (change)="onDataChange()">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-danger small fw-bold">NUOVO ORARIO</label>
+            <select class="form-select bg-dark-input text-white border-secondary" formControlName="nuovoOra">
+              <option value="">-- Seleziona Orario --</option>
+              @for (ora of orariDisponibili(); track ora) {
+                <option [value]="ora">{{ ora }}</option>
+              }
+            </select>
+            @if (orariDisponibili().length === 0 && modificaForm.get('nuovaData')?.value) {
+              <p class="text-danger x-small mt-2 fw-bold">⚠️ Nessuno slot disponibile per la data selezionata.</p>
+            }
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer p-3 border-top border-secondary d-flex justify-content-between">
+        <button class="btn btn-secondary" (click)="showModal.set(false)">ANNULLA</button>
+        <button class="btn btn-danger px-4 fw-bold" (click)="salvaModifica()" [disabled]="modificaForm.invalid">
+          SALVA MODIFICHE
+        </button>
+      </div>
+    </div>
+  </div>
+}
