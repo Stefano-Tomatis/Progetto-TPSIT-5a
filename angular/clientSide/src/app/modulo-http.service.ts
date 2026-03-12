@@ -39,7 +39,7 @@ export class ModuloHttpService {
 
   getDottoriSpecializzazione(specName: string):Observable<any> // id / nome / reparto
   {
-    return this.http.get(`http://localhost:3000/db/private/doctors/specs?specName=${specName}`, {withCredentials:true}) // chiedi a simo nome rotta giusta
+    return this.http.get(`http://localhost:3000/db/private/doctors/spec?specName=${specName}`, {withCredentials:true}) // chiedi a simo nome rotta giusta
   }
 
   getOrariDatoDottore(idDoctor:number, data:string):Observable<any>

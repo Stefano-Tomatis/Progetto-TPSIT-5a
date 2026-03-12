@@ -33,6 +33,7 @@
               <label class="form-label text-danger small fw-bold">SPECIALIZZAZIONE</label>
               <select class="form-select bg-dark-input text-white border-secondary" 
                       formControlName="specializzazione"
+                      (change)="onSpecializzazioneChange()"
                       [class.is-invalid]="form.get('specializzazione')?.invalid && form.get('specializzazione')?.touched">
                 <option value="">-- Scegli una specializzazione --</option>
                 @for (spec of specializzazioni(); track spec.id) {
@@ -45,6 +46,7 @@
               <label class="form-label text-danger small fw-bold">MEDICO SPECIALISTA</label>
               <select class="form-select bg-dark-input text-white border-secondary" 
                       formControlName="dottoreId"
+                      (change)="controllaDisponibilita()"
                       [class.is-invalid]="form.get('dottoreId')?.invalid && form.get('dottoreId')?.touched">
                 <option value="">-- Scegli un dottore --</option>
                 @for (doc of dottori(); track doc.id) {
@@ -58,6 +60,7 @@
               <input type="date" 
                      class="form-control bg-dark-input text-white border-secondary" 
                      formControlName="data"
+                     (change)="controllaDisponibilita()"
                      [class.is-invalid]="form.get('data')?.invalid && form.get('data')?.touched">
             </div>
 

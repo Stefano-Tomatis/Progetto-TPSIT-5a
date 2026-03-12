@@ -67,7 +67,7 @@ export class UserComponent implements OnInit {
         id: d.IdSpecializzazione,
         nome: `${d.Nome}`
       }));
-      this.dottori.set(listaMappata);
+      this.specializzazioni.set(listaMappata);
     },
     error: (err) => console.error('Errore caricamento specializzazioni', err)
   })
@@ -104,7 +104,9 @@ export class UserComponent implements OnInit {
 }
 
  controllaDisponibilita() {
-  const { dottoreId, data } = this.form.getRawValue();
+  const { specializzazione ,dottoreId, data } = this.form.getRawValue();
+
+  this.orariSlot.set([]);
 
   if (dottoreId && data) {
     this.http.getOrariDatoDottore(dottoreId, data).subscribe({
@@ -124,6 +126,33 @@ export class UserComponent implements OnInit {
       },
       error: (err) => console.error("Errore nel recupero slot", err)
     });
+  }
+}
+
+
+onSpecializzazioneChange() {
+  const specName = this.form.get('specializzazione')?.value;
+  
+  this.form.get('dottoreId')?.setValue('');
+  this.form.get('ora')?.setValue('');
+  this.orariSlot.set([]);
+
+  if (specName) {
+    this.http.getDottoriSpecializzazione(specName).subscribe({
+      next: (res: any) => {
+        if (res && res.data) {
+          this.dottori.set(res.data); 
+        } else {
+          this.dottori.set([]);
+        }
+      },
+      error: (err) => {
+        console.error("Errore nel caricamento dottori", err);
+        this.dottori.set([]);
+      }
+    });
+  } else {
+    this.dottori.set([]);
   }
 }
 
