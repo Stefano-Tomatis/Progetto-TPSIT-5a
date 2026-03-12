@@ -21,9 +21,7 @@ export class ModuloHttpService {
     return this.http.post('http://localhost:3000/session/login/admin', user, {withCredentials:true}); // da verificare endpoint
   }
 
-  getVisite(dateStart:string, dateEnd:string):Observable<any>{
-    //dataInizio = this.toDatabaseDateTime(dataInizio);
-    //dataFine = this.toDatabaseDateTime(dataFine);
+  getVisite(dateStart:string, dateEnd:string):Observable<any>{    
     return this.http.get(`http://localhost:3000/db/private/visits/doctor?dateStart=${dateStart}&dateEnd=${dateEnd}`, {withCredentials:true});
   }
 

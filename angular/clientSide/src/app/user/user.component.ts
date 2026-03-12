@@ -50,16 +50,6 @@ export class UserComponent implements OnInit {
   isGiornoOk:boolean=true
 
   ngOnInit(): void {
-    /*this.http.getDottori().subscribe({
-    next: (res: any) => {
-      const listaMappata = res.data.map((d: any) => ({
-        id: d.id,
-        display_name: `${d.nome} ${d.cognome}`
-      }));
-      this.dottori.set(listaMappata);
-    },
-    error: (err) => console.error('Errore caricamento dottori', err)
-  });*/
 
   this.http.getSpecializzazioni().subscribe({
     next: (res: any) => {
