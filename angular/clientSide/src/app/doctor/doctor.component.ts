@@ -27,21 +27,16 @@ export class DoctorComponent implements OnInit {
 
  getWeekTimestamps(offsetSettimane: number = 0) {
   const oggi = new Date();
-  const giornoSettimana = oggi.getDay(); // 0 è Domenica, 1 è Lunedì...
+  const giornoSettimana = oggi.getDay();
   
-  // 1. Calcoliamo la distanza dal Lunedì della settimana corrente
-  // Se oggi è Domenica (0), dobbiamo tornare indietro di 6 giorni.
   const diffLunedì = giornoSettimana === 0 ? -6 : 1 - giornoSettimana;
   
-  // 2. Creiamo il Lunedì target aggiungendo l'offset delle settimane
   const lunedi = new Date(oggi);
   lunedi.setDate(oggi.getDate() + diffLunedì + (offsetSettimane * 7));
 
-  // 3. Creiamo il Venerdì basandoci sul Lunedì appena calcolato
   const venerdi = new Date(lunedi);
   venerdi.setDate(lunedi.getDate() + 4);
 
-  // Helper locale per evitare bug del fuso orario di toISOString()
   const formattaData = (d: Date): string => {
     const year = d.getFullYear();
     const month = String(d.getMonth() + 1).padStart(2, '0');
@@ -60,16 +55,16 @@ export class DoctorComponent implements OnInit {
   const { lunedi, venerdi } = this.getWeekTimestamps(this.currentOffset);
   
   this.http.getVisite(lunedi, venerdi).subscribe({
-    next: (response: any) => { // 'response' è l'intero oggetto JSON
-      // MODIFICA QUI: prendiamo l'array dentro la proprietà 'data'
+    next: (response: any) => { 
+      
       if (response && response.data) {
         this.visite = response.data; 
       } else {
-        this.visite = []; // Fallback se non ci sono dati
+        this.visite = []; 
       }
 
       console.log("Visite ricevute:", this.visite);
-      this.smistaVisite(); // Ora .forEach() funzionerà perché this.visite è un array
+      this.smistaVisite(); 
     },
     error: (err) => {
       console.error('Errore nel recupero delle visite:', err)
@@ -78,7 +73,6 @@ export class DoctorComponent implements OnInit {
 }
 
   smistaVisite() {
-    // Reset
 
     if (!Array.isArray(this.visite)) {
     console.error("Attenzione: this.visite non è un array!", this.visite);
@@ -96,7 +90,7 @@ export class DoctorComponent implements OnInit {
     });
     this.settimanaLavorativa.forEach(giorno => {
       giorno.sort((a, b) => new Date(a.DataOrario).getTime() - new Date(b.DataOrario).getTime());
-    });//ordinamento visite per orario
+    });
   }
 
   eventoSettimanaScorsa() {
