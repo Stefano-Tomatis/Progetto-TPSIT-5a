@@ -50,7 +50,7 @@
                       [class.is-invalid]="form.get('dottoreId')?.invalid && form.get('dottoreId')?.touched">
                 <option value="">-- Scegli un dottore --</option>
                 @for (doc of dottori(); track doc.id) {
-                  <option [value]="doc.id">Dott. {{ doc.display_name }}</option>
+                  <option [value]="doc.id">Dott. {{ doc.nome }}  {{doc.cognome}}</option>
                 }
               </select>
             </div>
